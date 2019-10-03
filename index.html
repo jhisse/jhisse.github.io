@@ -1,0 +1,16 @@
+---
+layout: default
+title: José Hisse
+---
+
+<ul>
+  {% for post in site.posts %}
+    <li>
+		  <span>
+        <a href="{{ post.url | prepend: site.baseurl }}">
+          {{ post.title }} - <em><time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%b, %d %Y" }}</time></em>
+        </a>
+      </span>
+    </li>
+  {% endfor %}
+</ul>
