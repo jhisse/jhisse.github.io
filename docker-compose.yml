@@ -6,4 +6,4 @@ services:
     - 5000:5000
     volumes:
     - ./:/site
-    command: bash -c "cd /site && jekyll serve --port 5000 --host 0.0.0.0"
+    command: bash -c "cd /site && jekyll serve --drafts --port 5000 --host 0.0.0.0"
