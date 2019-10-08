@@ -1,6 +1,6 @@
 ---
 title: Sequência de Collatz
-date: 2019-10-08
+date: 2019-10-07
 layout: default
 ---
 
@@ -8,13 +8,13 @@ layout: default
 
 A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.projecteuler.net/problem=14 "Problema 14 do Project Euler").
 
-A sequência de Collatz é definida pela seguinte regra:
+A sequência de Collatz é gerada pela seguinte regra:
 
 $$
 n =
 \begin{cases}
- & n/2\text{ se } x \text{ é par } \\
- & 3n+1 \text{ se } x= \text{ é ímpar }
+ & n/2\text{, se } x \text{ é par } \\
+ & 3n+1 \text{, se } x= \text{ é ímpar }
 \end{cases}
 $$
 
