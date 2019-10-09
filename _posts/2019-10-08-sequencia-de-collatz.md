@@ -10,13 +10,9 @@ A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.p
 
 A sequência de Collatz é gerada pela seguinte regra:
 
-\\[
-n =
-\begin{cases}
-  & n/2 \text{, se } x \text{ é par } \\
-  & 3n+1 \text{, se } x \text{ é ímpar }
-\end{cases}
-\\]
+{% raw %}
+\\[ a^2 + b^2 = c^2 \\] teste
+{% endraw %}
 
 De acordo com a regra acima e começando pelo número 13, temos a seguinte sequência:
 
