@@ -11,6 +11,8 @@
       rel="canonical"
       href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
     />
+
+    {% if page.date %}
     <script>
     MathJax = {
       tex: {
@@ -28,4 +30,5 @@
     <script id="MathJax-script" async
             src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
     </script>
+    {% endif %}
   </head>
