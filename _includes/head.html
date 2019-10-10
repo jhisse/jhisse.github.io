@@ -1,35 +1,43 @@
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
-    <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-    <meta name="description" content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <link rel="stylesheet" href="{{ "/assets/css/awsm.min.css" | prepend: site.baseurl }}">
-    <link rel="stylesheet" href="{{ "/assets/css/monokai.css" | prepend: site.baseurl }}">
-    <link
-      rel="canonical"
-      href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}"
-    />
+  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="description" content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
+  <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
-    {% if page.mathjax %}
-    <script>
-    MathJax = {
-      tex: {
-        inlineMath: [
-          ['\\(', '\\)']
-        ],
-        displayMath: [
-          ['$$', '$$'],
-          ['\\[', '\\]']
-        ],
-        processEscapes: true
-      }
-    };
-    </script>
-    <script id="MathJax-script" async
-            src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
-    </script>
-    {% endif %}
-  </head>
+  <style>
+  @font-face {
+      font-family: 'typewriter';
+      src: url('{{ "/assets/css/typewriter.ttf" | prepend: site.baseurl }}') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+  }
+  body:not(code){
+    font-family: "typewriter", sans-serif;
+  }
+  {% include _css/monokai.css %}
+  {% include _css/awsm.min.css %}
+  </style>
+
+  {% if page.mathjax %}
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [
+        ['\\(', '\\)']
+      ],
+      displayMath: [
+        ['$$', '$$'],
+        ['\\[', '\\]']
+      ],
+      processEscapes: true
+    }
+  };
+  </script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  </script>
+  {% endif %}
+</head>
