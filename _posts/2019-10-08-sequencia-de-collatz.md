@@ -1,11 +1,11 @@
 ---
 title: Sequência de Collatz
 date: 2019-10-07
-layout: default
+layout: post
 mathjax: true
 ---
 
-## Problema proposto
+## Problema
 
 A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.projecteuler.net/problem=14 "Problema 14 do Project Euler").
 

@@ -1,7 +1,7 @@
 ---
 title: Os V's do Big Data
 date: 2019-10-06
-layout: default
+layout: post
 ---
 
 No ano de 2001 Doug Laney propôs os primeiros 3 V's em seu artigo "3D Data Management: Controlling Data Volume, Velocity, and Variety". O autor define o primeiro V como Volume. O volume se caracteriza pela grande quantidade de dados, lembrando que o que é considerado de grande volume hoje, por exemplo, petabytes, pode ser normal daqui a uns anos, e o que foi gigantesco no passado, por exemplo, terabytes, hoje é considerado algo mais comum.
