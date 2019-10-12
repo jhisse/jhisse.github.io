@@ -8,16 +8,6 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
   <style>
-  @font-face {
-      font-family: 'typewriter';
-      src: url('{{ "/assets/css/typewriter.ttf" | prepend: site.baseurl }}') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: optional;
-  }
-  body:not(code){
-    font-family: "typewriter", sans-serif;
-  }
   {% include _css/monokai.css %}
   {% include _css/awsm.min.css %}
   </style>
