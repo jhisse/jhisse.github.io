@@ -53,14 +53,14 @@ def calcular_qtd_em_sequencia(n):
 
 
 def calcular_maior_sequencia(n_max):
-    maior_numero = 0
+    n_com_maior_sequencia = 0
     qtd_maior_sequencia = 0
-    for termo_inicial in range(n_max, 1, -1):
+    for termo_inicial in range(1, n_max+1):
         qtd_candidata = calcular_qtd_em_sequencia(termo_inicial)
-        if qtd_candidata > qtd_maior_sequencia:
-            maior_numero = termo_inicial
+        if qtd_candidata >= qtd_maior_sequencia:
+            n_com_maior_sequencia = termo_inicial
             qtd_maior_sequencia = qtd_candidata
-    return maior_numero, qtd_maior_sequencia
+    return n_com_maior_sequencia, qtd_maior_sequencia
 
 
 start = timeit.default_timer()
@@ -100,13 +100,13 @@ def calcular_qtd_em_sequencia(n):
     qtd_termos = 1  # Incluindo já o primeiro termo
     n_original = n
     while n != 1:
+        n = collatz(n)
         qtd_memo = memo.get(n)
         if qtd_memo:
             qtd_termos += qtd_memo
             break
-        n = collatz(n)
         qtd_termos += 1
-    memo[n_original] = qtd_termos - 1  # excluindo o primeiro termo duplicado
+    memo[n_original] = qtd_termos
     return qtd_termos
 ```
 
@@ -158,20 +158,20 @@ def calcular_qtd_em_sequencia(n):
     qtd_termos = 1  # Incluindo já o primeiro termo
     n_original = n
     while n != 1:
+        n = collatz(n)
         qtd_memo = memo.get(n)
         if qtd_memo:
             qtd_termos += qtd_memo
             break
-        n = collatz(n)
         qtd_termos += 1
-    memo[n_original] = qtd_termos - 1
+    memo[n_original] = qtd_termos
     return qtd_termos
 
 
 def calcular_maior_sequencia(n_max):
     n_com_maior_sequencia = 0
     qtd_maior_sequencia = 0
-    for termo_inicial in range(1, n_max):
+    for termo_inicial in range(1, n_max+1):
         qtd_candidata = calcular_qtd_em_sequencia(termo_inicial)
         if qtd_candidata >= qtd_maior_sequencia:
             n_com_maior_sequencia = termo_inicial
