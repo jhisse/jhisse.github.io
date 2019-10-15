@@ -33,7 +33,7 @@ Qual número abaixo de 1 milhão gera a maior sequência?
 
 Primeiro devemos ter uma função que represente o cálculo da sequência de Collatz, depois precisamos calcular a quantidade total de termos que partindo de um determinado número chegaremos ao 1.
 
-Como o problema propõem acharmos a maior sequência partido de um número abaixo de n, criaremos a função calcular_maior_sequencia que receberá um número máximo onde iremos iterar de 1 até o limite máximo para acharmos o número que tem a maior quantidade de termos.
+Como o problema propõe acharmos a maior sequência partido de um número abaixo de n, criaremos a função calcular_maior_sequencia que receberá um número máximo onde iremos iterar de 1 até o limite máximo para acharmos o número que tem a maior quantidade de termos.
 
 ```python
 import timeit
