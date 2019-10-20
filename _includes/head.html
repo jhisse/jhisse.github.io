@@ -8,14 +8,25 @@
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
   <style>
-  {% include _css/monokai.css %}
   {% include _css/awsm.min.css %}
+  {% include _css/monokai.css %}
+  :not(pre *) {
+    overflow-wrap: break-word;
+  }
   .MathJax {
     overflow-x: auto;
   }
-  pre>code {
-    display: block;
+  pre {
     border: none;
+    padding: 5px 7px;
+    display: block;
+  }
+  pre * {
+    font-size: .9rem;
+  }
+  pre code {
+    border: none;
+    display: inline-block;
   }
   p img, p picture {
       margin: 0 auto;
@@ -23,22 +34,6 @@
   }
   p {
     clear: right;
-  }
-  pre {
-    border: none;
-    padding: 5px 7px;
-    font-size: .9rem;
-  }
-  @font-face {
-      font-family: 'typewriter';
-      src: url('{{ "/assets/css/typewriter.ttf" | prepend: site.baseurl }}') format('truetype');
-      font-weight: normal;
-      font-style: normal;
-      font-display: fallback;
-  }
-  body:not(code){
-    font-family: "typewriter", sans-serif;
-    overflow-wrap: break-word;
   }
   </style>
 
