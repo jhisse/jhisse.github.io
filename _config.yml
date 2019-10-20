@@ -11,3 +11,5 @@ markdown: kramdown
 
 exclude:
   - docker-compose.yml
+
+permalink: pretty
