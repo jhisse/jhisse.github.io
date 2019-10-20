@@ -4,7 +4,7 @@ date: 2019-10-19
 layout: post
 ---
 
-O objetivo deste artigo é implementarmos um método de autenticação de um website estático por oauth2 utilizando [nginx](https://www.nginx.com/) como proxy reverso, [oauth2_proxy](https://pusher.github.io/oauth2_proxy/) como backend para validação das requisições e o [Github](https://github.com/) como provedor de autorização.
+O objetivo deste artigo é implementarmos um método de autenticação de um website estático por oauth2 utilizando [nginx](https://www.nginx.com/) como servidor de arquivos estáticos e proxy reverso, [oauth2_proxy](https://pusher.github.io/oauth2_proxy/) como backend para validação das requisições e o [Github](https://github.com/) como provedor de autorização.
 
 Todo o projeto está disponível [neste repositório](https://github.com/jhisse/nginx-oauth2_proxy-github).
 
@@ -98,9 +98,9 @@ Então o primeiro passo é criarmos um OAuth App em nosso provedor de autentica�
 
 ![Register a new Application](/images/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github/register_oauth_app_github.png)
 
-Escolha um nome para sua aplicação, como estamos testando localmente em **Homepage URL** coloque `http://localhost` e em **Callback URL** coloque `http://localhost/oauth2/callback`.
+Escolha um nome para sua aplicação e como estamos testando localmente em **Homepage URL** coloque `http://localhost` e em **Callback URL** coloque `http://localhost/oauth2/callback`.
 
-Os endpoints disponíveis do oauth2_proxy pode ser consultado neste [link](https://pusher.github.io/oauth2_proxy/endpoints).
+Os endpoints disponíveis do oauth2_proxy podem ser consultados neste [link](https://pusher.github.io/oauth2_proxy/endpoints).
 
 ![Campos OAuth App Github](/images/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github/fields_oauth_app_github.png)
 
@@ -364,4 +364,4 @@ E no stdout do terminal vemos algo do tipo "*\[AuthFailure\] Invalid authenticat
 
 Isso quer dizer que nosso acesso não foi autorizado. Para ter acesso neste caso, basta colocarmos nosso endereço de e-mail no arquivo *emails.txt*.
 
-Nesse artigo mostramos um método de autenticação que nos possibilitou uma maneira simples de restringirmos o acesso a alguns endpoints.
+Nesse artigo mostramos um método de autenticação que nos possibilitou uma maneira simples de restringirmos o acesso somente a e-mails autorizados a alguns endpoints.
