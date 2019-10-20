@@ -4,7 +4,7 @@ description: > # this means to ignore newlines until "baseurl:"
   Engenheiro de dados (Big Data). Spark, Nifi, ElasticSearch,
   Kafka, Docker, BigQuery, Data lake
 baseurl: '' # the subpath of your site, e.g. /blog/
-url: 'https://josehisse.dev' # the base hostname & protocol for your site
+url: 'https://www.josehisse.dev' # the base hostname & protocol for your site
 
 # Build settings
 markdown: kramdown
