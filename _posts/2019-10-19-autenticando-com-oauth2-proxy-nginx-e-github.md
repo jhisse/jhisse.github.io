@@ -296,7 +296,7 @@ Criaremos uma nova pasta na raiz do nosso projeto chamada *oauth2_proxy*. E dent
 
 *emails.txt*:
 
-```txt
+```text
 email_01@permitido.com
 email_02@permitido.com
 ```
