@@ -1,59 +1,77 @@
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-87096501-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-87096501-1');
+  </script>
   <meta charset="utf-8" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
-  <meta name="description" content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
+  <meta name="description"
+    content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
   <style>
-  {% include _css/awsm.min.css %}
-  {% include _css/monokai.css %}
-  :not(pre *) {
-    overflow-wrap: break-word;
-  }
-  .MathJax {
-    overflow-x: auto;
-  }
-  pre {
-    border: none;
-    padding: 5px 7px;
-    display: block;
-  }
-  pre * {
-    font-size: .9rem;
-  }
-  pre code {
-    border: none;
-    display: inline-block;
-  }
-  p img, p picture {
+    {% include _css/awsm.min.css %}
+
+    {% include _css/monokai.css %}
+
+    :not(pre *) {
+      overflow-wrap: break-word;
+    }
+
+    .MathJax {
+      overflow-x: auto;
+    }
+
+    pre {
+      border: none;
+      padding: 5px 7px;
+      display: block;
+    }
+
+    pre * {
+      font-size: .9rem;
+    }
+
+    pre code {
+      border: none;
+      display: inline-block;
+    }
+
+    p img,
+    p picture {
       margin: 0 auto;
       float: none;
-  }
-  p {
-    clear: right;
-  }
+    }
+
+    p {
+      clear: right;
+    }
   </style>
 
   {% if page.mathjax %}
   <script>
-  MathJax = {
-    tex: {
-      inlineMath: [
-        ['\\(', '\\)']
-      ],
-      displayMath: [
-        ['$$', '$$'],
-        ['\\[', '\\]']
-      ],
-      processEscapes: true
-    }
-  };
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['\\(', '\\)']
+        ],
+        displayMath: [
+          ['$$', '$$'],
+          ['\\[', '\\]']
+        ],
+        processEscapes: true
+      }
+    };
   </script>
-  <script id="MathJax-script" async
-          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
   </script>
   {% endif %}
 </head>
