@@ -167,7 +167,7 @@ O restante das configurações podem ser consultadas na [documentação](https:/
 
 Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo *default.conf* na pasta do nginx.
 
-```config
+```nginx
 server {
     listen       80;
     server_name  localhost;
