@@ -19,32 +19,12 @@
     content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
 
+  <link rel="stylesheet" href="/assets/css/awsm.min.css" />
+  <link rel="stylesheet" href="/assets/css/monokai.min.css" />
+
   <style>
-    {% include _css/awsm.min.css %}
-
-    {% include _css/monokai.css %}
-
-    :not(pre *) {
-      overflow-wrap: break-word;
-    }
-
     .MathJax {
       overflow-x: auto;
-    }
-
-    pre {
-      border: none;
-      padding: 5px 7px;
-      display: block;
-    }
-
-    pre * {
-      font-size: .9rem;
-    }
-
-    pre code {
-      border: none;
-      display: inline-block;
     }
 
     p img,
@@ -73,7 +53,7 @@
       }
     };
   </script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script>
   </script>
   {% endif %}
 </head>
