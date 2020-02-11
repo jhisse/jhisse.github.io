@@ -8,7 +8,7 @@ O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utili
 
 ## Introdução
 
-### Etapas de construção do modelo
+### Etapas de construção
 
 A primeira coisa que temos que ter como objetivo é o modelo treinado, gravado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
 
@@ -20,15 +20,7 @@ A primeira coisa que temos que ter como objetivo é o modelo treinado, gravado d
 
 ![Diagrama da ideia geral](/images/2020-02-02-api_modelos_machine_learning/diagrama_geral.png)
 
-### Obter a base de dados Pima
-
-Pima Indians Diabetes Database, é um dataset contendo informações de pacientes do sexo feminino acima de 21 anos.
-
-O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/pima-indians-diabetes-database) ou baixado [aqui](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
-
-Esse conjunto de dados irá nos permitir construirmos um modelo de machine learning que tentará prever da maneira mais acurada se um paciente tem diabete ou não.
-
-### Análise dos dados
+### Preparando nosso ambiente de desenvolvimento
 
 #### Bibliotecas necessárias
 
@@ -39,17 +31,17 @@ Serão necessárias as seguintes bibliotecas para a construção do modelo:
 - [scikit-learn](https://scikit-learn.org/stable/)
 - [pickle](https://docs.python.org/3/library/pickle.html)
 
-#### Preparando nosso ambiente de desenvolvimento
+#### Executando o notebook jupyter
 
-Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais,iremos utilizar uma imagem Docker já contendo as bibliotecas necessárias, inclusive com um notebook jupyter. A imagem é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook), mais detalhes sobre esta imagem pode ser obtida no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
-
-Caso não tenha o Docker instalado, pode acessar esse [link](https://docs.docker.com/install/) e seguir as instruções de instalação.
+Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais, iremos utilizar uma imagem Docker já contendo as bibliotecas necessárias, inclusive com o jupyter. A imagem docker a ser utilizada é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook). Mais detalhes sobre esta imagem pode ser obtidos no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
 
 Para ter certeza que o docker está instalado, execute o seguinte comando no terminal:
 
 ```bash
 docker --version
 ```
+
+Caso não tenha o Docker instalado pode acessar esse [link](https://docs.docker.com/install/) e seguir as instruções de instalação.
 
 Agora precisamos executar a imagem para acessarmos o notebook jupyter já com todas as bibliotecas instaladas.
 
@@ -69,17 +61,23 @@ Vamos entender o comando acima:
 
 ![Docker start notebook](/images/2020-02-02-api_modelos_machine_learning/docker_start_notebook.png)
 
-#### Iniciando nosso notebook
-
-Agora podemos abrir o navegador no endereço <http://localhost:8080> para acessarmos o notebook jupyter.
+Vamos abrir o navegador no endereço <http://localhost:8080> para acessarmos o notebook jupyter.
 
 ![Jupyter Home](/images/2020-02-02-api_modelos_machine_learning/jupyter_home.png)
 
-Vamos seguir alguns passos, vamos entrar na pasta work [1] e criar um novo notebook [2].
+Agora vamos entrar na pasta work [1] e criar um novo notebook [2].
 
 ![Work folder and create notebook](/images/2020-02-02-api_modelos_machine_learning/jupyter_create_notebook.png)
 
-Em uma nova célula do notebook vamos executar o seguinte comando para baixar a base de dados do PIMA para nosso workspace:
+### Obter a base de dados Pima
+
+Pima Indians Diabetes Database, é um dataset contendo informações de pacientes do sexo feminino acima de 21 anos.
+
+O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/pima-indians-diabetes-database) ou baixado [aqui](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
+
+Esse conjunto de dados irá nos permitir construirmos um modelo de machine learning que tentará prever da maneira mais acurada se um paciente tem diabete ou não.
+
+Em uma nova célula do notebook vamos executar o seguinte comando para fazer o download da base de dados do PIMA para nosso workspace:
 
 ```bash
 !wget https://gist.githubusercontent.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b/raw/pima.csv
@@ -87,7 +85,9 @@ Em uma nova célula do notebook vamos executar o seguinte comando para baixar a 
 
 O sinal de exclamação no início da execução do wget indica que o comando que vem a seguir deve ser executado como se estivesse em um terminal e não como um código Python.
 
-![Download PIMa database](/images/2020-02-02-api_modelos_machine_learning/download_pima_database.png)
+![Download Pima database](/images/2020-02-02-api_modelos_machine_learning/download_pima_database.png)
+
+### Análise dos dados
 
 Lendo o dataset e entendendo os dados:
 
@@ -116,6 +116,19 @@ Vamos entender o que cada variável significa:
 - **DiabetesPedigreeFunction**: Função que retorna um score com base no histórico familiar;
 - **Age**: Idade (anos);
 - **Outcome**: Indicativo se a pessoa é diabética (1/0).
+
+Vamos separar o dataset em dois conjuntos de dados, o primeiro conjunto deverá ter 70% da base, ele será usado para o treinamento de nosso modelo, os outros 30% do dataset será usado para testes.
+
+```python
+from sklearn.model_selection import train_test_split
+
+independent_variables = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age','Outcome']
+
+x = pima_dataset[independent_variables]
+y = pima_dataset['Outcome']
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1)
+```
 
 ### Serialização com Pickle
 
