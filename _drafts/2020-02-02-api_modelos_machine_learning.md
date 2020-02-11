@@ -4,21 +4,23 @@ date: 2020-02-02
 layout: post
 ---
 
-O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utilizado para disponibilizarmos uma interface de consumo de modelos de machine learning. A ideia geral deste método é a criação de um modelo que após o treinamento com uma parcela dos dados, poderemos utilizar uma API REST como uma interface padrão para que as aplicações possam usar nosso modelo.
+O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utilizado para disponibilizarmos uma interface de consumo de modelos de machine learning. A ideia geral deste método é a criação de um modelo que após o treinamento com uma parcela dos dados, poderemos utilizar uma API REST como uma interface padrão de comunicação entre outras aplicações.
 
 ## Introdução
 
 ### Etapas de construção do modelo
 
-A primeira coisa que temos que ter como objetivo é gerarmos um arquivo pickle com o modelo treinado. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
+A primeira coisa que temos que ter como objetivo é o modelo treinado, gravado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
 
 1. Obter uma base de dados;
 2. Análisar a base;
 3. Treinar o modelo com uma parcela do dataset;
 4. Testar o modelo treinado;
-5. Salvar função treinada como pickle.
+5. Salvar o modelo para consumo pela API.
 
-### Base de dados Pima
+![Diagrama da ideia geral](/images/2020-02-02-api_modelos_machine_learning/diagrama_geral.png)
+
+### Obter a base de dados Pima
 
 Pima Indians Diabetes Database, é um dataset contendo informações de pacientes do sexo feminino acima de 21 anos.
 
@@ -26,13 +28,9 @@ O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/p
 
 Esse conjunto de dados irá nos permitir construirmos um modelo de machine learning que tentará prever da maneira mais acurada se um paciente tem diabete ou não.
 
-### Serialização com Pickle
+### Análise dos dados
 
-Pickle é um módulo para serialização de objetos Python em sequência de bytes. Isso significa que podemos salvar objetos Python em arquivos, ou seja, iremos salvar a função resultante do treinamento em um arquivo com extensão pkl.
-
-## Análise dos dados
-
-### Bibliotecas necessárias
+#### Bibliotecas necessárias
 
 Serão necessárias as seguintes bibliotecas para a construção do modelo:
 
@@ -41,7 +39,7 @@ Serão necessárias as seguintes bibliotecas para a construção do modelo:
 - [scikit-learn](https://scikit-learn.org/stable/)
 - [pickle](https://docs.python.org/3/library/pickle.html)
 
-### Preparando nosso ambiente de desenvolvimento
+#### Preparando nosso ambiente de desenvolvimento
 
 Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais,iremos utilizar uma imagem Docker já contendo as bibliotecas necessárias, inclusive com um notebook jupyter. A imagem é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook), mais detalhes sobre esta imagem pode ser obtida no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
 
@@ -71,13 +69,13 @@ Vamos entender o comando acima:
 
 ![Docker start notebook](/images/2020-02-02-api_modelos_machine_learning/docker_start_notebook.png)
 
-### Iniciando nosso notebook
+#### Iniciando nosso notebook
 
 Agora podemos abrir o navegador no endereço <http://localhost:8080> para acessarmos o notebook jupyter.
 
 ![Jupyter Home](/images/2020-02-02-api_modelos_machine_learning/jupyter_home.png)
 
-Vamos seguir alguns passos, vamos entrar na pasta **work** [1] e criar um novo notebook [2].
+Vamos seguir alguns passos, vamos entrar na pasta work [1] e criar um novo notebook [2].
 
 ![Work folder and create notebook](/images/2020-02-02-api_modelos_machine_learning/jupyter_create_notebook.png)
 
@@ -91,7 +89,7 @@ O sinal de exclamação no início da execução do wget indica que o comando qu
 
 ![Download PIMa database](/images/2020-02-02-api_modelos_machine_learning/download_pima_database.png)
 
-Lendo o dataset e entendendo um pouco os dados:
+Lendo o dataset e entendendo os dados:
 
 ```python
 import pandas as pd
@@ -119,3 +117,6 @@ Vamos entender o que cada variável significa:
 - **Age**: Idade (anos);
 - **Outcome**: Indicativo se a pessoa é diabética (1/0).
 
+### Serialização com Pickle
+
+Pickle é um módulo para serialização de objetos Python em sequência de bytes. Isso significa que podemos salvar objetos Python em arquivos, ou seja, iremos salvar a função resultante do treinamento em um arquivo com extensão pkl.
