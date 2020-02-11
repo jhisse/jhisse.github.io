@@ -8,3 +8,10 @@ me [AT] josehisse.dev |
 
 <script src="/assets/js/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+<script src="/assets/js/zooming.min.js"></script>
+<script>document.addEventListener('DOMContentLoaded', function(){
+    new Zooming({
+        bgOpacity: 0.8, 
+        scaleBase: 0.7
+        }).listen('img');
+    });</script>
