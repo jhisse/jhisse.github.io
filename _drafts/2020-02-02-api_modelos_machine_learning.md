@@ -8,9 +8,11 @@ O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utili
 
 ## Introdução
 
-### Etapas de construção
+![Diagrama da ideia geral de criação da solução](/images/2020-02-02-api_modelos_machine_learning/diagrama_geral.png)
 
-A primeira coisa que temos que ter como objetivo é o modelo treinado, gravado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
+## Construção do modelo
+
+A primeira coisa que temos que ter como objetivo nesta etapa é ter o modelo treinado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
 
 1. Obter uma base de dados;
 2. Análisar a base;
@@ -18,7 +20,7 @@ A primeira coisa que temos que ter como objetivo é o modelo treinado, gravado d
 4. Testar o modelo treinado;
 5. Salvar o modelo para consumo pela API.
 
-![Diagrama da ideia geral](/images/2020-02-02-api_modelos_machine_learning/diagrama_geral.png)
+![Diagrama da ideia geral de criação do modelo](/images/2020-02-02-api_modelos_machine_learning/diagrama_geral_modelo.png)
 
 ### Preparando nosso ambiente de desenvolvimento
 
@@ -122,7 +124,7 @@ Vamos separar o dataset em dois conjuntos de dados, o primeiro conjunto deverá 
 ```python
 from sklearn.model_selection import train_test_split
 
-independent_variables = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age','Outcome']
+independent_variables = ['Pregnancies','Glucose','BloodPressure','SkinThickness','Insulin','BMI','DiabetesPedigreeFunction','Age']
 
 x = pima_dataset[independent_variables]
 y = pima_dataset['Outcome']
@@ -130,6 +132,93 @@ y = pima_dataset['Outcome']
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=1)
 ```
 
+### Treinando o modelo
+
+Nesta fase usaremos a parcela maior do nosso dataset para ajustar da melhor forma o modelo ao nossos dados. Para isso iremos utilizar o modelo linear de regressão logística da biblioteca sklearn.
+
+```python
+from sklearn.linear_model import LogisticRegression
+
+model = LogisticRegression(solver='lbfgs', max_iter=1000)
+
+result = model.fit(x_train, y_train)
+```
+
+### Testando a acurácia do modelo treinado
+
+```python
+result.score(x_test, y_test)
+```
+
 ### Serialização com Pickle
 
-Pickle é um módulo para serialização de objetos Python em sequência de bytes. Isso significa que podemos salvar objetos Python em arquivos, ou seja, iremos salvar a função resultante do treinamento em um arquivo com extensão pkl.
+Pickle é um módulo para serialização de objetos Python para sequência de bytes. Isso significa que podemos salvar objetos Python em disco em forma de arquivo, ou seja, iremos salvar a função resultante do treinamento em um arquivo com extensão pkl.
+
+```python
+import pickle
+
+model_filename = 'finalized_model.pkl'
+pickle.dump(model, open(model_filename, 'wb'))
+```
+
+Vamos carregar o modelo para efetuarmos alguns testes.
+
+```python
+loaded_model = pickle.load(open(model_filename, 'rb'))
+
+loaded_model.predict([[6,148,72,35,0,33.6,0.627,50]])
+```
+
+## API de previsão
+
+### Arquitetura
+
+![Arquitetura API](/images/2020-02-02-api_modelos_machine_learning/arquitetura_api_aws.png)
+
+### Conceitos
+
+#### AWS API Gateway
+
+API Gateway é um serviço gerenciado da AWS que, nesse contexto, terá como função receber os fluxos de requisições HTTP e encaminhar para as funções lambda explicadas a seguir.
+
+Para mais informações: <https://aws.amazon.com/pt/api-gateway/>
+
+#### AWS Lambda
+
+Serviço gerenciado que permite executar códigos em diversas linguagens sem se preocupar com servidores.
+
+Para mais informações: <https://aws.amazon.com/pt/lambda/>
+
+#### AWS Simple Storage Service, S3
+
+Serviço de armazenamento gerenciado pela AWS. Altamente escalável.
+
+Para mais informações: <https://aws.amazon.com/pt/s3/>
+
+#### Framework Serverless
+
+Este ponto é de extrema importancia. Para empacotarmos nossa API de forma organizada iremos utilizar o framework Serverless. Ele irá nos ajudar a fazer o deploy para a nuvem AWS sem grande esforço.
+
+### Upload do modelo para o S3
+
+A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download este [link](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
+
+```bash
+aws configure
+```
+
+### Instalação
+
+Precisamos instalar o CLI do framework e para isso iremos 
+
+### Saindo do zero
+
+```bash
+serverless create --template aws-python3 --path predict-model-api
+```
+
+### Desenvolvimento da API
+
+````python
+
+```
