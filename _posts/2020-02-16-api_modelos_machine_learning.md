@@ -242,9 +242,9 @@ aws s3 ls s3://models-56304424-ff6e-4422-ad9c-2a1731683e44/
 ```bash
 pip install --user virtualenv
 
-virtualenv predict-api-venv
+virtualenv venv
 
-source predict-api-venv/bin/activate
+source venv/bin/activate
 
 pip install boto3 scikit-learn
 ```
@@ -296,6 +296,11 @@ functions:
       - http:
           path: /ping
           method: get
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
 ```
 
 Agora vamos fazer o deploy de nossa api.
@@ -472,6 +477,11 @@ functions:
 
 plugins:
   - serverless-python-requirements
+
+package:
+  exclude:
+    - node_modules/**
+    - venv/**
 
 custom:
   pythonRequirements:
