@@ -6,13 +6,11 @@ layout: post
 
 O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utilizado para disponibilizarmos uma interface de consumo de modelos de machine learning. A ideia geral deste método é a criação de um modelo que após o treinamento com uma parcela dos dados, poderemos utilizar uma API REST como uma interface padrão de comunicação entre outras aplicações.
 
-## Introdução
-
 ![Diagrama da ideia geral de criação da solução](/images/2020-02-16-api_modelos_machine_learning/diagrama_geral.png)
 
 ## Construção do modelo
 
-A primeira coisa que temos que ter como objetivo nesta etapa é ter o modelo treinado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
+A primeira coisa que temos que ter como finalidade nesta etapa é ter o modelo treinado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
 
 1. Obter uma base de dados;
 2. Análisar a base;
@@ -150,6 +148,10 @@ result = model.fit(x_train, y_train)
 result.score(x_test, y_test)
 ```
 
+Vemos que o score está em torno de 78%, ou seja, a taxa de acerto do modelo irá girar entorno deste número.
+
+![Score do modelo](/images/2020-02-02-api_modelos_machine_learning/score.png)
+
 ### Serialização com Pickle
 
 Pickle é um módulo para serialização de objetos Python para sequência de bytes. Isso significa que podemos salvar objetos Python em disco em forma de arquivo, ou seja, iremos salvar a função resultante do treinamento em um arquivo com extensão pkl.
@@ -179,7 +181,7 @@ Na predição acima cada número representa uma variável de entrada e a saída 
 
 ![Arquitetura API](/images/2020-02-16-api_modelos_machine_learning/arquitetura_api_aws.png)
 
-### Conceitos
+### Introdução
 
 #### AWS API Gateway
 
@@ -483,3 +485,38 @@ A estrutura final do diretório será a seguinte:
 \-\- requirements.txt  
 \-\- package.json  
 \-\- package-lock.json  
+
+Não esqueça de fazer o deploy novamente.
+
+Podemos testar o endpoint com o invoke do serverless:
+
+```bash
+sls invoke --function predict --data "{\"body\": \"{ \\\"pregnancies\\\": 2, \\\"glucose\\\": 148, \\\"blood_pressure\\\": 72, \\\"skin_thickness\\\": 35, \\\"insulin\\\": 0, \\\"bmi\\\": 33.6, \\\"diabetes_pedigree_function\\\": 0.674, \\\"age\\\": 22 }\"}"
+```
+
+![Invoke predict](/images/2020-02-02-api_modelos_machine_learning/invoke_predict.png)
+
+Ou com uma chamada via curl:
+
+```bash
+curl -X POST \
+  https://sdtbeeif6d.execute-api.us-east-1.amazonaws.com/dev/predict \
+  -d '{
+    "pregnancies": 2,
+    "glucose": 148,
+    "blood_pressure": 72,
+    "skin_thickness": 35,
+    "insulin": 0,
+    "bmi": 33.6,
+    "diabetes_pedigree_function": 0.674,
+    "age": 22
+}'
+```
+
+### Removendo tudo
+
+Por fim para removermos toda a estrutura criada para a construção da API, basta executarmos um comando.
+
+```bash
+sls remove
+```
