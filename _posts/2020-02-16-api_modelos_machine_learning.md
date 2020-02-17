@@ -35,7 +35,7 @@ Serão necessárias as seguintes bibliotecas para a construção do modelo:
 
 #### Executando o notebook jupyter
 
-Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais, iremos utilizar uma imagem Docker já contendo as bibliotecas necessárias, inclusive com o jupyter. A imagem docker a ser utilizada é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook). Mais detalhes sobre esta imagem pode ser obtidos no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
+Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais, iremos utilizar uma imagem docker já contendo as bibliotecas necessárias, inclusive com o jupyter. A imagem docker a ser utilizada é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook). Mais detalhes sobre esta imagem pode ser obtidos no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
 
 Para ter certeza que o docker está instalado, execute o seguinte comando no terminal:
 
@@ -43,9 +43,9 @@ Para ter certeza que o docker está instalado, execute o seguinte comando no ter
 docker --version
 ```
 
-Caso não tenha o Docker instalado pode acessar esse [link](https://docs.docker.com/install/) e seguir as instruções de instalação.
+Caso não tenha o docker instalado pode acessar esse [link](https://docs.docker.com/install/) e seguir as instruções de instalação.
 
-Agora precisamos executar a imagem para acessarmos o notebook jupyter já com todas as bibliotecas instaladas.
+Agora precisamos executar a imagem para acessarmos o notebook jupyter já com todas as bibliotecas necessárias.
 
 ```bash
 docker run -d -p 8080:8888 --user root -e JUPYTER_ENABLE_LAB=yes -e GRANT_SUDO=yes jupyter/scipy-notebook:414b5d749704 start-notebook.sh --NotebookApp.token=''
@@ -63,7 +63,7 @@ Vamos entender o comando acima:
 8. **jupyter/scipy-notebook:414b5d749704**: esta é a imagem do jupyter que iremos instanciar, o id que está após os dois pontos é a tag da imagem, isso garante que sempre iremos utilizar a mesma versão;
 9. **start-notebook.sh --NotebookApp.token=''**: aqui indicamos que o script *start-notebook.sh* será usado para executar o notebook dentro do container, poderíamos ter omitido essa parte, porém não iriamos conseguir retirar a senha do notebook com o parâmetro *--NotebookApp.token=''*.
 
-Vamos abrir o navegador no endereço <http://localhost:8080> para acessarmos o notebook jupyter.
+Vamos abrir o navegador no endereço <http://localhost:8080> para acessarmos o jupyter.
 
 ![Jupyter Home](/images/2020-02-16-api_modelos_machine_learning/jupyter_home.png)
 
@@ -169,6 +169,10 @@ loaded_model = pickle.load(open(model_filename, 'rb'))
 loaded_model.predict([[6,148,72,35,0,33.6,0.627,50]])
 ```
 
+Na predição acima cada número representa uma variável de entrada e a saída será um binário 0 ou 1. A ordem dessas variáveis são importantes, pois irá corresponder as entradas das variáveis quando formos construir a API.
+
+![Resultado da predição](/images/2020-02-02-api_modelos_machine_learning/predict_result.png)
+
 ## API de previsão
 
 ### Arquitetura
@@ -197,11 +201,11 @@ Para mais informações: <https://aws.amazon.com/pt/s3/>
 
 #### Framework Serverless
 
-Este ponto é de extrema importancia. Para empacotarmos nossa API de forma organizada iremos utilizar o framework Serverless. Ele irá nos ajudar a fazer o deploy para a nuvem AWS sem grande esforço.
+Para empacotarmos nossa API de forma organizada iremos utilizar o framework [Serverless](https://serverless.com/). Ele irá nos ajudar a fazer o deploy para a nuvem AWS sem grande esforço.
 
 ### Configuração do AWS CLI
 
-A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download este [link](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
+A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download neste [link](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
 
 ```bash
 aws configure
@@ -210,6 +214,10 @@ aws configure
 As credencias necessárias (Access Key e Secret Key) podem ser obtidas em sua conta AWS conforme imagem a seguir.
 
 ![Credenciais AWS](/images/2020-02-16-api_modelos_machine_learning/aws_credentials.png)
+
+### Configuração do Serverless
+
+
 
 ### Upload do modelo
 
@@ -229,17 +237,13 @@ aws s3 cp finalized_model.pkl s3://models-56304424-ff6e-4422-ad9c-2a1731683e44/
 aws s3 ls s3://models-56304424-ff6e-4422-ad9c-2a1731683e44/
 ```
 
-### Instalação
-
-Precisamos instalar o CLI do framework Serverless.
-
 ### Ping pong
 
-Vamos construir um endpoint para entendermos um pouco mais como toda essa estrutura funciona, para isso iremos utilizar uma chamada de api chamada ping.
+Vamos construir nosso primeiro endpoint para entendermos um pouco mais de como toda essa estrutura irá se integrar, para isso iremos criar uma chamada de api chamada ping.
 
-Para isso teremos a seguinte estrutura de diretórios:
+Para isso teremos a seguinte estrutura de diretório:
 
-\- pedict-api/  
+\- predict-api/  
 \-\- ping_handler.py  
 \-\- serverless.yml
 
@@ -270,9 +274,8 @@ service: predict-model-api
 provider:
   name: aws
   runtime: python3.8
-
-stage: dev
-region: us-east-1
+  stage: dev
+  region: us-east-1
 
 functions:
   ping:
@@ -331,7 +334,7 @@ sls invoke --function ping
 
 ### Endpoint de previsão
 
-Vamos a construção do endpoint de previsão, mas antes vamos instalar um plugin no nosso sls.
+Vamos à construção do endpoint de previsão, mas antes vamos instalar um plugin no nosso sls.
 
 Ao longo deste tutorial usamos algumas bibliotecas que fazem uso de outras libs baixo nível, ou seja, que são dependentes do sistema operacional que estamos executando nosso código. O lambda utiliza uma máquina linux de 64 bits para executar nossas funções, isso pode causar alguns tipos de erros, por exemplo, caso estejamos desenvolvendo em uma máquina Windows algumas bibliotecas terão problema de compatibilidade.
 
@@ -341,3 +344,142 @@ Para isso iremos utilizar o plugin [serverless-python-requirements](https://gith
 sls plugin install -n serverless-python-requirements
 ```
 
+Esse plugin resolve um outro problema que teríamos, o lambda tem um limite de 50MB para nosso código, porém as bibliotecas do numpy e do scikit learn ultrapassam esse limite. Uma forma de contornar essa limitação é ziparmos as dependências e carregarmos elas do S3. O plugin oferece uma opção para que isso seja transparente para nós e não tenhamos que nos preocupar com essa limitação.
+
+Para fazermos uso dessas features devemos adicionar algumas linhas ao final do arquivo serverless.yml
+
+```yml
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    zip: true
+    slim: true
+```
+
+Outra coisa a se fazer é colocar um trecho de código python antes dos imports das nossas funções.
+
+```python
+try:
+    import unzip_requirements
+except ImportError:
+    pass
+```
+
+Agora iremos criar nossa função de previsão.
+
+predict_handler.py
+
+```python
+try:
+    import unzip_requirements
+except ImportError:
+    pass
+import json
+from sklearn.linear_model import LogisticRegression
+import pickle
+import boto3
+from io import BytesIO
+
+
+class S3:
+    @staticmethod
+    def get_object(bucket: str, filename: str) -> BytesIO:
+        s3 = boto3.client('s3')
+        obj = s3.get_object(Bucket=bucket, Key=filename)
+        return BytesIO(obj['Body'].read())
+
+
+def predict(event, context):
+
+    # Get payload data
+    payload = json.loads(event.get('body'))
+
+    pregnancies = int(payload.get('pregnancies'))
+    glucose = int(payload.get('glucose'))
+    blood_pressure = int(payload.get('blood_pressure'))
+    skin_thickness = int(payload.get('skin_thickness'))
+    insulin = int(payload.get('insulin'))
+    bmi = float(payload.get('bmi'))
+    diabetes_pedigree_function = float(payload.get('diabetes_pedigree_function'))
+    age = int(payload.get('age'))
+
+    # Get model from S3
+    model_bucket = 'models-56304424-ff6e-4422-ad9c-2a1731683e44'
+    model_filename = 'finalized_model.pkl'
+
+    pickle_model = S3.get_object(model_bucket, model_filename)
+    loaded_model = pickle.load(pickle_model)
+
+    result = loaded_model.predict(
+        [[pregnancies, glucose, blood_pressure, skin_thickness, insulin, bmi, diabetes_pedigree_function, age]])[0]
+
+    body = {
+        "outcome": int(result)
+    }
+
+    response = {
+        "statusCode": 200,
+        "body": json.dumps(body)
+    }
+
+    return response
+```
+
+Precisamos dar permissão de acesso da API ao bucket que se encontra nosso modelo. Iremos acrescentar mais uma sessão em nosso arquivo serverless.yml.
+
+```yml
+service: predict-model-api
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:*"
+      Resource: "arn:aws:s3:::models-56304424-ff6e-4422-ad9c-2a1731683e44/*"
+
+functions:
+  ping:
+    handler: ping_handler.ping
+    events:
+      - http:
+          path: /ping
+          method: get
+  predict:
+    handler: predict_handler.predict
+    events:
+      - http:
+          path: /predict
+          method: post
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: true
+    zip: true
+    slim: true
+```
+
+Neste ponto não podemos esquecer de colocar nossas dependências no requirements.txt
+
+```bash
+pip freeze > requirements.txt
+```
+
+A estrutura final do diretório será a seguinte:
+
+\- predict-api/  
+\-\- ping_handler.py  
+\-\- predict_handler.py
+\-\- serverless.yml
+\-\- requirements.txt
+\-\- package.json
+\-\- package-lock.json
