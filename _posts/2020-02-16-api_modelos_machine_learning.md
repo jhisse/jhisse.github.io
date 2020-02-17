@@ -1,6 +1,6 @@
 ---
 title: Construindo uma API para consumo de modelos de machine learning
-date: 2020-02-15
+date: 2020-02-16
 layout: post
 ---
 
@@ -205,7 +205,7 @@ Para mais informações: <https://aws.amazon.com/pt/s3/>
 
 Para empacotarmos nossa API de forma organizada iremos utilizar o framework [Serverless](https://serverless.com/). Ele irá nos ajudar a fazer o deploy para a nuvem AWS sem grande esforço.
 
-### Configuração do AWS CLI
+### Configuração do AWS CLI e do Serverless CLI
 
 A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download neste [link](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
 
@@ -217,16 +217,12 @@ As credencias necessárias (Access Key e Secret Key) podem ser obtidas em sua co
 
 ![Credenciais AWS](/images/2020-02-16-api_modelos_machine_learning/aws_credentials.png)
 
-### Configuração do Serverless
-
-
-
 ### Upload do modelo
 
 Vamos fazer o upload do nosso modelo para um bucket S3, então antes de mais nada precisamos criar o bucket.
 
 ```bash
-aws s3 mb models-$(uuidgen)
+aws s3 mb s3://models-$(uuidgen)
 ```
 
 Utilizamos o utilitário **uuidgen** para concaternamos um identificador único ao nome, pois o nome do bucket deve ser único em toda a AWS, independente da conta.
@@ -255,7 +251,7 @@ ping_handler.py
 import json
 
 
-def ping_handler(event, context):
+def ping(event, context):
     body = {
         "ping": "pong"
     }
