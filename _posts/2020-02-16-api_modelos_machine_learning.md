@@ -478,8 +478,8 @@ A estrutura final do diretório será a seguinte:
 
 \- predict-api/  
 \-\- ping_handler.py  
-\-\- predict_handler.py
-\-\- serverless.yml
-\-\- requirements.txt
-\-\- package.json
-\-\- package-lock.json
+\-\- predict_handler.py  
+\-\- serverless.yml  
+\-\- requirements.txt  
+\-\- package.json  
+\-\- package-lock.json  
