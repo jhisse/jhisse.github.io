@@ -217,6 +217,8 @@ As credencias necessárias (Access Key e Secret Key) podem ser obtidas em sua co
 
 ![Credenciais AWS](/images/2020-02-16-api_modelos_machine_learning/aws_credentials.png)
 
+Para instalar e configurar o framework Serverless siga as instruções deste [link](https://serverless.com/framework/docs/getting-started/).
+
 ### Upload do modelo
 
 Vamos fazer o upload do nosso modelo para um bucket S3, então antes de mais nada precisamos criar o bucket.
@@ -233,6 +235,18 @@ Seguindo com a cópia do modelo para a nuvem.
 aws s3 cp finalized_model.pkl s3://models-56304424-ff6e-4422-ad9c-2a1731683e44/
 
 aws s3 ls s3://models-56304424-ff6e-4422-ad9c-2a1731683e44/
+```
+
+### Virtualenv
+
+```bash
+pip install --user virtualenv
+
+virtualenv predict-api-venv
+
+source predict-api-venv/bin/activate
+
+pip install boto3 scikit-learn
 ```
 
 ### Ping pong
