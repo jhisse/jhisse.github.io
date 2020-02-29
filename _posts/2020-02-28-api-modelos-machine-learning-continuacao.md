@@ -4,7 +4,7 @@ date: 2020-02-28
 layout: post
 ---
 
-Este post é complementar ao anterior, disponível [aqui]({% post_url 2020-02-16-api_modelos_machine_learning %}). No primeiro vimos como construir modelos de machine learning e salvá-los como pickle, em seguida vimos como construir uma API serverless nativa na AWS. O objetivo deste é utilizamos o mesmo modelo salvo anteriormente e criamos uma API agnóstica com container, o que isso significa é que poderemos executar nossa API em qualquer ambiente em que o Docker esteja disponível.
+Este post é complementar ao anterior, disponível [aqui]({% post_url 2020-02-16-api-modelos-machine-learning %}). No primeiro vimos como construir modelos de machine learning e salvá-los como pickle, em seguida vimos como construir uma API serverless nativa na AWS. O objetivo deste é utilizamos o mesmo modelo salvo anteriormente e criamos uma API agnóstica com container, o que isso significa é que poderemos executar nossa API em qualquer ambiente em que o Docker esteja disponível.
 
 ## Falcon API
 
@@ -129,7 +129,7 @@ curl -w "\n" -X GET http://localhost:8000/ping
 
 ## Endpoint de previsão
 
-Nessa etapa vamos criar o endpoint de previsão. Para isso precisamos do nosso modelo salvo em pickle, caso não tenha, basta seguir os primeiros passos do [post anterior]({% post_url 2020-02-16-api_modelos_machine_learning %}).
+Nessa etapa vamos criar o endpoint de previsão. Para isso precisamos do nosso modelo salvo em pickle, caso não tenha, basta seguir os primeiros passos do [post anterior]({% post_url 2020-02-16-api-modelos-machine-learning %}).
 
 Vamos colocar o arquivo finalized_model.pkl no diretório **app** e criar um método para efetuar uma previsão com base em uma entrada de dados.
 

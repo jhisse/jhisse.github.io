@@ -6,7 +6,7 @@ layout: post
 
 O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utilizado para disponibilizarmos uma interface de consumo de modelos de machine learning. A ideia geral deste método é a criação de um modelo que após o treinamento com uma parcela dos dados, poderemos utilizar uma API REST como uma interface padrão de comunicação entre outras aplicações.
 
-![Diagrama da ideia geral de criação da solução](/images/2020-02-16-api_modelos_machine_learning/diagrama_geral.png)
+![Diagrama da ideia geral de criação da solução](/images/2020-02-16-api-modelos-machine-learning/diagrama_geral.png)
 
 ## Construção do modelo
 
@@ -18,7 +18,7 @@ A primeira coisa que temos que ter como finalidade nesta etapa é ter o modelo t
 4. Testar o modelo treinado;
 5. Salvar o modelo para consumo pela API.
 
-![Diagrama da ideia geral de criação do modelo](/images/2020-02-16-api_modelos_machine_learning/diagrama_geral_modelo.png)
+![Diagrama da ideia geral de criação do modelo](/images/2020-02-16-api-modelos-machine-learning/diagrama_geral_modelo.png)
 
 ### Preparando nosso ambiente de desenvolvimento
 
@@ -63,11 +63,11 @@ Vamos entender o comando acima:
 
 Vamos abrir o navegador no endereço <http://localhost:8080> para acessarmos o jupyter.
 
-![Jupyter Home](/images/2020-02-16-api_modelos_machine_learning/jupyter_home.png)
+![Jupyter Home](/images/2020-02-16-api-modelos-machine-learning/jupyter_home.png)
 
 Agora vamos entrar na pasta work [1] e criar um novo notebook [2].
 
-![Work folder and create notebook](/images/2020-02-16-api_modelos_machine_learning/jupyter_create_notebook.png)
+![Work folder and create notebook](/images/2020-02-16-api-modelos-machine-learning/jupyter_create_notebook.png)
 
 ### Obter a base de dados Pima
 
@@ -85,7 +85,7 @@ Em uma nova célula do notebook vamos executar o seguinte comando para fazer o d
 
 O sinal de exclamação no início da execução do wget indica que o comando que vem a seguir deve ser executado como se estivesse em um terminal e não como um código Python.
 
-![Download Pima database](/images/2020-02-16-api_modelos_machine_learning/download_pima_database.png)
+![Download Pima database](/images/2020-02-16-api-modelos-machine-learning/download_pima_database.png)
 
 ### Análise dos dados
 
@@ -103,7 +103,7 @@ pima_dataset.describe()
 pima_dataset.head()
 ```
 
-![Basic analysis](/images/2020-02-16-api_modelos_machine_learning/basic_analysis.png)
+![Basic analysis](/images/2020-02-16-api-modelos-machine-learning/basic_analysis.png)
 
 Vamos entender o que cada variável significa:
 
@@ -150,7 +150,7 @@ result.score(x_test, y_test)
 
 Vemos que o score está em torno de 78%, ou seja, a taxa de acerto do modelo irá girar entorno deste número.
 
-![Score do modelo](/images/2020-02-02-api_modelos_machine_learning/score.png)
+![Score do modelo](/images/2020-02-16-api-modelos-machine-learning/score.png)
 
 ### Serialização com Pickle
 
@@ -173,13 +173,13 @@ loaded_model.predict([[6,148,72,35,0,33.6,0.627,50]])
 
 Na predição acima cada número representa uma variável de entrada e a saída será um binário 0 ou 1. A ordem dessas variáveis são importantes, pois irá corresponder as entradas das variáveis quando formos construir a API.
 
-![Resultado da predição](/images/2020-02-02-api_modelos_machine_learning/predict_result.png)
+![Resultado da predição](/images/2020-02-16-api-modelos-machine-learning/predict_result.png)
 
 ## API de previsão
 
 ### Arquitetura
 
-![Arquitetura API](/images/2020-02-16-api_modelos_machine_learning/arquitetura_api_aws.png)
+![Arquitetura API](/images/2020-02-16-api-modelos-machine-learning/arquitetura_api_aws.png)
 
 ### Introdução
 
@@ -215,7 +215,7 @@ aws configure
 
 As credencias necessárias (Access Key e Secret Key) podem ser obtidas em sua conta AWS conforme imagem a seguir.
 
-![Credenciais AWS](/images/2020-02-16-api_modelos_machine_learning/aws_credentials.png)
+![Credenciais AWS](/images/2020-02-16-api-modelos-machine-learning/aws_credentials.png)
 
 Para instalar e configurar o framework Serverless siga as instruções deste [link](https://serverless.com/framework/docs/getting-started/).
 
@@ -341,7 +341,7 @@ Serverless: Run the "serverless" command to setup monitoring, troubleshooting an
 
 Podemos testar nossa função de diferentes formas, a primeira é através do navegador inserindo o link que está no endpoint:
 
-![Endpoint no browser](/images/2020-02-16-api_modelos_machine_learning/endpoint_browser.png)
+![Endpoint no browser](/images/2020-02-16-api-modelos-machine-learning/endpoint_browser.png)
 
 Outra forma de testar é usando o próprio sls para invocar a função. Para isso vamos executar no terminal o seguinte comando:
 
@@ -514,7 +514,7 @@ Podemos testar o endpoint com o invoke do serverless:
 sls invoke --function predict --data "{\"body\": \"{ \\\"pregnancies\\\": 2, \\\"glucose\\\": 148, \\\"blood_pressure\\\": 72, \\\"skin_thickness\\\": 35, \\\"insulin\\\": 0, \\\"bmi\\\": 33.6, \\\"diabetes_pedigree_function\\\": 0.674, \\\"age\\\": 22 }\"}"
 ```
 
-![Invoke predict](/images/2020-02-02-api_modelos_machine_learning/invoke_predict.png)
+![Invoke predict](/images/2020-02-16-api-modelos-machine-learning/invoke_predict.png)
 
 Ou com uma chamada via curl:
 
