@@ -1,5 +1,5 @@
 ---
-title: API para consumo de modelos de machine learning em container
+title: Construindo uma API para consumo de modelos de machine learning (Continuação)
 date: 2020-02-28
 layout: post
 ---
