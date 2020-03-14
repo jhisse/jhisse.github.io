@@ -77,7 +77,7 @@ O metacaractere ponto casa qualquer caractere em determinada posição.
 Vamos ver três exemplos para entendermos melhor:
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oP '.ato'
+$ echo "pato galinha gato rato sapo galo" | grep -oE '.ato'
 pato
 gato
 rato
@@ -86,7 +86,7 @@ rato
 Neste primeiro exemplo estávamos procurando pelo padrão, qualquer caractere seguido pela sequência literal "ato".
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oP 'gal.'
+$ echo "pato galinha gato rato sapo galo" | grep -oE 'gal.'
 gali
 galo
 ```
@@ -94,7 +94,7 @@ galo
 No segundo exemplo procurarmos pela sequência "gal" seguida de qualquer caractere.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oP '.a.o'
+$ echo "pato galinha gato rato sapo galo" | grep -oE '.a.o'
 pato
 gato
 rato
@@ -109,28 +109,89 @@ Por último procuravámos por qualquer caractere seguida pela vogal "a", novamen
 O caractere de barra vertical ou pipe é usado como alternância, ou seja, é usado quando queremos usar a lógica de ou, ou uma coisa ou outra.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oP 'pato|gato'
+$ echo "pato galinha gato rato sapo galo" | grep -oE 'pato|gato'
 pato
 gato
 ```
 
 ### O agrupador - **( )**
 
+Também conhecido como grupo de captura, tem por objetivo agrupar metacaracteres. Muito útil em busca e substituição, pois nos permite referênciar o grupo para um possível reuso.
+
+```console
+$ echo "pato galinha gato rato sapo galo" | grep -oE '(p|g)ato'
+pato
+gato
+```
 
 ### A lista - **[ ]**
 
 A lista pode ser entendida como uma sequência de caracteres separados por um \|. Isso quer dizer que o padrão irá casar um caractere que esteja dentro da lista.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -o '[pg]ato'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[pg]ato'
 pato
 gato
 ```
 
 ### A lista rejeitada - **[^ ]**
 
+A lista rejeitada indica que os caracteres contidos nela não irão casar com os padrões buscados.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[^pg]ato'
+rato
+```
 
 ### A âncora de ínicio - **^**
 
+```console
+echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '^.ato'
+pato
+```
 
 ### A âncora de fim - **$**
+
+```console
+echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'ga.o$'
+galo
+```
+
+### Metacaracteres de repetição - **\* + ? {}**
+
+O asterisco tentará casar o máximo possível de seu antecedente, vamos ver alguns exemplos.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '.*'
+pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo
+```
+
+No exemplo acima usamos o metacaractere que representa qualquer caractere e o repetimos o máximo número de ves que conseguímos.
+
+A seguir veremos que podemos usar um range de valores dentro de uma lista e combinar com o caractere de repetição. Nota-se que os caracteres diferentes de letras minúsculas não deram match.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[a-z]*'
+pato
+galinha
+gato
+rato
+sapo
+galo
+```
+
+Vale destacar que o asterisco casa tudo ou nada.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'p*ato'
+pato
+ato
+ato
+```
+
+Já o sinal de mais pode casar um ou mais.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'p+ato'
+pato
+```
