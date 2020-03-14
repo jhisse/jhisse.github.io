@@ -145,12 +145,16 @@ rato
 
 ### A âncora de ínicio - **^**
 
+O metacaractere de acento circunflexo indica o começo de uma linha, ou seja, é uma forma da expressão regular interpretar o início de uma linha.
+
 ```console
 echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '^.ato'
 pato
 ```
 
 ### A âncora de fim - **$**
+
+O metacaractere dollar é semelhante ao anterior, porém indica o fim de uma linha.
 
 ```console
 echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'ga.o$'
@@ -194,4 +198,79 @@ Já o sinal de mais pode casar um ou mais.
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'p+ato'
 pato
+```
+
+O sinal de interrogação indica que a expressão que o antecede é opcional, pode ocorrer ou não.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'g?ato'
+pato
+```
+
+No exemplo acima, o match foi na sequência "ato" da primeira palavra pato, a palavra gato por inteiro, já que a letra g era opcional, e a sequência "ato" da palavra rato.
+
+Por fim as chaves representa o número mínimo e máximo de ocorrências. Uso é feito da seguindo o formato {n,m}, sendo n o número mínimo e m o número máximo, pode-se ocultar o número m, {n} ou {n,}, significa que temos um número exato de elemento a dar match no primeiro e no segundo indica que temos um número mínimo de caracteres a dar match.
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[0-9]{2,3}'
+234
+763
+52
+342
+34
+```
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[0-9]{2,}'
+2342
+7634
+52
+3423
+34
+```
+
+```console
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[0-9]{3}'
+234
+763
+342
+```
+
+## Alguns exemplos do mundo real
+
+### Validando cpf
+
+```console
+$ echo "123.456.789.11" | grep -qE '^(\d{3}\.){3}\d{2}$' && echo "Validate" || echo "Not Match"
+Validate
+```
+
+```console
+$ echo "123.456.789.111" | grep -qE '^(\d{3}\.){3}\d{2}$' && echo "Validate" || echo "Not Match"
+Not Match
+```
+
+```console
+$ echo "12e.45o.789.a1" | grep -qE '^(\d{3}\.){3}\d{2}$' && echo "Validate" || echo "Not Match"
+Not Match
+```
+
+### Validando datas no formato dd/MM/yyyy
+
+```console
+$ echo "15/02/2020" | grep -qE '^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$' && echo "Validate" || echo "Not Match"
+Validate
+```
+
+```console
+$ echo "00/06/2009" | grep -qE '^(0[1-9]|[12]\d|3[01])\/(0[1-9]|1[0-2])\/\d{4}$' && echo "Validate" || echo "Not Match"
+Not Match
+```
+
+### Busca de números hexadecimais
+
+```console
+$ echo "h1 {color: #00ff00; border-style: solid; border-color: #92a8d1;}" | grep -oE '#([0-9a-fA-F]{2}){3}'
+#00ff00
+#92a8d1
 ```
