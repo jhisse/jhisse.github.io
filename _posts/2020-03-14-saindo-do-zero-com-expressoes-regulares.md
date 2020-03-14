@@ -1,6 +1,6 @@
 ---
 title: Saindo do zero com expressões regulares
-date: 2020-02-29
+date: 2020-03-14
 layout: post
 ---
 
