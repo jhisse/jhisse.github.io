@@ -61,7 +61,7 @@ Search for PATTERN in FILEs (or stdin)
 Nos exemplos que virão a seguir vamos usar a seguinte estrutura:
 
 ```console
-echo "<texto>" | grep -oP "<pattern>"
+echo "<texto>" | grep -oE "<pattern>"
 ```
 
 Essa estrutura indica que o \<texto\> será enviado para o comando grep como input e por sua vez o grep irá buscar o \<pattern\>. A opção *o* faz o grep imprimir no terminal cada sequência encontrada em uma linha diferente e a opção *P* faz com que o grep interprete o pattern como a linguagem Perl que permite utilizar algumas funções a mais.
@@ -77,7 +77,7 @@ O metacaractere ponto casa qualquer caractere em determinada posição.
 Vamos ver três exemplos para entendermos melhor:
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oE '.ato'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '.ato'
 pato
 gato
 rato
@@ -86,7 +86,7 @@ rato
 Neste primeiro exemplo estávamos procurando pelo padrão, qualquer caractere seguido pela sequência literal "ato".
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oE 'gal.'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'gal.'
 gali
 galo
 ```
@@ -94,7 +94,7 @@ galo
 No segundo exemplo procurarmos pela sequência "gal" seguida de qualquer caractere.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oE '.a.o'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '.a.o'
 pato
 gato
 rato
@@ -109,7 +109,7 @@ Por último procuravámos por qualquer caractere seguida pela vogal "a", novamen
 O caractere de barra vertical ou pipe é usado como alternância, ou seja, é usado quando queremos usar a lógica de ou, ou uma coisa ou outra.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oE 'pato|gato'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'pato|gato'
 pato
 gato
 ```
@@ -119,7 +119,7 @@ gato
 Também conhecido como grupo de captura, tem por objetivo agrupar metacaracteres. Muito útil em busca e substituição, pois nos permite referênciar o grupo para um possível reuso.
 
 ```console
-$ echo "pato galinha gato rato sapo galo" | grep -oE '(p|g)ato'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '(p|g)ato'
 pato
 gato
 ```
@@ -148,7 +148,7 @@ rato
 O metacaractere de acento circunflexo indica o começo de uma linha, ou seja, é uma forma da expressão regular interpretar o início de uma linha.
 
 ```console
-echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '^.ato'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '^.ato'
 pato
 ```
 
@@ -157,7 +157,7 @@ pato
 O metacaractere dollar é semelhante ao anterior, porém indica o fim de uma linha.
 
 ```console
-echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'ga.o$'
+$ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'ga.o$'
 galo
 ```
 
