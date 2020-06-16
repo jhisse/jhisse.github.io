@@ -143,10 +143,6 @@ scan:
   variables:
     GIT_STRATEGY: none
     TRIVY_NO_PROGRESS: "true"
-    # Variáveis de ambiente para que o trivy possa acessar o registry do gitlab
-    TRIVY_USERNAME: "$CI_REGISTRY_USER"
-    TRIVY_PASSWORD: "$CI_REGISTRY_PASSWORD"
-    TRIVY_AUTH_URL: "$CI_REGISTRY"
   # Vamos scannear o container por vulnerabilidades de vários graus de severidade,
   # porém se for encontrada alguma critica o pipeline irá falhar
   script:
