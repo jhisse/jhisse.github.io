@@ -14,10 +14,12 @@
 
   <link rel="icon" href="/images/favicon.ico" />
 
-  <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
   <meta name="description"
-    content="{% if page.date %}{{ page.excerpt | strip_html }}{% else %}{{ site.description }}{% endif %}">
+    content="{% if page.date %}{{ page.excerpt | strip_html | truncate: 320 }}{% else %}{{ site.description }}{% endif %}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
+
+  {% include opengraph.html %}
 
   <link rel="stylesheet" href="/assets/css/awsm.min.css" />
   <link rel="stylesheet" href="/assets/css/monokai.min.css" />
