@@ -1,8 +1,10 @@
-<h1>{{ site.title }}</h1>
 {% if page.layout == "post" %}
+<h1>José Hisse</h1>
 <nav>
   <ul>
   <li><a href="/">Home</a></li>
   </ul>
 </nav>
+{% else %}
+<h1>{{ page.title }}</h1>
 {% endif %}

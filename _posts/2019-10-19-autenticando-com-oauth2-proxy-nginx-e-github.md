@@ -4,7 +4,7 @@ date: 2019-10-19
 layout: post
 ---
 
-O objetivo deste artigo é implementarmos um método de autenticação de um website estático por oauth2 utilizando [nginx](https://www.nginx.com/) como servidor de arquivos estáticos e proxy reverso, [oauth2_proxy](https://pusher.github.io/oauth2_proxy/) como backend para validação das requisições e o [Github](https://github.com/) como provedor de autorização.
+O objetivo deste artigo é implementarmos um método de autenticação de um website estático por oauth2 utilizando [nginx](https://www.nginx.com/) como servidor de arquivos estáticos e proxy reverso, [oauth2_proxy](https://oauth2-proxy.github.io/oauth2-proxy/) como backend para validação das requisições e o [Github](https://github.com/) como provedor de autorização.
 
 Todo o projeto está disponível [neste repositório](https://github.com/jhisse/nginx-oauth2_proxy-github).
 
@@ -120,7 +120,7 @@ services:
     container_name: redis
 
   oauth2_proxy:
-    image: quay.io/pusher/oauth2_proxy:v4.0.0-amd64
+    image: quay.io/pusher/oauth2_proxy:v5.0.0-amd64
     container_name: oauth2_proxy
     environment:
       - OAUTH2_PROXY_HTTP_ADDRESS=http://0.0.0.0:4180
@@ -155,7 +155,7 @@ services:
       - oauth2_proxy
 ```
 
-Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://pusher.github.io/oauth2_proxy/configuration#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
+Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/configuration#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
 
 - "OAUTH2_PROXY_EMAIL_DOMAINS=*": Domínios de e-mails permitidos. Aqui estamos permitindo todos os domínios.
 - "OAUTH2_PROXY_REDIRECT_URL=`http://localhost/oauth2/callback`": Quando usamos o Github como provedor precisamos setar a url de redirecionamento igual a url de callback configurada no momento da criação do App.
@@ -163,7 +163,7 @@ Observando o compose acima, estamos configurando o container do oauth2_proxy com
 - "OAUTH2_PROXY_CLIENT_ID=": Após o sinal de igual iremos colocar o Client ID que recebemos no momento da criação do App.
 - "OAUTH2_PROXY_CLIENT_SECRET="Após o sinal de igual iremos colocar o Client Secret que recebemos no momento da criação do App.
 
-O restante das configurações podem ser consultadas na [documentação](https://pusher.github.io/oauth2_proxy/configuration#command-line-options).
+O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/configuration#command-line-options).
 
 Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo *default.conf* na pasta do nginx.
 
