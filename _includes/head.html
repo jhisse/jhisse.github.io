@@ -17,6 +17,7 @@
   <link rel="icon" href="/images/favicon.ico" />
 
   <title>{% if page.date %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <meta name="author" content="José Hisse">
   <meta name="description"
     content="{% if page.date %}{{ page.excerpt | strip_html | truncate: 320 }}{% else %}{{ site.description }}{% endif %}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}" />
