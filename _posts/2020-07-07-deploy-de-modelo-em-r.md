@@ -12,15 +12,15 @@ O objetivo deste artigo é transformar um modelo desenvolvido em R em produto, n
 
 Vamos utilizar a Pima Indians Diabetes Database, assim como usamos neste [artigo abordando o deploy de modelos em Python]({% post_url 2020-02-16-api-modelos-machine-learning %}). A base de dados do PIMA contêm dados de pessoas do sexo feminino acima de 21 anos diabéticas ou não.
 
-- **Pregnancies**: quantidade de vezes que esteve grávida;
-- **Glucose**: nível de glicose após 2 horas do teste de intolerância à glicose;
-- **BloodPressure**: Pressão arterial diastólica (mmHg);
-- **SkinThickness**: Espessura da dobra de pele do tríceps (mm);
-- **Insulin**: Quantidade de insulina após 2 horas do teste de intolerância à glicose;
-- **BMI**: Índice de massa corporal (IMC = peso(kg)/(altura(m)*altura(m)));
-- **DiabetesPedigreeFunction**: Função que retorna um score com base no histórico familiar;
-- **Age**: Idade (anos);
-- **Outcome**: Indicativo se a pessoa é diabética (1/0).
+- **pregnant**: quantidade de vezes que esteve grávida;
+- **glucose**: nível de glicose após 2 horas do teste de intolerância à glicose;
+- **pressure**: Pressão arterial diastólica (mmHg);
+- **triceps**: Espessura da dobra de pele do tríceps (mm);
+- **insulin**: Quantidade de insulina após 2 horas do teste de intolerância à glicose;
+- **mass**: Índice de massa corporal (IMC = peso(kg)/(altura(m)*altura(m)));
+- **pedigree**: Função que retorna um score com base no histórico familiar;
+- **age**: Idade (anos);
+- **diabetes**: Indicativo se a pessoa é diabética (pos/neg).
 
 As 8 primeiras variáveis serão usadas como entrada do nosso modelo preditivo e a última será nossa saída.
 
@@ -107,7 +107,7 @@ head(PimaIndiansDiabetes,10)
 # Dimensão de nosso dataset, número de linhas e colunas
 dim(PimaIndiansDiabetes)
 
-# Biblioteca necessária para particionar o modelo em conjunto de 
+# Biblioteca necessária para particionar o modelo em conjunto de
 # treinameto e conjunto de teste
 library(caret)
 
@@ -125,27 +125,25 @@ testset <- PimaIndiansDiabetes[-trainIndex,] # 20% dos dados para teste
 dim(trainset)
 dim(testset)
 
-#get column index of predicted variable in dataset
+# 
 typeColNum <- grep('diabetes',names(PimaIndiansDiabetes))
-
 typeColNum
 
-#build model
+# Treinar o modelo com o conjunto de treinamento
 glm_model <- glm(diabetes~.,data=trainset, family=binomial)
 
+# Verificar os coeficientes que o modelo gerou
 summary(glm_model)
 
-#predict probabilities on testset
-#type=”response” gives probabilities, type=”class” gives class
+# Testar o modelo com o conjunto de teste
 glm_prob <- predict.glm(glm_model,testset[,-typeColNum],type='response')
 
 head(glm_prob, 10)
 
-#which classes do these probabilities refer to? What are 1 and 0?
+# 
 contrasts(PimaIndiansDiabetes$diabetes)
 
-#make predictions
-##…first create vector to hold predictions (we know 0 refers to neg now)
+# Efetua previsões
 glm_predict <- rep('neg',nrow(testset))
 glm_predict[glm_prob>.5] <- 'pos'
 
@@ -169,7 +167,7 @@ Para disponibilizarmos uma interface para nosso modelo preditivo vamos criar uma
 
 Primeiro devemos criar um novo arquivo e carregar nosso modelo salvo anteriormente.
 
-````r
+```r
 library(mlbench)
 library(caret)
 library(plumber)
@@ -178,3 +176,7 @@ glm_predict <- readRDS("./glm_model.rds")
 
 
 ```
+
+## Empacotando a API preditiva
+
+
