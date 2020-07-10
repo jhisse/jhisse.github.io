@@ -1,34 +1,17 @@
 ---
 layout: default
-title: José Hisse
+title: Blog
 ---
 
 <section>
-  <h2>Sobre</h2>
-  <p>
-  Olá, me chamo José Hisse e atualmente trabalho como engenheiro de dados em 
-  projetos de Big Data, cuidando da infraestrutura e dos processos que 
-  envolvem ingestão de dados para o data lake. Também apoio a área de Data 
-  Science no deploy de modelos de Machine Learning e integração com aplicativos 
-  via API Rest.
-  </p>
-  <p>
-  Domínio de tecnologias que envolvem processamento em Big Data (Spark, Nifi, 
-  AWS EMR, Kafka, Docker, BigQuery). Experiência em desenvolvimento backend 
-  com Python e conhecimento de banco de dados relacionas, como Sql Server e 
-  Postgres, e não relacionais (NOSQL), como ElasticSearch e Redis.
-  </p>
-</section>
+  <h1>Posts</h1>
 
-<section>
-<h2>Posts</h2>
-
-{% for post in site.posts %}
-<span style="display:block; margin-top:0.8rem;">
-  <small style="color:#444; font-size:small;">
-    <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-  </small>
-  <a href="{{ post.url | prepend: site.baseurl }}" style="margin-left:0.7rem;">{{ post.title }}</a>
-</span>
-{% endfor %}
+  {% for post in site.posts %}
+  <div class="post">
+    <small>
+      <time datetime="{{ post.date | date: "%Y-%m-%d" }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+    </small>
+    <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+  </div>
+  {% endfor %}
 </section>
