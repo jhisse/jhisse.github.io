@@ -1,5 +1,5 @@
 ---
-title: Construindo uma API para consumo de modelos de machine learning
+title: Construindo uma API de machine learning
 date: 2020-02-16
 layout: post
 ---
