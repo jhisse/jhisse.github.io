@@ -1,5 +1,5 @@
 ---
-title: Construindo uma API para consumo de modelos de machine learning (Continuação)
+title: Construindo uma API de machine learning (Continuação)
 date: 2020-02-28
 layout: post
 ---

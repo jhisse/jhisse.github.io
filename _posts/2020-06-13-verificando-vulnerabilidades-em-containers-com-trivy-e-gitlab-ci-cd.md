@@ -1,5 +1,5 @@
 ---
-title: Verificando vulnerabilidades em containers com Trivy e GitLab CI/CD
+title: Vulnerabilidades em containers com Trivy e GitLab CI/CD
 date: 2020-06-13
 layout: post
 ---
