@@ -1,5 +1,5 @@
 ---
-title: Deploy de modelo em R via API Rest
+title: Transformando modelo em R em produto
 date: 2020-07-07
 layout: post
 ---
@@ -86,6 +86,8 @@ E após isso vamos executar nosso container novamente, só que agora com as bibl
 docker run --rm -d -p 8787:8787 --name rstudio-pima -e DISABLE_AUTH=true minhaimagemr
 ```
 
+Observação: caso a senha seja requisitada, basta colocar "rstudio" no campo username e password.
+
 ## Desenvolvendo nosso modelo
 
 Verificando o funcionamento de nossa imagem em *localhost:8787*, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
@@ -163,19 +165,57 @@ Vale destacar que ao final do nosso script iremos salvar o modelo treinando em u
 
 ## Criando nossa api em R
 
-Para disponibilizarmos uma interface para nosso modelo preditivo vamos criar uma API. Essa API será construída com a ajuda de uma biblioteca chamada Plumber.
+Para disponibilizarmos uma interface para nosso modelo preditivo vamos criar uma API. Essa será construída com a ajuda de uma [biblioteca R chamada Plumber](https://www.rplumber.io/). A Plumber irá permitir a construção de nossa API sem que tenhamos que alterar o código R existente, precisamos apenas adicionar decorators a nossa função de predição. ([Para entender mais sobre decorators.](https://refactoring.guru/pt-br/design-patterns/decorator))
 
-Primeiro devemos criar um novo arquivo e carregar nosso modelo salvo anteriormente.
+Primeiro devemos criar um novo arquivo no RStudio e carregar nosso modelo salvo anteriormente. Após o o modelo treinado estar carregado em um objeto do R, vamos definir nossa API, usando os decorators na função de previsão. Os decorators irão expandir nossa função à transformando em uma espécie de núcleo do nosso endpoint da API.
+
+Além dos elementos descritivos do endpoint preditivo, vamos dizer que aquela função será invocada pelo [método post do protocolo http](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) pelo decorator ```#* @post /predict``` e que o [serializador unboxedJSON]([unboxedJSON](https://www.rplumber.io/articles/rendering-output.html#boxed-vs-unboxed-json), descrito com ```#* @serializer unboxedJSON``` será o método que converte o retorno da função para um formato de saída desejado, em nosso caso, em json.
 
 ```r
-library(mlbench)
-library(caret)
+# Importando a biblioteca plumber
 library(plumber)
 
-glm_predict <- readRDS("./glm_model.rds")
+# Carregamento do modelo para um objeto
+glm_model <- readRDS("./glm_model.rds")
 
-
+#* @param pregnant:numeric quantidade de vezes que esteve grávida
+#* @param glucose:numeric nível de glicose após 2 horas do teste de intolerância à glicose
+#* @param pressure:numeric pressão arterial diastólica (mmHg)
+#* @param triceps:numeric espessura da dobra de pele do tríceps (mm)
+#* @param insulin:numeric quantidade de insulina após 2 horas do teste de intolerância à glicose
+#* @param mass:numeric índice de massa corporal (IMC = peso(kg)/(altura(m)*altura(m)))
+#* @param pedigree:numeric função que retorna um score com base no histórico familiar
+#* @param age:numeric idade (anos)
+#* @post /predict
+#* @serializer unboxedJSON
+function(pregnant, glucose, pressure, triceps, insulin, mass, pedigree, age)
+{
+  df <- data.frame(
+    pregnant = as.numeric(pregnant),
+    glucose = as.numeric(glucose),
+    pressure = as.numeric(pressure),
+    triceps = as.numeric(triceps),
+    insulin = as.numeric(insulin),
+    mass = as.numeric(mass),
+    pedigree = as.numeric(pedigree),
+    age = as.numeric(age)
+  )
+  output <- list(prob = predict.glm(glm_model, df, type='response'))
+  return(output)
+}
 ```
+
+Podemos executar nossa API no próprio RStudio, assim teremos um ambiente de testes antes de empacotarmos em uma imagem Docker. Para isso vamos clicar no símbolo de play verde no canto superior direito do RStudio e uma nova janela irá se abrir.
+
+![Iniciar API](/images/deploy-de-modelo-em-r/rstudio_run_plumber.png)
+
+Na janela que foi aberta quando demos início a nossa API irá aparecer uma interface do Swagger. [O Swagger é um utilitário que permite documentar nossa aplicação de forma amigável para o usuário](https://swagger.io/). Graças ao pacote plumber, teremos essa interface já implementada.
+
+![Interface do swagger](/images/deploy-de-modelo-em-r/interface-do-swagger.png)
+
+Na interface principal do Swagger podemos inserir valores de testes e verificarmos o resultado, como no exemplo a seguir.
+
+![Exemplo de chamada no Swagger](/images/deploy-de-modelo-em-r/exemplo-swagger.png)
 
 ## Empacotando a API preditiva
 
