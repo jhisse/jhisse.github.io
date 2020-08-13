@@ -1,10 +1,10 @@
 ---
-title: Transformando modelo em R em produto
-date: 2020-07-07
+title: Transformando modelo preditivo em produto com R
+date: 2020-08-13
 layout: post
 ---
 
-O objetivo deste artigo é transformar um modelo desenvolvido em R em produto, no caso, um API Rest preditiva. Para isso vamos utilizar uma base contendo dados de pessoas diabéticas, cuja as variáveis de entradas serão pré determinadas e teremos como output uma probabilidade daquela pessoa ter ou não diabete. Vamos utilizar também a plataforma Docker para treinarmos nosso modelo com o RStudio e transformamos em container nossa API.
+O objetivo deste artigo é transformar em produto um modelo desenvolvido com a linguagem R, no caso, criando uma API Rest preditiva. Para isso vamos utilizar uma base contendo dados de pessoas diabéticas, cuja as variáveis de entradas serão pré determinadas e teremos como output uma probabilidade daquela pessoa ter ou não diabete. Vamos utilizar também a plataforma Docker para treinarmos nosso modelo com o RStudio e transformamos em container nossa API.
 
 ![Fluxo geral de deploy de modelos em R]()
 
@@ -97,7 +97,7 @@ Verificando o funcionamento de nossa imagem em *localhost:8787*, vamos criar um 
 A descrição dos comandos antecede os mesmos no código abaixo.
 
 ```r
-# Biblioteca contendo o algoritimo de 
+# Biblioteca contendo o algoritimo
 library(mlbench)
 
 # Base de dados que iremos utilizar para treinar o modelo
@@ -127,7 +127,7 @@ testset <- PimaIndiansDiabetes[-trainIndex,] # 20% dos dados para teste
 dim(trainset)
 dim(testset)
 
-# 
+#
 typeColNum <- grep('diabetes',names(PimaIndiansDiabetes))
 typeColNum
 
@@ -142,7 +142,7 @@ glm_prob <- predict.glm(glm_model,testset[,-typeColNum],type='response')
 
 head(glm_prob, 10)
 
-# 
+#
 contrasts(PimaIndiansDiabetes$diabetes)
 
 # Efetua previsões
@@ -169,7 +169,7 @@ Para disponibilizarmos uma interface para nosso modelo preditivo vamos criar uma
 
 Primeiro devemos criar um novo arquivo no RStudio e carregar nosso modelo salvo anteriormente. Após o o modelo treinado estar carregado em um objeto do R, vamos definir nossa API, usando os decorators na função de previsão. Os decorators irão expandir nossa função à transformando em uma espécie de núcleo do nosso endpoint da API.
 
-Além dos elementos descritivos do endpoint preditivo, vamos dizer que aquela função será invocada pelo [método post do protocolo http](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) pelo decorator ```#* @post /predict``` e que o [serializador unboxedJSON]([unboxedJSON](https://www.rplumber.io/articles/rendering-output.html#boxed-vs-unboxed-json), descrito com ```#* @serializer unboxedJSON``` será o método que converte o retorno da função para um formato de saída desejado, em nosso caso, em json.
+Além dos elementos descritivos do endpoint preditivo, vamos dizer que aquela função será invocada pelo [método post do protocolo http](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) pelo decorator ```#* @post /predict``` e que o [serializador unboxedJSON](https://www.rplumber.io/articles/rendering-output.html#boxed-vs-unboxed-json), descrito com ```#* @serializer unboxedJSON``` será o método que converte o retorno da função para um formato de saída desejado, em nosso caso, em json.
 
 ```r
 # Importando a biblioteca plumber
@@ -209,7 +209,7 @@ Podemos executar nossa API no próprio RStudio, assim teremos um ambiente de tes
 
 ![Iniciar API](/images/deploy-de-modelo-em-r/rstudio_run_plumber.png)
 
-Na janela que foi aberta quando demos início a nossa API irá aparecer uma interface do Swagger. [O Swagger é um utilitário que permite documentar nossa aplicação de forma amigável para o usuário](https://swagger.io/). Graças ao pacote plumber, teremos essa interface já implementada.
+Na janela que foi aberta quando iniciamos a API, irá aparecer uma interface do Swagger. [O Swagger é um utilitário que permite documentar nossa aplicação de forma amigável para o usuário](https://swagger.io/). Graças ao pacote plumber teremos essa interface já implementada.
 
 ![Interface do swagger](/images/deploy-de-modelo-em-r/interface-do-swagger.png)
 
@@ -219,4 +219,79 @@ Na interface principal do Swagger podemos inserir valores de testes e verificarm
 
 ## Empacotando a API preditiva
 
+Neste ponto vamos ter como objetivo empacotar nossa API predititva em container, ou seja, vamos criar uma receita para que nossa API seja facilmente replicada.
 
+Em nossa abordagem vamos inserir o modelo treinado no container junto com código da API, diferente da abordagem adotada no [artigo em que utilizamos o framework serverless e o S3]({% post_url 2020-02-16-api-modelos-machine-learning %}.
+
+Vamos a nossa estrutura de diretórios:
+
+\- raiz/  
+\-\- Dockerfile  
+\-\- api.r  
+\-\- glm_model.rds  
+
+Primeiro vamos copiar o modelo já treinado, *glm_model.rds*, e o código da API, *api.r* para dentro do diretório raiz. A seguir vamos criar o arquivo chamado *Dockerfile* com o seguinte conteúdo:
+
+```Dockerfile
+FROM r-base:4.0.0
+
+# Instalando dependências
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    libxml2-dev \
+    libz-dev \
+        git-core \
+        libssl-dev \
+        libcurl4-gnutls-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalando o Plumber com o install2.r
+RUN install2.r -s -d TRUE --error plumber
+
+# Instalando o caret com o install2.r
+RUN install2.r -s -d TRUE --error caret
+
+# Setando o usuário e grupo
+USER 1000:1000
+
+# Definindo diretório de trabalho
+WORKDIR /app
+
+# Copiando arquivos
+COPY api.r .
+
+COPY glm_model.rds .
+
+EXPOSE 8080
+
+# Definindo comando a ser executado, ativando o endpoint do swagger
+ENTRYPOINT ["R", "-e", "pr <- plumber::plumb('/app/api.r'); pr$run(host='0.0.0.0', port=8080, swagger = TRUE)"]
+```
+
+A definição do Dockerfile acima habilita a portabilidade de nossa aplicação em container.
+
+Para efetuarmos o build de nossa API vamos executar o seguinte comando no terminal:
+
+```console
+docker build -t api-r .
+```
+
+Obs.: Não esqueça do ponto ao final do comando.
+
+Após o build já podemos executar nossa aplicação com o modelo treinado. No terminal digite:
+
+```console
+docker run -p 8080:8080 api-r
+```
+
+Agora podemos acessar a interface do swagger no browser, *<http://localhost:8080/__swagger__/>* como imagem abaixo.
+
+![Interface Swagger](/images/deploy-de-modelo-em-r/interface_swagger.png)
+
+Ou podemos fazer uma requisição HTTP como na imagem abaixo.
+
+![Requisição Postman](/images/deploy-de-modelo-em-r/requisicao_postman.png)
+
+## Conclusão
+
+Este artigo buscou demonstrar ao leitor uma maneira de produtizar um modelo preditivo utilizando a linguagem R, tão comum entre os data scientists. Todos os códigos utilizados aqui podem ser encontardos neste [repositório do GitHub](https://github.com/jhisse/api-r-preditiva).
