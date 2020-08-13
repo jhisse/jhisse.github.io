@@ -6,8 +6,6 @@ layout: post
 
 O objetivo deste artigo é transformar em produto um modelo desenvolvido com a linguagem R, no caso, criando uma API Rest preditiva. Para isso vamos utilizar uma base contendo dados de pessoas diabéticas, cuja as variáveis de entradas serão pré determinadas e teremos como output uma probabilidade daquela pessoa ter ou não diabete. Vamos utilizar também a plataforma Docker para treinarmos nosso modelo com o RStudio e transformamos em container nossa API.
 
-![Fluxo geral de deploy de modelos em R]()
-
 ## Base de dados PIMA
 
 Vamos utilizar a Pima Indians Diabetes Database, assim como usamos neste [artigo abordando o deploy de modelos em Python]({% post_url 2020-02-16-api-modelos-machine-learning %}). A base de dados do PIMA contêm dados de pessoas do sexo feminino acima de 21 anos diabéticas ou não.
