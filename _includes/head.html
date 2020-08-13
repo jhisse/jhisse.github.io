@@ -16,7 +16,7 @@
 
   <link rel="icon" href="/images/favicon.ico" />
 
-  <title>{% if page.date %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+  <title>{{ page.title }} - {{ site.title }}</title>
   <meta name="author" content="José Hisse">
   <meta name="description"
     content="{% if page.date %}{{ page.excerpt | strip_html | truncate: 320 }}{% else %}{{ site.description }}{% endif %}">
@@ -28,19 +28,9 @@
     {% include jsonld.json %}
   </script>
 
+  <link rel="stylesheet" href="/assets/css/light.min.css">
   <link rel="stylesheet" href="/assets/css/main.css" />
-  <link rel="stylesheet" href="/assets/css/awsm.min.css" />
   <link rel="stylesheet" href="/assets/css/monokai.min.css" />
-
-  <style>
-    .MathJax {
-      overflow-x: auto;
-    }
-
-    img {
-      width: 100%;
-    }
-  </style>
 
   {% if page.mathjax %}
   <script>
