@@ -12,10 +12,9 @@ Imagine uma situação onde uma empresa disponibilizou alguns dados de seu ERP, 
 
 ![Modelo lógico parcial de um ERP](/images/expondo-um-banco-relacional-como-endpoint-sparql/logico.png)
 
-A empresa deseja obter algumas informações a partir desse conjunto, como:
+A empresa deseja obter uma informação a partir desse conjunto:
 
 - Quais são os projetos que cada departamento está inserido?
-- Existe departamento sem pessoas inseridas em projetos?
 
 ## Preparando o ambiente de testes
 
@@ -121,7 +120,7 @@ Neste ponto já teremos nosso database pronto para realizarmos as consultas nece
 
 ## Respostas com consultas SQL
 
-Vamos recordar a primeira pergunta:
+Vamos recordar a pergunta:
 
   Quais são os projetos que cada departamento está inserido?
 
@@ -167,7 +166,7 @@ JOIN project as pj on wo.fk_project_id = pj.id
 ORDER BY dp.name, pj.name;
 ```
 
-Tudo certo agora, obtemos a seguinte resposta:
+Tudo certo agora, obtemos a resposta final:
 
 | Departament | Project              |
 |-------------|----------------------|
@@ -175,10 +174,6 @@ Tudo certo agora, obtemos a seguinte resposta:
 | Marketing   | Sales up             |
 | Technology  | Agile Transformation |
 | Technology  | Sales up             |
-
-Agora vamos a nossa segunda pergunta:
-
-  Existe departamento sem pessoas inseridas em projetos?
 
 ## Descrevendo a web semântica
 
@@ -196,22 +191,98 @@ Namespace são nomes que representam um conjunto de recursos, provendo um nome �
 
 O XML é um formato estruturado de texto. Hoje você pode representar seus recursos estruturados em diversos formatos, entre eles estão o json-ld, turtle, n3, n-quads.
 
-RDF é o acrônimo para Resource Description Framework, ele define um conjunto de regras para descrevermos as relações, que chamremos de predicado, entre um sujeito e um objeto. A sequência sujeito predicado objeto chamaremos de tripla. Observe que um conjunto de triplas representa um grafo. Por exemplo, o fragmento abixo representa um grafo RDF em linguagem turtle.
+RDF é o acrônimo para Resource Description Framework, ele define um conjunto de regras para descrevermos as relações, que chamaremos de predicado, entre um sujeito e um objeto. A sequência sujeito predicado objeto chamaremos de tripla. Observe que um conjunto de triplas representa um grafo. Por exemplo, o fragmento abaixo representa um grafo RDF em linguagem turtle.
+
+Ontologia é um modelo formal para descrever um determinado domínio de informação. Nela podemos descrever classes, objetos e instâncias.
 
 ```turtle
+@base <http://www.example.org/> .
+
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix ex: <http://www.example.org/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
 
+<#john> rdf:type foaf:Person .
+<#john> foaf:name "John" .
+<#john> foaf:knows <#fred> .
 
-ex:vincent_donofrio ex:starred_in ex:law_and_order_ci .
-ex:law_and_order_ci rdf:type ex:tv_show .
-ex:the_thirteenth_floor ex:similar_plot_as ex:the_matrix .
+<#fred> rdf:type foaf:Person .
+<#fred> foaf:name "Fred" .
 ```
 
 Em uma representação visual teríamos o seguinte grafo.
 
-
+![Representação RDF em grafo](/images/expondo-um-banco-relacional-como-endpoint-sparql/rdf-graph.png)
 
 ## Criando nossa primeira ontologia
 
-Precisamos criar um modelo formal para descrevermos os relacionamentos 
+Precisamos criar um modelo formal para descrevermos nosso domínio de informação. Neste momento não nos preocuparemos com o reuso de ontologias existentes devido ao fato de não ser o foco do artigo. Esse modelo formal se chama ontologia e para a criação dela vamos usar a ferramenta [Protégé da Universidade de Stanford](https://protege.stanford.edu/).
+
+Para entendermos melhor como iremos construir nossa ontologia, vamos voltar alguns passos atrás. Vamos converter o modelo lógico apresentado no começo deste artigo em um modelo conceitual.
+
+![Modelo conceitual](/images/expondo-um-banco-relacional-como-endpoint-sparql/modelo_conceitual.png)
+
+Observando o modelo conceitual identificamos 3 classes principais, employer, departament e project. O predicado entre a classe employer e departament será descrita por works_for e o predicado entre a employer e project será descrito por works_on.
+
+Vamos entender um pouco a interface do Protégé. Já iremos definir nossa URI base como ```http://www.example.org/```.
+
+![Interface principal do Protégé](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_principal.png)
+
+A próxima interface que iremos ver será a que criaremos as classes employer, departament e project.
+
+![Interface de classes do Protégé](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_classes.png)
+
+Agora temos que criar nossos predicados, eles serão criados na aba objects properties.
+
+![Objects Properties do Protégé](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_object_propertiesl.png)
+
+Vamos definir o domain e o range de cada predicado. O domain representa os recursos que podem ser sujeitos desse predicado e o range define quais objetos podem ser destino.
+
+![Detalhes de domínios](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_object_properties_details.png)
+
+Para o predicado name o domain será todos as classes criadas anteriormente, porém o range será um datatype do tipo literal, ou seja, será uma string.
+
+![Predicado name](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_object_properties_details_name.png)
+
+Por enquanto a ontologia que iremos usar será essa que acabamos de criar. A ontologia em formato turtle está representada abaixo.
+
+```turtle
+@prefix : <http://www.example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.example.org/> .
+
+<http://www.example.org/> rdf:type owl:Ontology .
+
+:name rdf:type owl:ObjectProperty ;
+      rdfs:domain :departament ,
+                  :employer ,
+                  :project ;
+      rdfs:range [ rdf:type owl:Restriction ;
+                   owl:onProperty owl:topDataProperty ;
+                   owl:someValuesFrom rdfs:Literal
+                 ] .
+
+:works_for rdf:type owl:ObjectProperty ;
+           rdfs:domain :employer ;
+           rdfs:range :departament .
+
+:works_on rdf:type owl:ObjectProperty ;
+          rdfs:domain :employer ;
+          rdfs:range :project .
+
+:departament rdf:type owl:Class .
+
+:employer rdf:type owl:Class .
+
+:project rdf:type owl:Class .
+```
+
+A ontologia acima pode ser salva em um arquivo .owl e ser carregada no Protégé. Voltaremos a ela mais tarde para criarmos uma regra de inferência e percebemos a vantagem de se usar ontologias.
+
+# Mapeando o banco SQL para RDF com o R2RML
+
+
