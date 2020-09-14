@@ -21,55 +21,55 @@ A empresa deseja obter uma informação a partir desse conjunto:
 Vamos preparar nosso banco PostgreSQL com as tabelas indicadas no modelo lógico anteriormente e com alguns dados de testes. Para isso temos o script SQL abaixo:
 
 ```sql
-CREATE TABLE departament (
-    id integer NOT NULL CONSTRAINT departament_pk PRIMARY KEY,
+CREATE TABLE Departament (
+    id integer NOT NULL CONSTRAINT Departament_pk PRIMARY KEY,
     name varchar(255)
 );
 
-CREATE TABLE employer (
-    id integer NOT NULL CONSTRAINT employer_pk PRIMARY KEY,
+CREATE TABLE Employee (
+    id integer NOT NULL CONSTRAINT Employee_pk PRIMARY KEY,
     name varchar(255) NOT NULL,
     fk_departament_id integer NOT NULL,
-    CONSTRAINT employer_departament FOREIGN KEY (fk_departament_id)
-    REFERENCES departament (id)
+    CONSTRAINT employee_departament FOREIGN KEY (fk_departament_id)
+    REFERENCES Departament (id)
 );
 
-CREATE TABLE project (
-    id integer NOT NULL CONSTRAINT project_pk PRIMARY KEY,
+CREATE TABLE Project (
+    id integer NOT NULL CONSTRAINT Project_pk PRIMARY KEY,
     name varchar(255) NOT NULL
 );
 
-CREATE TABLE works_on (
-    fk_employer_id integer NOT NULL,
-    fk_project_id integer NOT NULL,
-    CONSTRAINT works_on_pk PRIMARY KEY (fk_employer_id,fk_project_id),
-    CONSTRAINT works_on_employer FOREIGN KEY (fk_employer_id)
-    REFERENCES employer (id),
-    CONSTRAINT works_on_project FOREIGN KEY (fk_project_id)
-    REFERENCES project (id)
+CREATE TABLE WorksOn (
+    Employee_id integer NOT NULL,
+    Project_id integer NOT NULL,
+    CONSTRAINT WorksOn_pk PRIMARY KEY (Employee_id,Project_id),
+    CONSTRAINT WorksOn_Employee FOREIGN KEY (Employee_id)
+    REFERENCES Employee (id),
+    CONSTRAINT WorksOn_Project FOREIGN KEY (Project_id)
+    REFERENCES Project (id)
 );
 
-INSERT INTO departament VALUES (1, 'Sales');
-INSERT INTO departament VALUES (2, 'Technology');
-INSERT INTO departament VALUES (3, 'Marketing');
+INSERT INTO Departament VALUES (1, 'Sales');
+INSERT INTO Departament VALUES (2, 'Technology');
+INSERT INTO Departament VALUES (3, 'Marketing');
 
-INSERT INTO employer VALUES (1, 'John', 1);
-INSERT INTO employer VALUES (2, 'Ana', 2);
-INSERT INTO employer VALUES (3, 'Bruce', 3);
-INSERT INTO employer VALUES (4, 'Fred', 3);
-INSERT INTO employer VALUES (5, 'Ada', 2);
-INSERT INTO employer VALUES (6, 'Sara', 2);
+INSERT INTO Employee VALUES (1, 'John', 1);
+INSERT INTO Employee VALUES (2, 'Ana', 2);
+INSERT INTO Employee VALUES (3, 'Bruce', 3);
+INSERT INTO Employee VALUES (4, 'Fred', 3);
+INSERT INTO Employee VALUES (5, 'Ada', 2);
+INSERT INTO Employee VALUES (6, 'Sara', 2);
 
-INSERT INTO project VALUES (1, 'Agile Transformation');
-INSERT INTO project VALUES (2, 'Sales up');
+INSERT INTO Project VALUES (1, 'Agile Transformation');
+INSERT INTO Project VALUES (2, 'Sales up');
 
-INSERT INTO works_on VALUES (2, 1);
-INSERT INTO works_on VALUES (3, 1);
-INSERT INTO works_on VALUES (4, 2);
-INSERT INTO works_on VALUES (5, 1);
-INSERT INTO works_on VALUES (6, 2);
-INSERT INTO works_on VALUES (2, 2);
-INSERT INTO works_on VALUES (3, 2);
+INSERT INTO WorksOn VALUES (2, 1);
+INSERT INTO WorksOn VALUES (3, 1);
+INSERT INTO WorksOn VALUES (4, 2);
+INSERT INTO WorksOn VALUES (5, 1);
+INSERT INTO WorksOn VALUES (6, 2);
+INSERT INTO WorksOn VALUES (2, 2);
+INSERT INTO WorksOn VALUES (3, 2);
 ```
 
 Como em outros artigos do site, vamos utilizar o docker para facilitar a reprodução de nossas execuções. Então vamos criar uma estrutura de diretórios da seguinte maneira:
@@ -107,7 +107,7 @@ Step 1/7 : FROM alpine:3.12
 ...
 
 $ docker run --rm -it sqlite3
-sqlite> SELECT * FROM employer;
+sqlite> SELECT * FROM employee;
 1|John|1
 2|Ana|2
 3|Bruce|3
@@ -124,7 +124,7 @@ Vamos recordar a pergunta:
 
   Quais são os projetos que cada departamento está inserido?
 
-Analisando a pergunta chegamos a conclusão que o que desejamos como resultado final é uma tabela com duas colunas, departamento e projeto. sabemos de antemão que não existe um relacionamento direto entre a tabela departament e a tabela project, então necessariamente devemos passar pelas outras tabelas, employer e works_on.
+Analisando a pergunta chegamos a conclusão que o que desejamos como resultado final é uma tabela com duas colunas, departamento e projeto. sabemos de antemão que não existe um relacionamento direto entre a tabela departament e a tabela project, então necessariamente devemos passar pelas outras tabelas, employee e works_on.
 
 Pelo modelo lógico sabemos que cada funcionário pode estar inserido em somente 1 departamento e 1 departamento pode ter N funcionários. Sabemos também que cada funcionário pode trabalhar em N projetos, assim como um projeto pode ter N funcionários.
 
@@ -140,9 +140,9 @@ Sabendo desses fatos o caminho natural a se fazer nessa cadeia de relacionamento
 - Para cada departamento desejo saber quem são os funcionários.
 
 ```SQL
-SELECT dp.name as Departament, em.name as Employer
+SELECT dp.name as Departament, em.name as Employee
 FROM departament as dp
-JOIN employer as em on dp.id = em.fk_departament_id;
+JOIN employee as em on dp.id = em.fk_departament_id;
 ```
 
 - Para cada funcionário desejo saber em qual projeto ele está inserido.
@@ -150,8 +150,8 @@ JOIN employer as em on dp.id = em.fk_departament_id;
 ```SQL
 SELECT dp.name as Departament, pj.name as Project
 FROM departament as dp
-JOIN employer as em on dp.id = em.fk_departament_id
-JOIN works_on as wo on em.id = wo.fk_employer_id
+JOIN employee as em on dp.id = em.fk_departament_id
+JOIN works_on as wo on em.id = wo.fk_employee_id
 JOIN project as pj on wo.fk_project_id = pj.id;
 ```
 
@@ -160,8 +160,8 @@ Com essa última query estamos com a resposta para nossa pergunta, porém com al
 ```SQL
 SELECT DISTINCT dp.name as Departament, pj.name as Project
 FROM departament as dp
-JOIN employer as em on dp.id = em.fk_departament_id
-JOIN works_on as wo on em.id = wo.fk_employer_id
+JOIN employee as em on dp.id = em.fk_departament_id
+JOIN works_on as wo on em.id = wo.fk_employee_id
 JOIN project as pj on wo.fk_project_id = pj.id
 ORDER BY dp.name, pj.name;
 ```
@@ -222,13 +222,13 @@ Para entendermos melhor como iremos construir nossa ontologia, vamos voltar algu
 
 ![Modelo conceitual](/images/expondo-um-banco-relacional-como-endpoint-sparql/modelo_conceitual.png)
 
-Observando o modelo conceitual identificamos 3 classes principais, employer, departament e project. O predicado entre a classe employer e departament será descrita por works_for e o predicado entre a employer e project será descrito por works_on.
+Observando o modelo conceitual identificamos 3 classes principais, employee, departament e project. O predicado entre a classe employee e departament será descrita por works_for e o predicado entre a employee e project será descrito por works_on.
 
 Vamos entender um pouco a interface do Protégé. Já iremos definir nossa URI base como ```http://www.example.org/```.
 
 ![Interface principal do Protégé](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_principal.png)
 
-A próxima interface que iremos ver será a que criaremos as classes employer, departament e project.
+A próxima interface que iremos ver será a que criaremos as classes employee, departament e project.
 
 ![Interface de classes do Protégé](/images/expondo-um-banco-relacional-como-endpoint-sparql/protege_interface_classes.png)
 
@@ -259,7 +259,7 @@ Por enquanto a ontologia que iremos usar será essa que acabamos de criar. A ont
 
 :name rdf:type owl:ObjectProperty ;
       rdfs:domain :departament ,
-                  :employer ,
+                  :employee ,
                   :project ;
       rdfs:range [ rdf:type owl:Restriction ;
                    owl:onProperty owl:topDataProperty ;
@@ -267,16 +267,16 @@ Por enquanto a ontologia que iremos usar será essa que acabamos de criar. A ont
                  ] .
 
 :works_for rdf:type owl:ObjectProperty ;
-           rdfs:domain :employer ;
+           rdfs:domain :employee ;
            rdfs:range :departament .
 
 :works_on rdf:type owl:ObjectProperty ;
-          rdfs:domain :employer ;
+          rdfs:domain :employee ;
           rdfs:range :project .
 
 :departament rdf:type owl:Class .
 
-:employer rdf:type owl:Class .
+:employee rdf:type owl:Class .
 
 :project rdf:type owl:Class .
 ```
@@ -284,5 +284,4 @@ Por enquanto a ontologia que iremos usar será essa que acabamos de criar. A ont
 A ontologia acima pode ser salva em um arquivo .owl e ser carregada no Protégé. Voltaremos a ela mais tarde para criarmos uma regra de inferência e percebemos a vantagem de se usar ontologias.
 
 # Mapeando o banco SQL para RDF com o R2RML
-
 
