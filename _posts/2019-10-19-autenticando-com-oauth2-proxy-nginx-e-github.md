@@ -100,7 +100,7 @@ Então o primeiro passo é criarmos um OAuth App em nosso provedor de autentica�
 
 Escolha um nome para sua aplicação e como estamos testando localmente em **Homepage URL** coloque `http://localhost` e em **Callback URL** coloque `http://localhost/oauth2/callback`.
 
-Os endpoints disponíveis do oauth2_proxy podem ser consultados neste [link](https://pusher.github.io/oauth2_proxy/endpoints).
+Os endpoints disponíveis do oauth2_proxy podem ser consultados neste [link](https://oauth2-proxy.github.io/oauth2-proxy/endpoints).
 
 ![Campos OAuth App Github](/images/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github/fields_oauth_app_github.png)
 
