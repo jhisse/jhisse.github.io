@@ -88,15 +88,16 @@ header {
 .PageNavigation a {
   display: block;
   width: 50%;
-  float: left;
 }
 
 .PageNavigation .next {
   text-align: right;
+  float: right;
 }
 
 .PageNavigation .prev {
   text-align: left;
+  float: left;
 }
 
 footer {
