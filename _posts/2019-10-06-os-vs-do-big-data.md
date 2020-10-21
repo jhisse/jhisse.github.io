@@ -1,5 +1,5 @@
 ---
-title: Os V's do Big Data
+title: Os V's do Big Data (Volume - Velocity - Variety)
 date: 2019-10-06
 layout: post
 ---
