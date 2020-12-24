@@ -10,7 +10,7 @@ Neste artigo vamos criar uma API na linguagem golang, armazenar o código fonte 
 
 ![Diagrama](/images/2020-06-13-verificando-vulnerabilidades-em-containers-com-trivy-e-gitlab-ci-cd/visao_geral.png)
 
-O primeiro passo é construir uma simples API REST que na rota ```/ping``` irá responder com uma simples mensagem. Escolhemos a linguagem [Go](https://golang.org/), pois é compilada, com isso podemos explorar com mais clareza dois estágios, o de compilação e o estágio de execução. Essa característica irá permitir que possamos utilizar diferentes técnicas na criação de nossas imagens docker e analisar os ganhos que temos ao adotar determinada abordagem, em relação a tamanho e segurança.
+O primeiro passo é construir uma simples API REST que na rota ```/ping``` irá responder com uma simples mensagem. Escolhemos a [linguagem de programação Go](https://golang.org/), pois é compilada, com isso podemos explorar com mais clareza dois estágios, o de compilação e o estágio de execução. Essa característica irá permitir que possamos utilizar diferentes técnicas na criação de nossas imagens docker e analisar os ganhos que temos ao adotar determinada abordagem, em relação a tamanho e segurança.
 
 No processo de desenvolvimento da API é de boa prática realizarmos commits no repositório git conforme avançamos em nosso código, ou seja, um local onde é possível versionar de forma eficiente nosso código, para isso vamos utilizar o GitLab.
 

@@ -4,7 +4,7 @@ date: 2020-02-28
 layout: post
 ---
 
-Este post é complementar ao anterior, disponível [aqui]({% post_url 2020-02-16-api-modelos-machine-learning %}). No primeiro vimos como construir modelos de machine learning e salvá-los como pickle, em seguida vimos como construir uma API serverless nativa na AWS. O objetivo deste é utilizamos o mesmo modelo salvo anteriormente e criamos uma API agnóstica com container, o que isso significa é que poderemos executar nossa API em qualquer ambiente em que o Docker esteja disponível.
+Este post é [complementar ao anterior]({% post_url 2020-02-16-api-modelos-machine-learning %}). No primeiro vimos como construir modelos de machine learning e salvá-los como pickle, em seguida vimos como construir uma API serverless nativa na AWS. O objetivo deste é utilizamos o mesmo modelo salvo anteriormente e criamos uma API agnóstica com container, o que isso significa é que poderemos executar nossa API em qualquer ambiente em que o Docker esteja disponível.
 
 ## Falcon API
 
@@ -121,7 +121,7 @@ docker run --rm -p 8000:8000 predict-api:latest
 
 No comando de build não se esqueça do ponto ao final, esse ponto indica o contexto de onde o Dockerfile se encontra.
 
-Vamos acessar o endereço <http://localhost:8000> e ver nosso endpoint ping funcionando. Como alternativa podemos executar o seguinte comando no terminal:
+Vamos acessar o endereço `http://localhost:8000` e ver nosso endpoint ping funcionando. Como alternativa podemos executar o seguinte comando no terminal:
 
 ```bash
 curl -w "\n" -X GET http://localhost:8000/ping

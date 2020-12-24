@@ -100,7 +100,7 @@ Então o primeiro passo é criarmos um OAuth App em nosso provedor de autentica�
 
 Escolha um nome para sua aplicação e como estamos testando localmente em **Homepage URL** coloque `http://localhost` e em **Callback URL** coloque `http://localhost/oauth2/callback`.
 
-Os endpoints disponíveis do oauth2_proxy podem ser consultados neste [link](https://oauth2-proxy.github.io/oauth2-proxy/endpoints).
+Os endpoints disponíveis do oauth2_proxy podem ser consultados na [documentação oficial](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints).
 
 ![Campos OAuth App Github](/images/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github/fields_oauth_app_github.png)
 
@@ -155,7 +155,7 @@ services:
       - oauth2_proxy
 ```
 
-Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/configuration#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
+Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
 
 - "OAUTH2_PROXY_EMAIL_DOMAINS=*": Domínios de e-mails permitidos. Aqui estamos permitindo todos os domínios.
 - "OAUTH2_PROXY_REDIRECT_URL=`http://localhost/oauth2/callback`": Quando usamos o Github como provedor precisamos setar a url de redirecionamento igual a url de callback configurada no momento da criação do App.
