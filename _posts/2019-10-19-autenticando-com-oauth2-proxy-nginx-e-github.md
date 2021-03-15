@@ -163,7 +163,7 @@ Observando o compose acima, estamos configurando o container do oauth2_proxy com
 - "OAUTH2_PROXY_CLIENT_ID=": Após o sinal de igual iremos colocar o Client ID que recebemos no momento da criação do App.
 - "OAUTH2_PROXY_CLIENT_SECRET="Após o sinal de igual iremos colocar o Client Secret que recebemos no momento da criação do App.
 
-O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/configuration#command-line-options).
+O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options).
 
 Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo *default.conf* na pasta do nginx.
 
