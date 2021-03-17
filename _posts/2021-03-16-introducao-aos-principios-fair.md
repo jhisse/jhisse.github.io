@@ -6,7 +6,7 @@ layout: post
 
 É latente a necessidade de distribuir dados científicos de forma mais acessível e com a capacidade de serem facilmente reproduzíveis. A correta governança dos dados permitirá torná-los um ativo duradouro ao longo do tempo, mantendo seu valor e história.
 
-Em 2016, um artigo na revista Nature intitulado "The FAIR Guiding Principles for scientific data management and stewardship", um grupo de cientistas propuseram quatro príncipios para a publicação de dados cientificos. Eles o denominaram FAIR, o acrônimo formado por cada um dos princípios citados.
+Em 2016, um artigo na revista Nature intitulado "The FAIR Guiding Principles for scientific data management and stewardship", um grupo de cientistas propôs quatro príncipios para a publicação de dados cientificos. Eles o denominaram FAIR, o acrônimo formado por cada um dos princípios citados.
 
 Abaixo vamos descrever os principais pontos que compõem os princípios FAIR.
 
