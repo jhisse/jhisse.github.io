@@ -88,7 +88,7 @@ Observação: caso a senha seja requisitada, basta colocar "rstudio" no campo us
 
 ## Desenvolvendo nosso modelo
 
-Verificando o funcionamento de nossa imagem em *localhost:8787*, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
+Verificando o funcionamento de nossa imagem em ```localhost:8787```, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
 
 ![Criando um novo arquivo no RStudio](/images/deploy-de-modelo-em-r/create-new-file-in-rstudio.png)
 
@@ -282,7 +282,7 @@ Após o build já podemos executar nossa aplicação com o modelo treinado. No t
 docker run -p 8080:8080 api-r
 ```
 
-Agora podemos acessar a interface do swagger no browser, *<http://localhost:8080/__swagger__/>* como imagem abaixo.
+Agora podemos acessar a interface do swagger no browser, ```localhost:8080/__swagger__/``` como imagem abaixo.
 
 ![Interface Swagger](/images/deploy-de-modelo-em-r/interface_swagger.png)
 
