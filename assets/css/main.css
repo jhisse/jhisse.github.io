@@ -54,7 +54,7 @@ small > time {
   margin-right: 5px;
   color: var(--text-muted);
   font-family: monospace;
-  font-size: large;
+  font-size: medium;
 }
 
 .post {
