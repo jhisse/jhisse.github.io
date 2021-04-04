@@ -492,4 +492,10 @@ O modo soft ou preferível de alocação, na maioria dos casos, deve ser a melho
 
 De preferência a distribuir os pods por regiões ou zonas, isso garantirá que sua aplicação continue funcionando em caso de indisponibilidade por região ou zona.
 
+Não esqueça de excluir seu cluster de testes.
+
+```console
+kind delete clusters affinity
+```
+
 Mais informações sobre o inter-pod anti-affinity podem ser encontradas na [documentação oficial](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
