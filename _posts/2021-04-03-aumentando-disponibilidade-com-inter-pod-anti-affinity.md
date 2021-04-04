@@ -8,7 +8,7 @@ O objetivo deste artigo é entender como funciona o recurso de anti afinidade en
 
 ## Ambiente de teste
 
-Para realizarmos as simulações propostas ao longo deste artigo iremos precisar de um cluster Kubernetes. Para isso iremos utilizar [Kind](https://kind.sigs.k8s.io/). O Kind, significa Kubernetes in Docker, ou seja, ele irá levantar alguns contâneirs e recursos de rede, permitindo o acesso ao cluster através do [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
+Para realizarmos as simulações propostas ao longo deste artigo iremos precisar de um cluster Kubernetes. Para isso iremos utilizar [Kind](https://kind.sigs.k8s.io/). O Kind, significa Kubernetes in Docker, ou seja, ele irá levantar alguns containers e recursos de rede, permitindo o acesso ao cluster através do [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
 
 Até agora vimos dois pré-requisitos, o kind e o kubectl. Você pode conferir como instalar essas ferramentas nos respectivos sites indicados acima.
 
@@ -42,7 +42,7 @@ nodes:
           node-labels: "topology.kubernetes.io/zone=east-1b,topology.kubernetes.io/region=east"
 ```
 
-Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos de acordo com a localidade das instâncias que compoõem o cluster.
+Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos de acordo com a localidade das instâncias que compõem o cluster.
 
 ```console
 kind create cluster --config config_artigo.yaml --name affinity
@@ -176,7 +176,7 @@ lorem-ipsum-deployment-6944477b78-m7rqq   1/1     Running   0          21s   10.
 
 ```
 
-Recapitualando. Nós queríamos garantir que cada pod estivesse em regiões separadas para aumentar a resiliência à falhas. O nó affinity-worker2 está na região ```topology.kubernetes.io/region=west``` e o nó affinity-worker3 está na região ```topology.kubernetes.io/region=east```. Cumprimos assim o objetivo do primeiro caso de teste.
+Recapitulando. Nós queríamos garantir que cada pod estivesse em regiões separadas para aumentar a resiliência à falhas. O nó affinity-worker2 está na região ```topology.kubernetes.io/region=west``` e o nó affinity-worker3 está na região ```topology.kubernetes.io/region=east```. Cumprimos assim o objetivo do primeiro caso de teste.
 
 Vamos agora alterar uma pequena linha na nossa definição do deployment.
 
@@ -203,7 +203,7 @@ lorem-ipsum-deployment-6944477b78-m7rqq   1/1     Running   0          2m35s   1
 lorem-ipsum-deployment-6944477b78-qtf6g   0/1     Pending   0          88s     <none>       <none>             <none>           <none>
 ```
 
-O scheduler não conseguiu alocar o novo pod em um nó, pois não tinhamos regiões desalocadas. Como estamos lidando com anti afinidade obrigatória, o estado do novo pod permanecerá em pending, a menos que um novo nó de uma região diferente das duas que já temos seja alocado no cluster.
+O scheduler não conseguiu alocar o novo pod em um nó, pois não tínhamos regiões desalocadas. Como estamos lidando com anti afinidade obrigatória, o estado do novo pod permanecerá em pending, a menos que um novo nó de uma região diferente das duas que já temos seja alocado no cluster.
 
 Vamos checar os eventos do pod que nao pôde ser alocado:
 
@@ -268,7 +268,7 @@ lorem-ipsum-deployment-7d6cb547c6-m9jvs   0/1     Pending   0          86s   <no
 lorem-ipsum-deployment-7d6cb547c6-st5p5   1/1     Running   0          86s   10.244.2.4   affinity-worker3   <none>           <none>
 ```
 
-Da mesma forma que só tinhamos 3 ```topology.kubernetes.io/zone``` distintas, no caso acima, só temos 3 ```kubernetes.io/hostname``` distintos. Isso faz que nosso 4º pod não seja alocado.
+Da mesma forma que só tínhamos 3 ```topology.kubernetes.io/zone``` distintas, no caso acima, só temos 3 ```kubernetes.io/hostname``` distintos. Isso faz que nosso 4º pod não seja alocado.
 
 ### Soft
 
@@ -491,3 +491,5 @@ Vimos os diferentes modos de anti-affinidade e alguns comportamentos no deploy d
 O modo soft ou preferível de alocação, na maioria dos casos, deve ser a melhor escolha. Ele garantirá que sua aplicação atinja o número de réplicas estipulado no deployment.
 
 De preferência a distribuir os pods por regiões ou zonas, isso garantirá que sua aplicação continue funcionando em caso de indisponibilidade por região ou zona.
+
+Mais informações sobre o inter-pod anti-affinity podem ser encontradas na [documentação oficial](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
