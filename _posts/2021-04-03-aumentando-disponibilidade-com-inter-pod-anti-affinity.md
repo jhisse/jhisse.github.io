@@ -4,15 +4,15 @@ date: 2021-04-03
 layout: post
 ---
 
-O objetivo deste artigo é entender como 
+O objetivo deste artigo é entender como funciona o recurso de anti afinidade entre pods e como os diferentes modos, soft e hard, podem influenciar na disponibilidade de uma aplicação que esteja sendo executada no kubernetes. Veremos os diferentes modos de anti afinidade e faremos uma sequência de testes para entender seus mais variados comportamentos.
 
 ## Ambiente de teste
 
-Para efetuarmos as simulações propostas ao longo deste artigo iremos precisar de um cluster Kubernetes. Para isso optei pelo [Kind](https://kind.sigs.k8s.io/). O Kind, significa Kubernetes in Docker, ou seja, ele irá levantar alguns contâneirs e recursos de rede, permitindo o acesso ao cluster através do [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
+Para realizarmos as simulações propostas ao longo deste artigo iremos precisar de um cluster Kubernetes. Para isso iremos utilizar [Kind](https://kind.sigs.k8s.io/). O Kind, significa Kubernetes in Docker, ou seja, ele irá levantar alguns contâneirs e recursos de rede, permitindo o acesso ao cluster através do [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl).
 
 Até agora vimos dois pré-requisitos, o kind e o kubectl. Você pode conferir como instalar essas ferramentas nos respectivos sites indicados acima.
 
-Tendo-os instalados vamos a configuração do cluster. Em uma pasta crie um arquivo chamado cluster_config.yaml. Ele vai ter o seguinte conteúdo:
+Tendo-os instalados vamos a configuração do cluster. Em uma pasta crie um arquivo chamado ```cluster_config.yaml```. Ele vai ter o seguinte conteúdo:
 
 ```yaml
 kind: Cluster
@@ -58,17 +58,17 @@ kubectl config current-context
 kubectl get pods --all-namespaces
 ```
 
-![Creating kind cluster](/images/2021-04-03-anti-affinity/creating-cluster.gif)
+![Creating kind cluster](/images/2021-04-03-aumentando-disponibilidade-com-inter-pod-anti-affinity/creating-cluster.gif)
 
 ## Labels de topologia
 
-Para este artigo nos interessa 3 labels especifícos dos nós:
+Para este artigo nos interessa 3 labels especifícas dos nós:
 
 - kubernetes.io/hostname
 - topology.kubernetes.io/zone
 - topology.kubernetes.io/region
 
-Escolheremos um deles, como domínio, quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, ```kubernetes.io/hostname```, passando pela zona que pode haver repetição, ```topology.kubernetes.io/zone``` e seguido pela a região, que engloba as zonas ```topology.kubernetes.io/region```.
+Escolheremos um deles como domínio quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, ```kubernetes.io/hostname```, passando pela zona que pode haver repetição, ```topology.kubernetes.io/zone``` e seguido pela a região ```topology.kubernetes.io/region``` que engloba as zonas.
 
 A descrição de todos os nós do nosso cluster pode ser verificada da seguinte forma:
 
@@ -120,7 +120,7 @@ Labels:             beta.kubernetes.io/arch=amd64
 
 Temos dois tipos de anti afinidade, a obrigatória, onde os pods devem ser alocados de acordo com o que configurarmos e a preferível, onde o scheduler do kubernetes tentará alocar da maneira definida na especificação, mas caso não consiga, ele irá alocar da maneira que o algoritmo escolher.
 
-### Hard - Obrigatória
+### Hard
 
 A anti afinidade obrigatória é caracterizada pela chave ```requiredDuringSchedulingIgnoredDuringExecution``` e pode ser definida pela seguinte especificação:
 
@@ -270,7 +270,7 @@ lorem-ipsum-deployment-7d6cb547c6-st5p5   1/1     Running   0          86s   10.
 
 Da mesma forma que só tinhamos 3 ```topology.kubernetes.io/zone``` distintas, no caso acima, só temos 3 ```kubernetes.io/hostname``` distintos. Isso faz que nosso 4º pod não seja alocado.
 
-### Soft - Preferível
+### Soft
 
 O modo de anti afinidade preferível ou soft, não torna obrigatória a alocação de acordo com as regras pré-estabelecidas, e sim estabelece uma prioridade para a definição. Ela é caracterizada pela chave ```preferredDuringSchedulingIgnoredDuringExecution``` e podemos utilizar os mesmo valores do modo hard para a topologyKey.
 
@@ -366,3 +366,128 @@ lorem-ipsum-deployment-89456ffdd-sbm95   1/1     Running   0          9s    10.2
 lorem-ipsum-deployment-89456ffdd-t47j7   1/1     Running   0          9s    10.244.2.8   affinity-worker3   <none>           <none>
 lorem-ipsum-deployment-89456ffdd-vb2vr   1/1     Running   0          9s    10.244.2.7   affinity-worker3   <none>           <none>
 ```
+
+Por fim, mais um caso de teste. Vamos determinar pesos para priorizar ```topologyKey: topology.kubernetes.io/regio``` e em menor prioridade ```topologyKey: topology.kubernetes.io/zone```.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lorem-ipsum-deployment
+  labels:
+    app.kubernetes.io/name: lorem-ipsum
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: lorem-ipsum
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: lorem-ipsum
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - lorem-ipsum
+                topologyKey: topology.kubernetes.io/region
+            - weight: 99
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - lorem-ipsum
+                topologyKey: topology.kubernetes.io/zone
+      containers:
+        - name: lorem-ipsum
+          image: k8s.gcr.io/pause:3.2
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 50m
+              memory: 128Mi
+```
+
+```console
+$ kubectl describe nodes
+Name:               affinity-control-plane
+Roles:              control-plane,master
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=affinity-control-plane
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node-role.kubernetes.io/master=
+...
+Name:               affinity-worker
+Roles:              <none>
+Labels:             topology.kubernetes.io/region=west
+                    topology.kubernetes.io/zone=west-1a
+...
+Name:               affinity-worker2
+Roles:              <none>
+Labels:             topology.kubernetes.io/region=west
+                    topology.kubernetes.io/zone=west-1c
+...
+Name:               affinity-worker3
+Roles:              <none>
+Labels:             topology.kubernetes.io/region=east
+                    topology.kubernetes.io/zone=east-1b
+...
+```
+
+O esperado é que, com duas réplicas, ele aloque primeiro nos nós que tenha ```topology.kubernetes.io/region=west``` e outro ```topology.kubernetes.io/region=east```.
+
+```console
+$ kubectl delete -f deployment.yaml
+deployment.apps/lorem-ipsum-deployment deleted
+
+$ kubectl create -f deployment.yaml
+deployment.apps/lorem-ipsum-deployment created
+
+$ kubectl get pods -o wide
+NAME                                      READY   STATUS    RESTARTS   AGE   IP           NODE               NOMINATED NODE   READINESS GATES
+lorem-ipsum-deployment-6d49b8d8cd-j5pfr   1/1     Running   0          7s    10.244.3.5   affinity-worker    <none>           <none>
+lorem-ipsum-deployment-6d49b8d8cd-zqrrp   1/1     Running   0          7s    10.244.2.6   affinity-worker3   <none>           <none>
+
+```
+
+Adicionando mais uma réplica é esperado que ele instâncie o pod em um nó de zona diferentes, já que por região não existe mais opções.
+
+```diff
+8c8
+<   replicas: 2
+---
+>   replicas: 3
+```
+
+```console
+$ kubectl apply -f deployment.yaml
+deployment.apps/lorem-ipsum-deployment created
+
+$ kubectl get pods -o wide
+NAME                                      READY   STATUS    RESTARTS   AGE     IP           NODE               NOMINATED NODE   READINESS GATES
+lorem-ipsum-deployment-6d49b8d8cd-7phwb   1/1     Running   0          4m13s   10.244.2.8   affinity-worker3   <none>           <none>
+lorem-ipsum-deployment-6d49b8d8cd-cgqqn   1/1     Running   0          4m13s   10.244.3.7   affinity-worker    <none>           <none>
+lorem-ipsum-deployment-6d49b8d8cd-nj52g   1/1     Running   0          4m1s    10.244.1.6   affinity-worker2   <none>           <none>
+```
+
+## Conclusão
+
+Vimos os diferentes modos de anti-affinidade e alguns comportamentos no deploy de sua aplicação.
+
+O modo soft ou preferível de alocação, na maioria dos casos, deve ser a melhor escolha. Ele garantirá que sua aplicação atinja o número de réplicas estipulado no deployment.
+
+De preferência a distribuir os pods por regiões ou zonas, isso garantirá que sua aplicação continue funcionando em caso de indisponibilidade por região ou zona.
