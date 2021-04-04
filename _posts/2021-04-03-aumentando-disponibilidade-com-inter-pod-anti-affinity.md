@@ -486,7 +486,7 @@ lorem-ipsum-deployment-6d49b8d8cd-nj52g   1/1     Running   0          4m1s    1
 
 ## Conclusão
 
-Vimos os diferentes modos de anti-affinidade e alguns comportamentos no deploy de sua aplicação.
+Vimos os diferentes modos de anti-afinidade e alguns comportamentos no deploy de sua aplicação.
 
 O modo soft ou preferível de alocação, na maioria dos casos, deve ser a melhor escolha. Ele garantirá que sua aplicação atinja o número de réplicas estipulado no deployment.
 
