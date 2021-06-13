@@ -4,7 +4,7 @@ date: 2020-03-22
 layout: post
 ---
 
-É comum em transformações de dados nos depararmos com estruturas de arrays de strings, inteiros ou algum outro tipo de arrays de objetos. Em alguns casos podemos querer transformar esses arrays em colunas. Usando o pyspark podemos usar as funções [explode](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.functions.explode) ou [explode_outer](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.functions.explode_outer) para isso. Vamos entender a diferença entre essas duas funções.
+É comum em transformações de dados nos depararmos com estruturas de arrays de strings, inteiros ou algum outro tipo de arrays de objetos. Em alguns casos podemos querer transformar esses arrays em colunas. Usando o pyspark podemos usar as funções [explode](https://spark.apache.org/docs/latest/api/python/pyspark.sql.html#pyspark.sql.functions.explode) ou [explode_outer](https://spark.apache.org/docs/latest/api/python/reference/pyspark.sql.html#pyspark.sql.functions.explode_outer) para isso. Vamos entender a diferença entre essas duas funções.
 
 ## Preparação do ambiente
 
