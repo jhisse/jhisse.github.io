@@ -33,7 +33,7 @@ Serão necessárias as seguintes bibliotecas para a construção do modelo:
 
 #### Executando o notebook jupyter
 
-Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais, iremos utilizar uma imagem docker já contendo as bibliotecas necessárias, inclusive com o jupyter. A imagem docker a ser utilizada é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook). Mais detalhes sobre esta imagem pode ser obtidos no seguinte [link](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
+Para que nosso ambiente de desenvolvimento seja comum em diversas arquiteturas de sistemas operacionais, iremos utilizar uma imagem docker já contendo as bibliotecas necessárias, inclusive com o jupyter. A imagem docker a ser utilizada é a [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook). Mais detalhes sobre esta imagem pode ser obtidos na página do [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/index.html).
 
 Para ter certeza que o docker está instalado, execute o seguinte comando no terminal:
 
@@ -41,7 +41,7 @@ Para ter certeza que o docker está instalado, execute o seguinte comando no ter
 docker --version
 ```
 
-Caso não tenha o docker instalado pode acessar esse [link](https://docs.docker.com/install/) e seguir as instruções de instalação.
+Caso não tenha instalado, pode acessar a página contendo as [instruções de instalação do Docker](https://docs.docker.com/install/) e seguir as instruções de instalação.
 
 Agora precisamos executar a imagem para acessarmos o notebook jupyter já com todas as bibliotecas necessárias.
 
@@ -73,7 +73,7 @@ Agora vamos entrar na pasta work [1] e criar um novo notebook [2].
 
 Pima Indians Diabetes Database, é um dataset contendo informações de pacientes do sexo feminino acima de 21 anos.
 
-O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/pima-indians-diabetes-database) ou baixado [aqui](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
+O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/pima-indians-diabetes-database) ou no [gist contendo o dataset completo](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
 
 Esse conjunto de dados irá nos permitir construirmos um modelo de machine learning que tentará prever da maneira mais acurada se um paciente tem diabete ou não.
 
@@ -207,7 +207,7 @@ Para empacotarmos nossa API de forma organizada iremos utilizar o framework [Ser
 
 ### Configuração do AWS CLI e do Serverless CLI
 
-A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download neste [link](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
+A primeira coisa que temos que ter em mãos é o aws cli instalado e configurado. Para isso vamos fazer o download na [página oficial da AWS cli](https://aws.amazon.com/pt/cli/). Após a instalação ele deve ser configurado com suas credenciais da AWS.
 
 ```bash
 aws configure
@@ -217,7 +217,7 @@ As credencias necessárias (Access Key e Secret Key) podem ser obtidas em sua co
 
 ![Credenciais AWS](/images/2020-02-16-api-modelos-machine-learning/aws_credentials.png)
 
-Para instalar e configurar o framework Serverless siga as instruções deste [link](https://serverless.com/framework/docs/getting-started/).
+Para instalar e configurar o framework Serverless siga as [instruções de instalação contidas nesse link](https://serverless.com/framework/docs/getting-started/).
 
 ### Upload do modelo
 
