@@ -61,7 +61,7 @@ Vamos entender o comando acima:
 8. **jupyter/scipy-notebook:414b5d749704**: esta é a imagem do jupyter que iremos instanciar, o id que está após os dois pontos é a tag da imagem, isso garante que sempre iremos utilizar a mesma versão;
 9. **start-notebook.sh --NotebookApp.token=''**: aqui indicamos que o script *start-notebook.sh* será usado para executar o notebook dentro do container, poderíamos ter omitido essa parte, porém não iriamos conseguir retirar a senha do notebook com o parâmetro *--NotebookApp.token=''*.
 
-Vamos abrir o navegador no endereço <http://localhost:8080> para acessarmos o jupyter.
+Vamos abrir o navegador no endereço ```http://localhost:8080``` para acessarmos o jupyter.
 
 ![Jupyter Home](/images/2020-02-16-api-modelos-machine-learning/jupyter_home.png)
 
@@ -187,19 +187,19 @@ Na predição acima cada número representa uma variável de entrada e a saída 
 
 API Gateway é um serviço gerenciado da AWS que, nesse contexto, terá como função receber os fluxos de requisições HTTP e encaminhar para as funções lambda explicadas a seguir.
 
-Para mais informações: <https://aws.amazon.com/pt/api-gateway/>
+Para mais informações acesse a [página oficial da AWS sobre API Gateway](https://aws.amazon.com/pt/api-gateway/).
 
 #### AWS Lambda
 
 Serviço gerenciado que permite executar códigos em diversas linguagens sem se preocupar com servidores.
 
-Para mais informações: <https://aws.amazon.com/pt/lambda/>
+Para mais informações acesse a [página oficial da AWS sobre Lambda](https://aws.amazon.com/pt/lambda/).
 
 #### AWS Simple Storage Service, S3
 
 Serviço de armazenamento gerenciado pela AWS. Altamente escalável.
 
-Para mais informações: <https://aws.amazon.com/pt/s3/>
+Para mais informações acesse a [página oficial da AWS sobre S3](https://aws.amazon.com/pt/s3/).
 
 #### Framework Serverless
 
