@@ -34,7 +34,7 @@ docker run --rm -d -p 8787:8787 --name rstudio-pima -e DISABLE_AUTH=true rocker/
 
 Ao acessar o navegador no endereço ```localhost:8787``` teremos acesso à interface do RStudio.
 
-![Interface padrão do RStudio](/images/deploy-de-modelo-em-r/rstudio-interface-padrao.png)
+![Interface padrão do RStudio](/images/2020-08-13-deploy-de-modelo-em-r/rstudio-interface-padrao.png)
 
 A imagem padrão do rstudio contêm os pacotes básicos para executar nossos scripts em R, porêm como iremos trabalhar com modelos de machine learning será necessário instalar algumas bibliotecas.
 
@@ -90,7 +90,7 @@ Observação: caso a senha seja requisitada, basta colocar "rstudio" no campo us
 
 Verificando o funcionamento de nossa imagem em ```localhost:8787```, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
 
-![Criando um novo arquivo no RStudio](/images/deploy-de-modelo-em-r/create-new-file-in-rstudio.png)
+![Criando um novo arquivo no RStudio](/images/2020-08-13-deploy-de-modelo-em-r/create-new-file-in-rstudio.png)
 
 A descrição dos comandos antecede os mesmos no código abaixo.
 
@@ -205,15 +205,15 @@ function(pregnant, glucose, pressure, triceps, insulin, mass, pedigree, age)
 
 Podemos executar nossa API no próprio RStudio, assim teremos um ambiente de testes antes de empacotarmos em uma imagem Docker. Para isso vamos clicar no símbolo de play verde no canto superior direito do RStudio e uma nova janela irá se abrir.
 
-![Iniciar API](/images/deploy-de-modelo-em-r/rstudio_run_plumber.png)
+![Iniciar API](/images/2020-08-13-deploy-de-modelo-em-r/rstudio_run_plumber.png)
 
 Na janela que foi aberta quando iniciamos a API, irá aparecer uma interface do Swagger. [O Swagger é um utilitário que permite documentar nossa aplicação de forma amigável para o usuário](https://swagger.io/). Graças ao pacote plumber teremos essa interface já implementada.
 
-![Interface do swagger](/images/deploy-de-modelo-em-r/interface-do-swagger.png)
+![Interface do swagger](/images/2020-08-13-deploy-de-modelo-em-r/interface-do-swagger.png)
 
 Na interface principal do Swagger podemos inserir valores de testes e verificarmos o resultado, como no exemplo a seguir.
 
-![Exemplo de chamada no Swagger](/images/deploy-de-modelo-em-r/exemplo-swagger.png)
+![Exemplo de chamada no Swagger](/images/2020-08-13-deploy-de-modelo-em-r/exemplo-swagger.png)
 
 ## Empacotando a API preditiva
 
@@ -284,11 +284,11 @@ docker run -p 8080:8080 api-r
 
 Agora podemos acessar a interface do swagger no browser, ```localhost:8080/__swagger__/``` como imagem abaixo.
 
-![Interface Swagger](/images/deploy-de-modelo-em-r/interface_swagger.png)
+![Interface Swagger](/images/2020-08-13-deploy-de-modelo-em-r/interface_swagger.png)
 
 Ou podemos fazer uma requisição HTTP como na imagem abaixo.
 
-![Requisição Postman](/images/deploy-de-modelo-em-r/requisicao_postman.png)
+![Requisição Postman](/images/2020-08-13-deploy-de-modelo-em-r/requisicao_postman.png)
 
 ## Conclusão
 
