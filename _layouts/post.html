@@ -3,7 +3,12 @@ layout: default
 ---
 
 <h1>{{ page.title }}</h1>
-<small><time datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%Y-%m-%d" }}</time></small>
+<small>
+Criado em: <time datetime="{{ page.date | date: "%Y-%m-%d" }}">{{ page.date | date: "%Y-%m-%d" }}</time>
+{% if page.updated %}
+<br>
+Última Atualização: <time datetime="{{ page.updated | date: "%Y-%m-%d" }}">{{ page.updated | date: "%Y-%m-%d" }}</time>{% endif %}
+</small>
 
 {{ content }}
 

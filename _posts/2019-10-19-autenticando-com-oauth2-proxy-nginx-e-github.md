@@ -1,6 +1,7 @@
 ---
 title: Autenticando com oauth2_proxy, nginx e Github
 date: 2019-10-19
+updated: 2022-04-14
 layout: post
 ---
 
@@ -14,7 +15,7 @@ Para executar esse projeto é recomendado ter o Docker e o Docker-Compose instal
 
 Aqui iremos configurar o básico do nginx para servir uma página HTML estática, neste caso pode ser um build do Jekyll, Hugo ou um simples HTML.
 
-Nossa página HTML de teste será o mais simples possível (index.html):
+Nossa página HTML de teste será o mais simples possível e vamos nomeá-la de `index.html`:
 
 ```html
 <!DOCTYPE html>
@@ -66,7 +67,7 @@ Nossa página HTML de teste será o mais simples possível (index.html):
 Agora vamos configurar o Dockerfile para inserir esta página HTML dentro de uma imagem Docker.
 
 ```dockerfile
-FROM nginx:alpine
+FROM nginx:1.21-alpine
 
 ADD index.html /usr/share/nginx/html
 ```
@@ -78,17 +79,17 @@ A estrutura do diretório irá ficar da seguinte forma:
 \-\-\- Dockerfile  
 \-\-\- index.html  
 
-Temos que buildar nossa imagem do nginx e executa-lá em seguida:
+Temos que efetuar o build da imagem do nginx e executa-lá em seguida:
 
 ```bash
 cd nginx
 docker build -t nginx_static .
-docker run --rm -p 80:80 nginx_static
+docker run --rm -p 8080:80 nginx_static
 ```
 
-Podemos acessar o endereço `http://localhost` para verificarmos que nossa aplicação funcionou e a nossa página está sendo exibida corretamente.
+Podemos acessar o endereço `http://localhost:8080` para verificarmos que nossa aplicação está funcionando e a página de exemplo que definimos anteriormente está sendo exibida corretamente.
 
-Tendo nosso ponto de partida configurado, vamos seguir para a configuração da autenticação.
+Tendo nosso ponto de partida configurado, vamos seguir para a configuração da autenticação com o oauth2_proxy.
 
 ## Configurando o provedor de autorização
 
