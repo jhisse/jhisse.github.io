@@ -36,7 +36,7 @@ Outro destaque que vale a pena falar é a presença de diagramas visuais na maio
 
 Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é uma forma muito elegante de escrever os textos. Nesse ponto fica claro que precisamos de uma outra linguagem de marcação para nos auxiliar.
 
-Agora o Markdown entra na história. Ele foi pensando em ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão como forma de escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
+Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão como forma de escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
 
 Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou o `![descrição da imagem](local da imagem)` para colocarmos imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imgem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
 
@@ -47,11 +47,13 @@ Já que estamos escrevendo utilizando uma linguagem de marcação que o nosso na
 
 ## Geradores de sites estáticos
 
-Neste ponto vale uma explicação do que é um site estático. Sabemos que tecnologias web não param de surgir e serem aperfeiçoadas, porém ainda podemos recorrer ao básico em algumas situações. Neste caso vamos recorrer ao trio HTML, CSS e Javascript. O site estático é composto básicamente por esses três componentes. Com isso em mente, podemos pensar que a hospedagem só irá servir nossos arquivos estáticos, já pré processados. 
+Neste ponto vale uma explicação do que é um site estático. Sabemos que tecnologias web não param de surgir e serem aperfeiçoadas, porém ainda podemos recorrer ao básico em algumas situações. Neste caso vamos recorrer ao trio HTML, CSS e Javascript. O site estático é composto basicamente por esses três componentes, servindo para entregar ao visitante uma página web simples e sem muita iteração.
 
-Em geral um site dinâmico possui algum sistema gerenciador de conteúdo, mais conhecido como CMS. Alguns exemplos são o Wordpress ou o Joomla. Diferente do CMS, não irá existir um banco de dados em nossa stack, nem uma linguagem de backend que irá servir conteúdos mais dinâmicos e complexos para os usuários. Teremos apenas texto puro e imagens pré processados.
+Por outro lado o site dinâmico possui algum sistema gerenciador de conteúdo, mais conhecido como CMS. Alguns exemplos são o Wordpress ou o Joomla. Diferente do CMS, não irá existir um banco de dados em nossa stack, nem uma linguagem de backend que irá servir conteúdos mais dinâmicos e complexos para os usuários. Teremos apenas texto puro e imagens pré-processados.
 
-Os geradores de sites estáticos funcionam como uma espécie de pré processador. Convertendo arquivos em algum formato especifico, como o Markdown e templates com lógicas embutidas em arquivos HTML estáticos.
+Os geradores de sites estáticos funcionam como uma espécie de pré-processador. Convertendo arquivos em algum formato especifico, como o Markdown e templates com lógicas embutidas em arquivos HTML estáticos.
+
+![Gerador de site estático](/images/como-a-v0-deste-site-foi-feita/diagrama-ssg.png)
 
 No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este arquito está sendo escrito.
 
@@ -65,8 +67,8 @@ Existem muitas opções disponíveis quando falamos de hospedagem de sites está
 
 O Github Pages entrega um domínio `.github.io` para seu site estático. Desta forma não há a necessidade de ter um domínio próprio.
 
-No começo do blog não havia o domínio <josehisse.dev>, somente o padrão. Depois houve a compra do domínio e como o Pages permite configurar um customizado ao qual você seja o dono, bastou configurar um CNAME conforme a documentação.
+No começo,  o blog não havia o domínio <josehisse.dev>, somente o padrão. Depois houve a compra do domínio e como o Pages permite configurar um customizado ao qual você seja o dono, bastou configurar um CNAME conforme a documentação.
 
 ## Considerações finais
 
-As decisões que foram tomadas e a arquitetura apresentada podem não refletir o estado atual do site atualmente. Muitas dessas decisões podem, foram ou serão revistas conforme o meu pensamento for mudando.
+As decisões que foram tomadas e a arquitetura apresentada podem não refletir o estado atual do site. Muitas dessas decisões podem, foram ou serão revistas conforme o meu pensamento for mudando.
