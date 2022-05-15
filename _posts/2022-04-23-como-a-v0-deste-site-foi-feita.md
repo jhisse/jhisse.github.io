@@ -38,7 +38,7 @@ Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é
 
 Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão como forma de escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
 
-Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou o `![descrição da imagem](local da imagem)` para colocarmos imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imgem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
+Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](local da imagem)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
 
 Já que estamos escrevendo utilizando uma linguagem de marcação que o nosso navegador não entende, precisamos converter em HTML para que tudo seja renderizado corretamente para os visitantes do blog. Agora, precisamos introduzir um novo conceito, os geradores de sites estáticos, SSG.
 
@@ -55,7 +55,7 @@ Os geradores de sites estáticos funcionam como uma espécie de pré-processador
 
 ![Gerador de site estático](/images/como-a-v0-deste-site-foi-feita/diagrama-ssg.png)
 
-No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este arquito está sendo escrito.
+No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este artigo está sendo escrito.
 
 O que o Jekyll faz é transformar arquivos Markdown e de templates em HTML já processado, como se fosse um processo de compilação. Ele é escrito em Ruby e precisa ser instalado. Nessa altura você deve estar se perguntando por que a escolha dele e não de outros já que há muitas opções. A resposta é simples, o Github Pages já tem suporte para ele. 
 
@@ -67,7 +67,63 @@ Existem muitas opções disponíveis quando falamos de hospedagem de sites está
 
 O Github Pages entrega um domínio `.github.io` para seu site estático. Desta forma não há a necessidade de ter um domínio próprio.
 
-No começo,  o blog não havia o domínio <josehisse.dev>, somente o padrão. Depois houve a compra do domínio e como o Pages permite configurar um customizado ao qual você seja o dono, bastou configurar um CNAME conforme a documentação.
+No começo, o blog não havia o domínio <josehisse.dev>, somente o padrão. Depois houve a compra do domínio e como o Pages permite configurar um customizado ao qual você seja o dono, bastou configurar um CNAME no registro de nome de domínios.
+
+Vale um destaque sobre os domínios `.dev`. Comprado pelo Google em 2015 e disponibilizado para compra pelo público somente em março de 2019, ele só permite conexões seguras, https, pelos navegadores. Essa funcionalidade se chama pré-carregamento de HSTS, [preloaded HSTS](https://hstspreload.org/?domain=josehisse.dev). O link que apresentamos anteriormente corresponde a uma lista dinâmica contendo os domínios que devem responder as requisições de forma segura pelos navegadores. Toda vez que consultamos um site `.dev` em um navegador moderno como o Chrome, Firefox, EDGE ou Safari, ele consulta essa lista e verifica se o site que estamos tentando acessar está na lista, caso esteja presente, o usuário que fez a solicitação da página web sempre será redirecionado pelo navegador para utilizar a versão segura https. No artigo [HSTS - a no-nonsense guide](https://www.steveworkman.com/2016/hsts-a-no-nonsense-guide/) de Steve Workman há muitos mais detalhes sobre preloaded HSTS e uma explicação muito mais aprofundada de como os redirecionamentos para a versão segura funcionam.
+
+## Adicionais
+
+### MathJax
+
+Em "[Sequência de Collatz]({% post_url 2019-10-08-sequencia-de-collatz %})" tive a necessidade de usar fórmulas matemáticas durante a escrita. Para uma melhor representação gosto de utilizar o LaTeX para escreve-las. Nesse ponto há algumas opções para renderizar a fórmula na tela do leitor.
+
+Uma das opções era transformar a fórmula escrita em LaTeX para imagem e colocá-la no artigo. Não considerei essa opção por ter que gerar a imagem para cada fórmula e gerar um possível aumento de tamanho das páginas, consequentemente aumentando o tempo de carregamento delas. A outra opção é carregar uma pequena biblioteca javascript que irá renderizar as fórmulas em LaTeX no momento que o leitor carregar a página.
+
+Para evitarmos sobrecarregar o site adicionando uma biblioteca javascript, vamos adicioná-la somente as páginas que precisam renderizar as fórmulas. Para indicarmos ao Jekyll quais as páginas que necessitam dessa biblioteca vamos utilizar um atributo no topo de cada artigo e um pequeno trecho do template Liquid.
+
+No topo de cada arquivo markdown que representa os textos há um cabeçalho. Nesse cabeçalho existe informações de título do artigo, data da publicação, o layout que ele irá utilizar e por fim acrescentamos uma nova informação, se haverá o carregamento ou não da biblioteca MathJax.
+
+```markdown
+---
+title: Sequência de Collatz
+date: 2019-10-12
+layout: post
+mathjax: true
+---
+```
+
+Não vou entrar em maiores detalhes sobre o template Liquid que o Jekyll utiliza, porém no trecho a seguir da para perceber um pouco a sua sintaxe. No trecho há uma pequena instrução condicional, que caso na página tenha o atributo mathjax como true, então ele irá adicionar a biblioteca ou não no HTML final.
+
+```html
+  {% if page.mathjax %}
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['\\(', '\\)']
+        ],
+        displayMath: [
+          ['$$', '$$'],
+          ['\\[', '\\]']
+        ],
+        processEscapes: true
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"></script>
+  </script>
+  {% endif %}
+```
+
+### Syntax highlighting
+
+Na maioria dos artigos desse blog há trechos de códigos nas mais diversas linguagens. Há trechos de dockerfile, yaml, python, r entre outros que precisam ter um destaque para a sintaxe. Isso vai dar ao leitor uma melhor experiência na leitura. 
+
+Para o syntax highlight, utilizo o [highlightjs](https://highlightjs.org). No site é possível escolher 
+
+## Otimização do site estático
+
+
 
 ## Considerações finais
 
