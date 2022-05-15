@@ -83,7 +83,7 @@ Para evitarmos sobrecarregar o site adicionando uma biblioteca javascript, vamos
 
 No topo de cada arquivo markdown que representa os textos há um cabeçalho. Nesse cabeçalho existe informações de título do artigo, data da publicação, o layout que ele irá utilizar e por fim acrescentamos uma nova informação, se haverá o carregamento ou não da biblioteca MathJax.
 
-```markdown
+```yaml
 ---
 title: Sequência de Collatz
 date: 2019-10-12
