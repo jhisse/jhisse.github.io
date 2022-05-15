@@ -94,6 +94,7 @@ mathjax: true
 
 Não vou entrar em maiores detalhes sobre o template Liquid que o Jekyll utiliza, porém no trecho a seguir da para perceber um pouco a sua sintaxe. No trecho há uma pequena instrução condicional, que caso na página tenha o atributo mathjax como true, então ele irá adicionar a biblioteca ou não no HTML final.
 
+{% raw %}
 ```html
   {% if page.mathjax %}
   <script>
@@ -114,6 +115,7 @@ Não vou entrar em maiores detalhes sobre o template Liquid que o Jekyll utiliza
   </script>
   {% endif %}
 ```
+{% endraw %}
 
 ### Syntax highlighting
 
