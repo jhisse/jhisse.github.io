@@ -1,6 +1,6 @@
 ---
-title: Como a v0 deste site foi feita
-date: 2022-04-23
+title: Como este blog foi desenvolvido
+date: 2022-05-15
 layout: post
 ---
 
@@ -16,21 +16,21 @@ Por mais detalhado que seja o texto, ele nem sempre vai contemplar todos os deta
 
 O tema do blog foi pensado de forma que o conteúdo de cada artigo fique evidenciado. Por isso o estilo simples, sem muita variação de cores e formas.
 
-![Rascunho do visual do blog](/images/como-a-v0-deste-site-foi-feita/visual.png)
+2022-05-15-como-este-blog-foi-desenvolvido![Rascunho do visual do blog](/images//visual.png)
 
 Todas as páginas do blog possuem uma profundidade de no máximo 2 cliques. Isso quer dizer que para se chegar em qualquer página basta no máximo essa quantidade de cliques.
 
 Temos um diagrama simplificado da relação entre as páginas através dos links presentes nelas. Nela podemos observar de uma maneira visual a dinâmica de navegação do site.
 
-![Diagrama representando os links entre as páginas](/images/como-a-v0-deste-site-foi-feita/link-pages.png)
+![Diagrama representando os links entre as páginas](/images/2022-05-15-como-este-blog-foi-desenvolvido/link-pages.png)
 
 Na sequência apresentada abaixo podemos observar que é possível chegar em qualquer artigo através de no máximo 2 cliques. Seja partindo da home e escolhendo um artigo, que resulta em 1 clique. Indo de um artigo ao próximo ou ao anterior, resultando também em 1 clique. Ou de um artigo qualquer para outro qualquer, que neste caso passa pela home do blog, resultando em 2 cliques.
 
-![Cenários possíveis de navegação entre as páginas](/images/como-a-v0-deste-site-foi-feita/link-pages-scenarios.png)
+![Cenários possíveis de navegação entre as páginas](/images/2022-05-15-como-este-blog-foi-desenvolvido/link-pages-scenarios.png)
 
 Outro destaque que vale a pena falar é a presença de diagramas e imagens na maioria dos artigos. Sempre tento manter os diagramas os mais simples e lúdicos possíveis. Após ler o livro "The Back of the Napkin: Solving Problems and Selling Ideas with Pictures" de Dan Roam, me convenci ainda mais da importância de desenhar o problema ou a solução com formas elementares. Desta forma fica mais evidente a relação entre as peças que os compõem.
 
-![Capa do livro "The Back of the Napkin"](/images/como-a-v0-deste-site-foi-feita/the_back_of_the_napkin.jpeg)
+![Capa do livro "The Back of the Napkin"](/images/2022-05-15-como-este-blog-foi-desenvolvido/the_back_of_the_napkin.jpeg)
 
 ## Escrita
 
@@ -40,7 +40,7 @@ Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com 
 
 Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](/local/da/imagem.jpg)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
 
-![Markdown para HTML](/images/como-a-v0-deste-site-foi-feita/markdown2html.png)
+![Markdown para HTML](/images/2022-05-15-como-este-blog-foi-desenvolvido/markdown2html.png)
 
 Já que estamos escrevendo utilizando uma linguagem de marcação que o nosso navegador não entende, precisamos converter em HTML para que tudo seja renderizado corretamente para os visitantes do blog. Agora, precisamos introduzir um novo conceito, os geradores de sites estáticos, SSG.
 
@@ -50,7 +50,7 @@ Neste ponto vale uma explicação do que é um site estático. Sabemos que tecno
 
 Os geradores de sites estáticos funcionam como uma espécie de pré-processador ou compilador. Convertendo arquivos em algum formato especifico, como o Markdown e templates com lógicas embutidas em arquivos HTML estáticos.
 
-![Gerador de site estático](/images/como-a-v0-deste-site-foi-feita/diagrama-ssg.png)
+![Gerador de site estático](/images/2022-05-15-como-este-blog-foi-desenvolvido/diagrama-ssg.png)
 
 No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este artigo está sendo escrito. O que ele faz é transformar arquivos Markdown e de templates em HTML já processado, como se fosse um processo de compilação. Ele é escrito em Ruby e precisa ser instalado como uma command-line interface. 
 
