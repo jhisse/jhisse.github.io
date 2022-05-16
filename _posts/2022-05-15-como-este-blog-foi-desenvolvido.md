@@ -16,7 +16,7 @@ Por mais detalhado que seja o texto, ele nem sempre vai contemplar todos os deta
 
 O tema do blog foi pensado de forma que o conteúdo de cada artigo fique evidenciado. Por isso o estilo simples, sem muita variação de cores e formas.
 
-2022-05-15-como-este-blog-foi-desenvolvido![Rascunho do visual do blog](/images//visual.png)
+![Rascunho do visual do blog](/images/2022-05-15-como-este-blog-foi-desenvolvido/visual.png)
 
 Todas as páginas do blog possuem uma profundidade de no máximo 2 cliques. Isso quer dizer que para se chegar em qualquer página basta no máximo essa quantidade de cliques.
 
