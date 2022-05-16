@@ -118,7 +118,7 @@ Na maioria dos artigos desse blog há trechos de códigos nas mais diversas ling
 
 Para o syntax highlight, utilizo o [highlightjs](https://highlightjs.org). Neste site é possível gerar um pacote personalizado somente com as linguagens que você escolher. Isso é útil para termos pacotes css e javascript mais enxutos.
 
-## Zoomming
+### Zoomming
 
 Utilizamos a biblioteca [Zooming](https://github.com/kingdido999/zooming) para aplicar o efeito de zoom nas imagens. Ela faz com que o clique em alguma imagem a amplie. Quando a imagem está com zoom ativado e um novo clique é dado ou a página sofre um scroll, a imagem volta para sua posição e tamanho originais.
 
