@@ -6,7 +6,7 @@
 <br>
 <a href="/sitemap.xml">Sitemap</a></p>
 
-
+{% if page.layout == 'post' %}
 <script src="/assets/js/highlight.min.js"></script>
 <script src="/assets/js/zooming.min.js"></script>
 <script>
@@ -18,3 +18,4 @@
             }).listen('img');
         });
 </script>
+{% endif %}
