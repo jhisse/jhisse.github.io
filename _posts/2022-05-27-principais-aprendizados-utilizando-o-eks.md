@@ -4,39 +4,43 @@ date: 2022-05-27
 layout: post
 ---
 
-Comecei a utilizar o kubernetes no início de 2018. Utilizávamos a cloud do Google e seu serviço gerenciado do Kubernetes chamado Google Kubernetes Engine, GKE. Algum tempo depois, já em outra empresa, passamos a utilizar o Amazon Elastic Kubernetes Service, EKS, da AWS. Neste artigo irei focar no EKS, nas principais aplicações que julgo essenciais para gerenciar um cluster de EKS e nos principais acertos e erros cometidos nesse tempo.
+Meu primeiro contato com o Kubernetes foi início de 2018, utilizamos a cloud do Google e seu serviço gerenciado do Kubernetes chamado Google Kubernetes Engine, GKE. Algum tempo depois, já em outra empresa, passamos a utilizar o Amazon Elastic Kubernetes Service, EKS, da AWS. Neste artigo irei focar no EKS, nas principais aplicações que julgo essenciais para gerenciar um cluster de EKS e nos principais acertos e erros cometidos nesse tempo.
 
 ## Provisionamento
 
-Para instanciar o serviço do EKS temos muitas opções, podemos utilizar o console da AWS, o CLI [eksctl](https://eksctl.io), CloudFormation, [Terraform](https://www.terraform.io), entre outros. Como IaC neste caso, recomendo a utilização do Terraform, pois é uma aplicação amplamente utilizada pela comunidade, open-source, há muitas dúvidas e respostas no Stack Overflow, tem fácil curva de aprendizado, é MultiCloud e por fim todas as definições são definidas de forma declarativa.
+Para instanciar o serviço do EKS temos muitas opções, podemos utilizar o console da AWS, o CLI [eksctl](https://eksctl.io), CloudFormation, [Terraform](https://www.terraform.io), entre outros. Como IaC neste caso, recomendo a utilização do Terraform, pois é uma aplicação amplamente utilizada pela comunidade, open-source, há muitas dúvidas e respostas no Stack Overflow, tem fácil curva de aprendizado, é multi cloud através dos inúmeros providers e, por fim, todos os recursos são definidos de forma declarativa.
 
-Com o Terraform toda a infraestrutura necessária para o cluster pode ser automatizada e provisionada de forma que qualquer replicação do ambiente seja fácil. Isso traz muitas vantagens, como por exemplo, ter um ambiente de testes muito semelhante ao ambiente de produção ou em caso de um disaster recovery o ambiente ser provisionado de forma rápida e eficiente.
+Com o Terraform toda a infraestrutura necessária para o cluster pode ser automatizada e provisionada de forma que qualquer replicação do ambiente seja fácil. Isso traz muitas vantagens, como por exemplo, ter um ambiente de testes muito semelhante ao ambiente de produção. Ou em um cenário de disaster recovery o ambiente será provisionado de forma rápida e eficiente.
 
 ## IAM roles para service accounts
 
-Talvez a primeira coisa que você deve se preocupar após provisionar seu cluster deve ser como seus pods poderão utilizar outros serviços da AWS. Por exemplo, caso um pod precise salvar um arquivo em um bucket no S3, ao invés de utilizar credenciais da AWS, podemos associar uma role especifica a um service account do Kubernetes e o pod utilizar dessa service account. Isso permite um controle mais granular dos acessos que suas aplicações terão aos serviços da AWS.
+Talvez a primeira coisa que você deve se preocupar após provisionar seu cluster deve ser como seus pods poderão utilizar outros serviços da AWS. Por exemplo, caso um pod precise salvar um arquivo em um bucket no S3 ou sua aplicação precisa escrever no DynamoDB. De maneira a evitar utilizar credenciais da AWS, podemos associar uma role específica a um service account do Kubernetes e o pod utilizar essa service account. Isso permite um controle mais granular dos acessos que suas aplicações terão aos serviços da AWS, sem contar que evita o tráfego de credenciais de um lado para o outro.
 
-Isso fará bastante sentido como iremos ver mais adiante. O controlador de volumes EBS precisa gerenciar os volumes EBS na AWS, ou seja, o controlador precisará de permissão para isso. O controlador dos load balancers precisará de acesso para criar, modificar e excluir load balancers gerenciados pela AWS. Em determinadas aplicações também precisaremos desse tipo de permissão. Um job Spark, por exemplo, precisará de permissão para ler e gravar dados em determinado bucket no S3. Uma aplicação backend poderá de permissão para ler chaves no DynamoDB.
+Isso fará bastante sentido como iremos ver mais adiante. O controlador de volumes EBS precisará gerenciar os volumes EBS na AWS, ou seja, o controlador deve ter a permissão de criar, deletar ou anexar recursos de storage. O controlador dos load balancers precisará de acesso para criar, modificar e excluir load balancers gerenciados pela AWS. Em determinadas aplicações também precisaremos desse tipo de permissão. Um job Spark, por exemplo, precisará de permissão para ler e gravar dados em determinado bucket no S3. Uma aplicação backend poderá dar permissão para ler chaves no DynamoDB.
 
-Não vou entrar em detalhes de como permitir que service accounts assumam roles da AWS, todos os por menores de como implementar essa feature pode ser encontrada na documentação [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html). Recomendo fortemente que o configure o OIDC provider logo após o provisionamento do cluster para poder que suas service accounts assumam roles das AWS.
+Não vou entrar em detalhes de como permitir que service accounts assumam roles da AWS, todos os por menores de como implementar essa feature pode ser encontrada na documentação [IAM roles for service accounts](https://docs.aws.amazon.com/eks/latest/userguide/iam-roles-for-service-accounts.html). Recomendo fortemente que o configure essa feature logo após o provisionamento do cluster para permitir que suas service accounts assumam roles das AWS.
 
 ## Aplicações
 
-Vou falar um pouco das aplicações que julgo serem essenciais de serem instaladas em um cluster EKS. Algumas delas podem ser encontradas na [documentação oficial do EKS](https://docs.aws.amazon.com/eks/latest/userguide/index.html). Pode ser que alguma das citadas não faça sentido ao seu caso de uso, o cluster após ser provisionado estará pronto para ser utilizado para a maioria das aplicações. Cabe ao administrador do cluster utilizar seus próprios critérios para saber se precisa ou não das destacadas a seguir.
+Vou falar um pouco das aplicações que julgo serem essenciais de serem instaladas em um cluster EKS. Algumas delas podem ser encontradas na [documentação oficial do EKS](https://docs.aws.amazon.com/eks/latest/userguide/index.html). Pode ser que alguma das citadas não faça sentido ao seu caso de uso. Muitas vezes o cluster após ser provisionado estará pronto para ser utilizado para a maioria das aplicações. Cabe ao administrador do cluster utilizar seus próprios critérios para saber se precisa ou não das aplicações destacadas a seguir.
 
 ### Amazon EBS CSI driver
 
-O EKS por padrão já disponibiliza um storage class para volumes persistentes. O tipo deste storage class padrão é o EBS *gp2*. Para que possamos manipular novas tipos de EBS temos que instalar um driver csi. CSI quer dizer Container Storage Interface, é um um padrão desenvolvido para não só para o Kubernetes, mas para qualquer sistema de orquestração de containers. Ele dispõem de uma interface padrão que pode ser implementada por drivers para possibilitar que novos tipos de volumes de diferentes fornecedores possam ser utilizados no Kubernetes.
+O EKS por padrão já disponibiliza um storage class para volumes persistentes. O tipo deste storage class padrão é o EBS *gp2*. Para que possamos manipular novos tipos de EBS temos que instalar um driver csi. CSI quer dizer Container Storage Interface, é um padrão desenvolvido não só para o Kubernetes, mas para qualquer sistema de orquestração de containers. Ele dispõem de uma interface padrão que pode ser implementada por drivers para possibilitar que novos tipos de volumes, de diferentes fornecedores, possam ser utilizados no Kubernetes ou por qualquer outro serviço que utilize esta interface.
 
-O *gp2* é um tipo disponibilizado pelo EKS que atende a maioria dos casos de uso, porém se quiser dar a possibilidade do desenvolvedor utilizar novas classes de armazenamento, então devemos instalar o [Amazon EBS CSI Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver). Com ele, por exemplo, podemos provisionar o EBS do tipo *gp3* que oferece taxas de transferência melhores que o *gp2*, além de ser mais barato dependendo das configurações.
+O *gp2* é um tipo de EBS disponibilizado pelo EKS que atende a maioria dos casos de uso, porém se quiser dar a possibilidade do desenvolvedor utilizar novas classes de armazenamento, então devemos instalar o [Amazon EBS CSI Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver). Com ele, por exemplo, podemos provisionar o EBS do tipo *gp3* que oferece taxas de transferência melhores que o *gp2*, além de ser mais barato dependendo das configurações.
+
+### EFS
+
+
 
 ### Calico
 
-O [Calico](https://github.com/projectcalico/calico) é um network policy engine para o Kubernetes. Com ele é possível definir políticas para a rede do cluster, qual serviço pode se comunicar com outro, por exemplo. Outro tipo de caso de uso é o bloqueio de comunicação de serviços front-end com aplicações do kube-system, isso garantiria uma melhor segurança do cluster. 
+O [Calico](https://github.com/projectcalico/calico) é um network policy engine para o Kubernetes. Com ele é possível definir políticas para a rede do cluster, qual serviço pode se comunicar com outro por exemplo. Outro tipo de caso de uso é o bloqueio de comunicação de serviços front-end com aplicações do *kube-system*, isso garantiria uma melhor segurança do cluster. 
 
 ### AWS Load Balancer Controller
 
-Para que possamos criar, gerenciar e deletar load balances gerenciados pela AWS, precisamos deste controlador instalado ao cluster. O [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) irá permitir que possamos gerenciar Application Load Balancer para os recursos do tipo ingress e Network Load Balancer para os recursos do tipo service. Vamos a um exemplo.
+Para que possamos criar, gerenciar e deletar load balancers gerenciados pela AWS, precisamos deste controlador instalado ao cluster. O [AWS Load Balancer Controller](https://github.com/kubernetes-sigs/aws-load-balancer-controller) irá permitir que possamos gerenciar Application Load Balancer para os recursos do tipo ingress e Network Load Balancer para os recursos do tipo service. Vamos a um exemplo.
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -164,7 +168,7 @@ Com o Nginx ingress basta que o serviço do nginx seja exposto como um serviço 
 
 Precisamos do [Cluster Autoscaler](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws) para garantir a escalabilidade do cluster. Com ele podemos garantir que o número de nós irá aumentar ou diminuir de acordo com a demanda de recursos das aplicações.
 
-Um dos principais erros cometidos quando usamos o autoscaler é em relação as zonas que os discos EBSs estão localizados quando usamos StatefulSets por exemplo. Os volumes EBSs provisionados estão localizados em determinadas zonas dentro de uma região. Se um nó não estiver localizado na mesma região que o volume EBS, o driver csi do EBS não conseguirá anexar o volume ao nó, já que eles estão em zonas diferentes. Para garantir que o nó sempre suba em uma região em especifico, é necessário configurar o node group para escalar os nós somente em uma zona. Isso pode ser um problema se você estiver lidando com instâncias Spots, já que você acaba limitando o mercado de Spots quando utiliza somente uma zona. O Karpenter, a seguir, [resolve bem este problema](https://karpenter.sh/v0.10.1/tasks/scheduling/#persistent-volume-topology). Outra solução é utilizar classes de armazenamento que são replicadas em múltiplas zonas, como o [EFS](https://github.com/kubernetes-sigs/aws-efs-csi-driver), porém terá um custo maior devido as replicas em múltiplas regiões.
+Um dos principais erros cometidos quando usamos o autoscaler é em relação as zonas que os discos EBSs estão localizados quando usamos StatefulSets por exemplo. Os volumes EBSs provisionados estão localizados em determinadas zonas dentro de uma região. Se um nó não estiver localizado na mesma região que o volume EBS, o driver csi do EBS não conseguirá anexar o volume ao nó, já que eles estão em zonas diferentes. Para garantir que o nó sempre suba em uma região em específico, é necessário configurar o node group para escalar os nós somente em uma zona. Isso pode ser um problema se você estiver lidando com instâncias Spots, já que você acaba limitando o mercado de Spots quando utiliza somente uma zona. O Karpenter, a seguir, [resolve bem este problema](https://karpenter.sh/v0.10.1/tasks/scheduling/#persistent-volume-topology). Outra solução é utilizar classes de armazenamento que são replicadas em múltiplas zonas, como o [EFS](https://github.com/kubernetes-sigs/aws-efs-csi-driver), porém terá um custo maior devido as replicas em múltiplas regiões.
 
 ![EBS e EFS no EKS](/images/2022-05-27-principais-aprendizados-utilizando-o-eks/ebs-efs-eks.png)
 
@@ -210,10 +214,13 @@ No exemplo acima, o deployment está instanciando 10 replicas, ou melhor, 10 pod
 ### External Secrets
 
 
+
 ### Prometheus
 
 
+
 ### Prometheus Adapter
+
 
 
 ### Loki
