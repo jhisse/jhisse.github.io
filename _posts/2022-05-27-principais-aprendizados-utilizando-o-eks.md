@@ -227,14 +227,19 @@ Com o External Secrets podemos armazenar os segredos em um sistema externo ao Ku
 
 ### Prometheus
 
-
+Para armazenar métricas do seu cluster, podemos utilizar o [Prometheus](https://prometheus.io/). O Prometheus irá armazenar essas métricas de memória, cpu e etc, para que possamos monitorar em tempo real ou para analises futuras o comportamento de nossos workloads.
 
 ### Prometheus Adapter
 
 
 
-### Loki
+### Grafana Loki
 
+Além das métricas do Prometheus, precisamos nos preocupar com os logs das aplicações também. Lembrando da natureza efêmera dos containers, precisamos capturar e armazenar os logs de forma eficiente. Para isso, utilizamos o [Loki](
+
+### Grafana
+
+Para visualizar as métricas do Prometheus e os logs do Loki, precisamos de uma aplicação que nos permita visualizar esses dados armazenados. Para isso, utilizamos o [Grafana](https://grafana.com/).
 
 ## Conclusão
 
