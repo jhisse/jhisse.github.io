@@ -36,10 +36,12 @@ nav a:hover {
 
 a {
   color: var(--links);
+  text-decoration: none;
 }
 
 a:hover {
   color: var(--focus);
+  text-decoration: underline;
 }
 
 p {
@@ -69,6 +71,7 @@ small > time {
 
 h1, h2, h3, h4, h5, h6, #title {
   font-size: 1.4em;
+  margin-bottom: 12px;
 }
 
 header {
@@ -109,4 +112,15 @@ footer {
   margin-top: 5px;
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+pre {
+  border-radius: 6px;
+  padding: 6px;
+}
+
+p > code {
+  background: #efefef;
+  border-radius: 2px;
+  padding: 3px;
 }

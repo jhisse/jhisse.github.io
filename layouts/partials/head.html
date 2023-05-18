@@ -1,0 +1,49 @@
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="icon" href="/favicon.ico" />
+
+<title>{{ .Title }} - {{ .Site.Title }}</title>
+<meta name="author" content="José Hisse" />
+<meta
+  name="description"
+  content="{{ if .Date }}{{ .Summary | safeHTML }}{{ else }}{{ .Site.Params.description }}{{ end }}"
+/>
+<link rel="canonical" href="{{ .Permalink }}" />
+
+{{ partial "opengraph.html" . }}
+
+<script type="application/ld+json">
+  {{ partial "jsonld.json" . }}
+</script>
+
+{{ $lightStyle := resources.Get "css/light.min.css" | resources.Minify }}
+<link rel="stylesheet" href="{{ $lightStyle.RelPermalink }}" />
+
+{{ $mainStyle := resources.Get "css/main.css" | resources.Minify }}
+<link rel="stylesheet" href="{{ $mainStyle.RelPermalink }}" />
+
+{{ $monokai := resources.Get "css/monokai.css" | resources.Minify }}
+<link rel="stylesheet" href="{{ $monokai.RelPermalink }}" />
+
+
+{{ if .Params.mathjax }}
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [["\\(", "\\)"]],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"],
+      ],
+      processEscapes: true,
+    },
+  };
+</script>
+<script
+  id="MathJax-script"
+  async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3.0.0/es5/tex-mml-chtml.js"
+></script>
+{{ end }}
