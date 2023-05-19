@@ -8,8 +8,8 @@
   <a href="/sitemap.xml">Sitemap</a>
 </p>
 
-{{ with .Type }} {{ if eq . "blog" }}
-
+{{ with .Type }} 
+{{ if eq . "blog" }} 
 {{ $zooming := resources.Get "js/zooming.min.js" }}
 <script src="{{ $zooming.RelPermalink }}"></script>
 
@@ -21,12 +21,5 @@
     }).listen("img");
   });
 </script>
-{{ end }} {{ end }} {{ if eq hugo.Environment "production" }}
-<!-- Cloudflare Web Analytics -->
-<script
-  defer
-  src="https://static.cloudflareinsights.com/beacon.min.js"
-  data-cf-beacon='{"token": "c3215c43a4b842b6aa8d16902f20db0d"}'
-></script>
-<!-- End Cloudflare Web Analytics -->
+{{ end }}
 {{ end }}
