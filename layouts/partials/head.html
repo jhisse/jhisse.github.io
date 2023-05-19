@@ -14,9 +14,7 @@
 
 {{ partial "opengraph.html" . }}
 
-<script type="application/ld+json">
-  {{ partial "jsonld.json" . }}
-</script>
+{{ partial "jsonld.html" . }}
 
 {{ $lightStyle := resources.Get "css/light.min.css" | resources.Minify }}
 <link rel="stylesheet" href="{{ $lightStyle.RelPermalink }}" />
