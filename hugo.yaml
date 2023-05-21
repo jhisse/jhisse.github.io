@@ -17,7 +17,7 @@ disableKinds:
   - section
 
 params:
-  description: >
+  description: >-
     Engenheiro de dados (Big Data). Spark, Nifi, ElasticSearch,
     Kafka, Docker, BigQuery, Data lake
   linkedin: https://www.linkedin.com/in/josehisse/
