@@ -36,7 +36,7 @@ Ao acessar o navegador no endereço ```localhost:8787``` teremos acesso à inter
 
 ![Interface padrão do RStudio](images/rstudio-interface-padrao.png)
 
-A imagem padrão do rstudio contêm os pacotes básicos para executar nossos scripts em R, porêm como iremos trabalhar com modelos de machine learning será necessário instalar algumas bibliotecas.
+A imagem padrão do RStudio contêm os pacotes básicos para executar nossos scripts em R, porêm como iremos trabalhar com modelos de machine learning será necessário instalar algumas bibliotecas.
 
 É de boa prática criarmos uma imagem personalizada quando estamos utilizando o Docker para a padronização de ambientes. Por isso não iremos instalar direto na interface do RStudio que vimos anteriormente, vamos criar uma definição de imagem onde iremos executar um comando de instalação dos pacotes R que serão necessários.
 
@@ -217,7 +217,7 @@ Na interface principal do Swagger podemos inserir valores de testes e verificarm
 
 ## Empacotando a API preditiva
 
-Neste ponto vamos ter como objetivo empacotar nossa API predititva em container, ou seja, vamos criar uma receita para que nossa API seja facilmente replicada.
+Neste ponto vamos ter como objetivo empacotar nossa API preditiva em container, ou seja, vamos criar uma receita para que nossa API seja facilmente replicada.
 
 Em nossa abordagem vamos inserir o modelo treinado no container junto com código da API, diferente da abordagem adotada no [artigo em que utilizamos o framework serverless e o S3]({{< ref api-modelos-machine-learning >}}.
 
@@ -228,7 +228,7 @@ Vamos a nossa estrutura de diretórios:
 \-\- api.r  
 \-\- glm_model.rds  
 
-Primeiro vamos copiar o modelo já treinado, *glm_model.rds*, e o código da API, *api.r* para dentro do diretório raiz. A seguir vamos criar o arquivo chamado *Dockerfile* com o seguinte conteúdo:
+Primeiro vamos copiar o modelo já treinado, *glm_model.rds*, e o código da API, *api.r* para dentro do diretório raiz. A seguir, vamos criar o arquivo chamado *Dockerfile* com o seguinte conteúdo:
 
 ```Dockerfile
 FROM r-base:4.0.0
@@ -292,4 +292,4 @@ Ou podemos fazer uma requisição HTTP como na imagem abaixo.
 
 ## Conclusão
 
-Este artigo buscou demonstrar ao leitor uma maneira de produtizar um modelo preditivo utilizando a linguagem R, tão comum entre os data scientists. Todos os códigos utilizados aqui podem ser encontardos neste [repositório do GitHub](https://github.com/jhisse/api-r-preditiva).
+Este artigo buscou demonstrar ao leitor uma maneira de produtizar um modelo preditivo utilizando a linguagem R, tão comum entre os data scientists. Todos os códigos utilizados aqui podem ser encontrados neste [repositório do GitHub](https://github.com/jhisse/api-r-preditiva).

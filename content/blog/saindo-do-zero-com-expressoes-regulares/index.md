@@ -4,11 +4,11 @@ date: 2020-03-14
 layout: post
 ---
 
-Você já precisou procurar em um texto sequências de caracteres que correspondiam a um padrão? Validar um número de telefone? Analizar logs de um servidor? São inúmeros os casos de uso das expressões regulares, porém seu uso pode parecer um pouco complicado à primeira vista. Ao longo deste texto vamos entender o contexto que ela surgiu e aprender suas principais funções.
+Você já precisou procurar em um texto, sequências de caracteres que correspondiam a um padrão? Validar um número de telefone? Analisar logs de um servidor? São inúmeros os casos de uso das expressões regulares, porém seu uso pode parecer um pouco complicado à primeira vista. Ao longo deste texto vamos entender o contexto que ela surgiu e aprender suas principais funções.
 
 ## História
 
-Tudo começou quando em 1943 com Warren McCulloch e Walter Pitts publicaram um artigo entitulado ["A logical calculus of the ideas immanent in nervous activity"](https://link.springer.com/article/10.1007/BF02478259) onde eles associaram a atividade neuronal com a lógica proposicional, ou seja, eles modelaram através da lógica a forma que os neurônios interagiam entre si.
+Tudo começou quando em 1943 com Warren McCulloch e Walter Pitts publicaram um artigo intitulado ["A logical calculus of the ideas immanent in nervous activity"](https://link.springer.com/article/10.1007/BF02478259) onde eles associaram a atividade neuronal com a lógica proposicional, ou seja, eles modelaram através da lógica a forma que os neurônios interagiam entre si.
 
 Mais tarde em 1951, com o paper [“Representation of Events in Nerve Nets and Finite Automata”](https://www.rand.org/content/dam/rand/pubs/research_memoranda/2008/RM704.pdf) Stephen Kleene formalizou algebricamente os modelos neurológicos descritos por McCulloch e Pitts.
 
@@ -58,17 +58,17 @@ Search for PATTERN in FILEs (or stdin)
   -f FILE    Read pattern from file
 ```
 
-Nos exemplos que virão a seguir vamos usar a seguinte estrutura:
+Nos exemplos que virão a seguir usaremos a seguinte estrutura:
 
 ```console
 echo "<texto>" | grep -oE "<pattern>"
 ```
 
-Essa estrutura indica que o \<texto\> será enviado para o comando grep como input e por sua vez o grep irá buscar o \<pattern\>. A opção *o* faz o grep imprimir no terminal cada sequência encontrada em uma linha diferente e a opção *P* faz com que o grep interprete o pattern como a linguagem Perl que permite utilizar algumas funções a mais.
+Essa estrutura indica que o \<texto\> será enviado para o comando grep como input e, o grep irá buscar o \<pattern\>. A opção *o* faz o grep imprimir no terminal cada sequência encontrada em uma linha diferente e a opção *P* faz com que o grep interprete o pattern como a linguagem Perl que permite utilizar algumas funções a mais.
 
 ## Metacaracteres
 
-Em regex alguns caracteres tem interpretações especias, ou seja, eles podem assumir certos tipos de funções. A seguir vamos conhecer alguns deles.
+Em regex alguns caracteres têm interpretações especias, ou seja, eles podem assumir certos tipos de funções. A seguir, vamos conhecer alguns deles.
 
 ### O ponto - **.**
 
@@ -102,11 +102,11 @@ sapo
 galo
 ```
 
-Por último procuravámos por qualquer caractere seguida pela vogal "a", novamente qualquer caractere e por último a vogal "o".
+Por último procurávamos por qualquer caractere seguida pela vogal "a", novamente qualquer caractere e por último a vogal "o".
 
 ### A alternância - **|**
 
-O caractere de barra vertical ou pipe é usado como alternância, ou seja, é usado quando queremos usar a lógica de ou, ou uma coisa ou outra.
+O caractere de barra vertical ou pipe é usado como alternância, ou seja, é usado quando queremos usar a lógica de ou, ou uma coisa, ou outra.
 
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE 'pato|gato'
@@ -116,7 +116,7 @@ gato
 
 ### O agrupador - **( )**
 
-Também conhecido como grupo de captura, tem por objetivo agrupar metacaracteres. Muito útil em busca e substituição, pois nos permite referênciar o grupo para um possível reuso.
+Também conhecido como grupo de captura, tem por objetivo agrupar metacaracteres. Muito útil em busca e substituição, pois nos permite referenciar o grupo para um possível reuso.
 
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '(p|g)ato'
@@ -126,7 +126,7 @@ gato
 
 ### A lista - **[ ]**
 
-A lista pode ser entendida como uma sequência de caracteres separados por um \|. Isso quer dizer que o padrão irá casar um caractere que esteja dentro da lista.
+A lista pode ser entendida como uma sequência de caracteres separados por um \|. Isso quer dizer que o padrão irá casar um caractere que esteja na lista.
 
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[pg]ato'
@@ -136,7 +136,7 @@ gato
 
 ### A lista rejeitada - **[^ ]**
 
-A lista rejeitada indica que os caracteres contidos nela não irão casar com os padrões buscados.
+A lista rejeitada indica que os caracteres contidos nela não vão casar com os padrões buscados.
 
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[^pg]ato'
@@ -209,7 +209,7 @@ pato
 
 No exemplo acima, o match foi na sequência "ato" da primeira palavra pato, a palavra gato por inteiro, já que a letra g era opcional, e a sequência "ato" da palavra rato.
 
-Por fim as chaves representa o número mínimo e máximo de ocorrências. Uso é feito da seguindo o formato {n,m}, sendo n o número mínimo e m o número máximo, pode-se ocultar o número m, {n} ou {n,}, significa que temos um número exato de elemento a dar match no primeiro e no segundo indica que temos um número mínimo de caracteres a dar match.
+Por fim, as chaves representam o número mínimo e máximo de ocorrências. Uso é feito da seguindo o formato {n,m}, sendo n o número mínimo e m o número máximo, pode-se ocultar o número m, {n} ou {n,}, significa que temos um número exato de elemento a dar match no primeiro e no segundo indica que temos um número mínimo de caracteres a dar match.
 
 ```console
 $ echo "pato 2342 galinha 7634 gato 52 rato 3423 sapo 34 galo" | grep -oE '[0-9]{2,3}'

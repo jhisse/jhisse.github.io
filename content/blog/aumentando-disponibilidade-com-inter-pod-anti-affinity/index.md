@@ -4,7 +4,7 @@ date: 2021-04-03
 layout: post
 ---
 
-O objetivo deste artigo é entender como funciona o recurso de anti afinidade entre pods e como os diferentes modos, soft e hard, podem influenciar na disponibilidade de uma aplicação que esteja sendo executada no kubernetes. Veremos os diferentes modos de anti afinidade e faremos uma sequência de testes para entender seus mais variados comportamentos.
+O objetivo deste artigo é entender como funciona o recurso de anti afinidade entre pods e como os diferentes modos, soft e hard, podem influenciar na disponibilidade de uma aplicação que esteja sendo executada no Kubernetes. Veremos os diferentes modos de anti afinidade e faremos uma sequência de testes para entender seus mais variados comportamentos.
 
 ## Ambiente de teste
 
@@ -12,7 +12,7 @@ Para realizarmos as simulações propostas ao longo deste artigo iremos precisar
 
 Até agora vimos dois pré-requisitos, o kind e o kubectl. Você pode conferir como instalar essas ferramentas nos respectivos sites indicados acima.
 
-Tendo-os instalados vamos a configuração do cluster. Em uma pasta crie um arquivo chamado ```cluster_config.yaml```. Ele vai ter o seguinte conteúdo:
+Tendo-os instalados, vamos a configuração do cluster. Em uma pasta crie um arquivo chamado ```cluster_config.yaml```. Ele vai ter o seguinte conteúdo:
 
 ```yaml
 kind: Cluster
@@ -42,7 +42,7 @@ nodes:
           node-labels: "topology.kubernetes.io/zone=east-1b,topology.kubernetes.io/region=east"
 ```
 
-Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos de acordo com a localidade das instâncias que compõem o cluster.
+Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos conforme a localidade das instâncias que compõem o cluster.
 
 ```console
 kind create cluster --config config_artigo.yaml --name affinity
@@ -62,13 +62,13 @@ kubectl get pods --all-namespaces
 
 ## Labels de topologia
 
-Para este artigo nos interessa 3 labels especifícas dos nós:
+Para este artigo nos interessa 3 labels específicas dos nós:
 
 - kubernetes.io/hostname
 - topology.kubernetes.io/zone
 - topology.kubernetes.io/region
 
-Escolheremos um deles como domínio quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, ```kubernetes.io/hostname```, passando pela zona que pode haver repetição, ```topology.kubernetes.io/zone``` e seguido pela a região ```topology.kubernetes.io/region``` que engloba as zonas.
+Escolheremos um deles como domínio quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, ```kubernetes.io/hostname```, passando pela zona que pode haver repetição, ```topology.kubernetes.io/zone``` e seguido pela região ```topology.kubernetes.io/region``` que engloba as zonas.
 
 A descrição de todos os nós do nosso cluster pode ser verificada da seguinte forma:
 
@@ -217,7 +217,7 @@ Events:
   Warning  FailedScheduling  48s (x4 over 3m24s)  default-scheduler  0/4 nodes are available: 1 node(s) had taint {node-role.kubernetes.io/master: }, that the pod didn't tolerate, 3 node(s) didn't match pod affinity/anti-affinity, 3 node(s) didn't match pod anti-affinity rules.
 ```
 
-Ficou evidente que a não alocação deste pod foi resultado da política de anti-affinidade. Vamos à mais uma alteração, trocar a topologyKey para trabalharmos com zonas. Lembrando que no cluster temos 3 zonas diferentes.
+Ficou evidente que a não alocação deste pod foi resultado da política de anti-afinidade. Vamos à mais uma alteração, trocar a topologyKey para trabalharmos com zonas. Lembrando que no cluster temos 3 zonas diferentes.
 
 ```diff
 26c26
@@ -240,7 +240,7 @@ lorem-ipsum-deployment-548b947664-jz7p5   1/1     Running   0          21s   10.
 lorem-ipsum-deployment-548b947664-pdzjf   1/1     Running   0          21s   10.244.1.3   affinity-worker2   <none>           <none>
 ```
 
-Como observado, nenhum pod foi alocado na mesma zona. Mais uma última alteração, vamos aumentar o número de replicas para 4 e alterar o topologyKey para ```kubernetes.io/hostname```.
+Como observado, nenhum pod foi alocado na mesma zona. Mais uma última alteração, vamos aumentar o número de réplicas para 4 e alterar o topologyKey para ```kubernetes.io/hostname```.
 
 ```diff
 8c8
@@ -315,7 +315,7 @@ spec:
               memory: 128Mi
 ```
 
-Já iremos aplicar com 3 réplicas e com a a topologyKey igual a ```topology.kubernetes.io/region```. Lembrando que temos nós em somente duas regiões.
+Já iremos aplicar com 3 réplicas e com a topologyKey igual a ```topology.kubernetes.io/region```. Lembrando que temos nós em somente duas regiões.
 
 ```console
 $ kubectl delete -f deployment.yaml
@@ -488,7 +488,7 @@ lorem-ipsum-deployment-6d49b8d8cd-nj52g   1/1     Running   0          4m1s    1
 
 Vimos os diferentes modos de anti-afinidade e alguns comportamentos no deploy de sua aplicação.
 
-O modo soft ou preferível de alocação, na maioria dos casos, deve ser a melhor escolha. Ele garantirá que sua aplicação atinja o número de réplicas estipulado no deployment.
+O modo soft ou preferível de alocação, geralmente, deve ser a melhor escolha. Ele garantirá que sua aplicação atinja o número de réplicas estipulado no deployment.
 
 De preferência a distribuir os pods por regiões ou zonas, isso garantirá que sua aplicação continue funcionando em caso de indisponibilidade por região ou zona.
 

@@ -4,21 +4,21 @@ date: 2021-03-16
 layout: post
 ---
 
-É latente a necessidade de distribuir dados científicos de forma mais acessível e com a capacidade de serem facilmente reproduzíveis. A correta governança dos dados permitirá torná-los um ativo duradouro ao longo do tempo, mantendo seu valor e história.
+É latente a necessidade de distribuir dados científicos de maneira mais acessível e com a capacidade de serem facilmente reproduzíveis. A correta governança dos dados permitirá torná-los um ativo duradouro ao longo do tempo, mantendo seu valor e história.
 
-Em 2016, um artigo na revista Nature intitulado "[The FAIR Guiding Principles for scientific data management and stewardship](https://www.nature.com/articles/sdata201618)", um grupo de cientistas propôs quatro príncipios para a publicação de dados cientificos. Eles o denominaram [FAIR](https://www.go-fair.org/fair-principles/), o acrônimo formado por cada um dos princípios citados.
+Em 2016, um artigo na revista Nature intitulado "[The FAIR Guiding Principles for scientific data management and stewardship](https://www.nature.com/articles/sdata201618)", um grupo de cientistas propôs quatro princípios para a publicação de dados científicos. Eles o denominaram [FAIR](https://www.go-fair.org/fair-principles/), o acrônimo formado por cada um dos princípios citados.
 
 Abaixo vamos descrever os principais pontos que compõem os princípios FAIR.
 
 ## Findable - Achável
 
-Um dado só é útil se ele existe e pode ser achável. Caso ele não possa ser encontrado, podemos considerar que não existe. Então a indexação dos dados e metadados por um mecanismo de pesquisa é fundamental. Além disso é importante que exista um identificador universal único, para que não seja confundido com outro recurso.
+Um dado só é útil se ele existe e pode ser achável. Caso ele não possa ser encontrado, podemos considerar que não existe. Então a indexação dos dados e metadados por um mecanismo de pesquisa é fundamental. Além disso, é importante que exista um identificador universal único, para que não seja confundido com outro recurso.
 
 Podemos destacar que, para um dado ser achável, não necessariamente precisa estar aberto sem uma camada de autenticação e autorização. Seus metadados devem ser ricos o suficiente para descrever sobre o que aquele dado se refere.
 
 ## Accessible - Acessível
 
-O dado será considerado acessível se ele for distribuído com um protocolo aberto, gratuito e ter uma implementação universal. O protocolo se refere por exemplo ao http, ftp.
+O dado será considerado acessível se ele for distribuído com um protocolo aberto, gratuito e ter uma implementação universal. O protocolo se refere, por exemplo, ao http, ftp.
 
 Caso o dado não esteja mais acessível, é recomendável que os metadados continuem disponíveis.
 
@@ -36,4 +36,4 @@ A licença que o dado será distribuído também é importante, pois define os l
 
 ## Importância fora do escopo científico
 
-Todos os principios citados fazem sentindo em qualquer escopo envolvendo dados. Cuidar da governança é um desafio crescente dado o volume de dados que são gerados diarimente.
+Todos os princípios citados fazem sentindo em qualquer escopo envolvendo dados. Cuidar da governança é um desafio crescente dado o volume de dados gerados diariamente.

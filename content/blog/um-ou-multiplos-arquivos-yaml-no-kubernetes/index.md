@@ -4,11 +4,11 @@ date: 2021-06-20
 layout: post
 ---
 
-Neste artigo vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final iremos utilizar o *Kustomize*, já presente no *kubectl*.
+Neste artigo vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o Kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final iremos utilizar o *Kustomize*, já presente no *kubectl*.
 
 ## Ambiente de testes
 
-Para que você possa ter um entendimento maior deste artigo, recomendo configurar em sua máquina um ambiente de testes. Assim você poderá reproduzir todos os passos que virão a seguir.
+Para você poder ter um entendimento maior deste artigo, recomendo configurar em sua máquina um ambiente de testes. Assim você poderá reproduzir todos os passos a seguir.
 
 Para seu ambiente local vamos utilizar o [Kind](https://kind.sigs.k8s.io/), já citado no artigo em que falamos sobre [pods anti affinity]({{< ref aumentando-disponibilidade-com-inter-pod-anti-affinity >}}). Iremos precisar também do [kubectl](https://kubernetes.io/docs/tasks/tools/#kubectl) para gerenciar nosso cluster.
 
@@ -37,7 +37,7 @@ yamls-test-control-plane   Ready    control-plane,master   9m43s   v1.20.2
 
 ## Único arquivo yaml
 
-Ao longo deste artigo iremos usar como exemplo somente duas definições de objetos do kubernetes. Uma definição de namespace e outra de pod. Essas definições podem coexistir em um único arquivo como podemos ver a seguir.
+Ao longo deste artigo iremos usar como exemplo somente duas definições de objetos do Kubernetes. Uma definição de namespace e outra de pod. Essas definições podem coexistir em um único arquivo como podemos ver a seguir.
 
 ```yaml
 apiVersion: v1
@@ -58,7 +58,7 @@ spec:
       image: k8s.gcr.io/pause:3.2
 ```
 
-As definições devem ser separadas por ```---```. No primeiro bloco temos a definição de namespace e no segundo bloco temos a do pod. Vamos observar que a do pod tem uma dependência com a do namespace.
+As definições devem ser separadas por `---`. No primeiro bloco temos a definição de namespace e no segundo bloco temos a do pod. Vamos observar que a do pod tem uma dependência com a do namespace.
 
 ```yaml
 ...
@@ -94,7 +94,7 @@ $ ls
 all-objects.yaml
 ```
 
-Vemos que nosso arquivo com todas as definições foi criado e agora vamos aplicá-lo em nosso cluster com o kubectl.
+Vemos que nosso arquivo, com todas as definições, foi criado e agora vamos aplicá-lo em nosso cluster com o kubectl.
 
 ```console
 $ kubectl apply -f ./
@@ -227,7 +227,7 @@ namespace/my-namespace created
 pod/my-pod created
 ```
 
-Resolvemos nosso problema, porém não é uma solução muito elegante. Em projetos grandes e em desenvolvimento, pode resultar na necessidade de renomear constantemente nossas definições. Por exemplo, quando uma nova definição for dependência, como um ConfigMap por exemplo. Se ele fosse dependência do pod, teríamos que renomear o *01-my-pod.yaml* para *02-my-pod.yaml* e o ConfigMap seria algo como *01-my-configmap.yaml*.
+Resolvemos nosso problema, porém não é uma solução muito elegante. Em projetos grandes e em desenvolvimento, pode resultar na necessidade de renomear constantemente nossas definições. Por exemplo, quando uma nova definição for dependência, como um ConfigMap, por exemplo. Se ele fosse dependência do pod, teríamos que renomear o *01-my-pod.yaml* para *02-my-pod.yaml* e o ConfigMap seria algo como *01-my-configmap.yaml*.
 
 Vamos remover os recursos criados para avançarmos para a próxima seção.
 
@@ -278,7 +278,7 @@ namespace/my-namespace created
 pod/my-pod created
 ```
 
-Vimos que utilizando o *Kustomize* resolvemos nosso problema. Os objetos são ordenados de acordo com uma [hierarquia já definida no código fonte](https://github.com/kubernetes-sigs/kustomize/blob/cb4f5c39837e50a02e063e48941ed515da28356f/kyaml/resid/gvk.go#L132-L159). Isso minimiza quaisquer problemas relacionados a yaml que dependem de outro recurso, como o caso visto neste artigo.
+Vimos que utilizando o *Kustomize* resolvemos nosso problema. Os objetos são ordenados de acordo com uma [hierarquia já definida no código-fonte](https://github.com/kubernetes-sigs/kustomize/blob/cb4f5c39837e50a02e063e48941ed515da28356f/kyaml/resid/gvk.go#L132-L159). Isso minimiza quaisquer problemas relacionados a yaml que dependem de outro recurso, como o caso visto neste artigo.
 
 É importante ressaltar que o *Kustomize* não se limita a esse uso. Ele possui recursos que trazem muitas vantagens para seus templates yaml. Você pode checar as [principais features no site oficial](https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/).
 
@@ -290,7 +290,7 @@ namespace "my-namespace" deleted
 
 ## Conclusão
 
-Vimos 3 maneiras diferentes de organizar um pequeno conjunto de definições do kubernetes. Em cada uma delas existem vantagens e desvantagens, cabendo ao desenvolvedor a escolha da mais adequada ao seu projeto.
+Vimos 3 maneiras diferentes de organizar um pequeno conjunto de definições do Kubernetes. Em cada uma delas existem vantagens e desvantagens, cabendo ao desenvolvedor a escolha da mais adequada ao seu projeto.
 
 O uso do Kustomize pode aparentar trazer ao projeto uma pequena complexidade a mais, porém suas vantagens não se limitam às apresentadas aqui. Em projetos onde você precisa fazer pequenas alterações em seu yaml, como aumentar o número de réplicas por ambiente ou ter labels diferentes em produção e desenvolvimento, ele será um facilitador.
 

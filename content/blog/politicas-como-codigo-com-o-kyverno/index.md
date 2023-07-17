@@ -115,13 +115,13 @@ Atualmente temos 3 principais comportamentos de políticas no Kyverno. Vamos lis
 
 - **Mutate Resources**: Aplica alterações no recurso, alguns exemplos incluem, adicionar determinada label ou annotation, definir limites de cpu e memória em pods ou até adicionar propriedades padrões aos recursos.
 - **Validate Resources**: As regras de validação servem para validar se o recurso que está sendo aplicado no cluster está com determinada propriedade correta. Por exemplo, se a imagem não contém a tag latest ou se os limites de cpu e memória estão definidos.
-- **Generator Resources**: Este tipo de política se aplica a casos de uso onde queremos criar um novo recurso assim que um novo recurso é definido. Um exemplo comum pode ser, quando criamos um novo namespace, queremos que seja criado de forma automática o ResourceQuota daquele namespace.
+- **Generator Resources**: Este tipo de política se aplica a casos de uso onde queremos criar um recurso assim que um novo recurso é definido. Um exemplo comum pode ser, quando criamos um namespace, queremos que seja criado de forma automática o ResourceQuota daquele namespace.
 
 ## Utilizando o Kyverno CLI
 
 Poderíamos ter validado e testado a política apresentada no começo deste artigo antes de aplicá-la em nosso cluster. Isso é muito útil em processos de CI/CD, onde queremos realizar essas atividades de forma automática.
 
-No Kyverno command line temos três principais comandos, o **validate**, utilizado para verificar se nossa especificação da política está correta e é válida. O comando **apply** aplica a política em uma especificação de recurso, como de um pod, por exemplo e tem como output o recurso modificado. E por último temos o **test**, que varre o diretório especificado para executar uma série de testes.
+No Kyverno command line temos três principais comandos, o **validate**, utilizado para verificar se nossa especificação da política está correta e é válida. O comando **apply** aplica a política em uma especificação de recurso, como de um pod, por exemplo, e tem como output o recurso modificado. E por último temos o **test**, que varre o diretório especificado para executar uma série de testes.
 
 ### Kyverno CLI Validate
 
@@ -231,7 +231,7 @@ spec:
       image: k8s.gcr.io/pause:3.2
 ```
 
-Como queremos executar um teste que verifica a aplicação correta de uma política, precisamos ter um arquivo de definição com a política já aplicada ao recurso. Então, vamos criar um novo arquivo chamado *my-pod-patched.yaml* onde terá o estado final da definição.
+Como queremos executar um teste que verifica a aplicação correta de uma política, precisamos ter um arquivo de definição com a política já aplicada ao recurso. Então, vamos criar um arquivo chamado *my-pod-patched.yaml* onde terá o estado final da definição.
 
 ```yaml
 apiVersion: v1

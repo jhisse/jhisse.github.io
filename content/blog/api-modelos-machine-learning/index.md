@@ -13,7 +13,7 @@ O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utili
 A primeira coisa que temos que ter como finalidade nesta etapa é ter o modelo treinado de tal modo que possamos utilizar à qualquer momento. Tendo isso em mente podemos enumerar alguns passos que terão que ser cumpridos:
 
 1. Obter uma base de dados;
-2. Análisar a base;
+2. Analisar a base;
 3. Treinar o modelo com uma parcela do dataset;
 4. Testar o modelo treinado;
 5. Salvar o modelo para consumo pela API.

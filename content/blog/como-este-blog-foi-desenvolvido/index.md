@@ -4,13 +4,13 @@ date: 2022-05-15
 layout: post
 ---
 
-A seguir irei apresentar as decisões tomadas na construção deste blog e apresentar as principais tecnologias que foram utilizadas. Buscarei ao máximo descrever o por que de cada decisão tomada e explicar qual o pensamento por trás. Um aviso aqui é importante, se você estiver lendo este artigo em uma data futura a da publicação, ele pode não descrever mais a realidade do atual blog. 
+A seguir apresentarei as decisões tomadas na construção deste blog e apresentar as principais tecnologias utilizadas. Buscarei ao máximo descrever o porquê de cada decisão tomada e explicar qual o pensamento por trás. Um aviso, se você estiver lendo este artigo em uma data futura a da publicação, ele pode não descrever mais a realidade do atual blog. 
 
 ## Objetivo do blog
 
 O objetivo do blog é compartilhar com os leitores um pouco da minha maneira de pensar e meus principais aprendizados, aos quais envolvem assuntos diversos, quase sempre presentes no meu dia-a-dia. Assuntos simples ou complexos, sempre é um desafio explicar de forma clara cada etapa que compõem um pensamento que leva a determinada decisão. 
 
-Por mais detalhado que seja o texto, ele nem sempre vai contemplar todos os detalhes. Por isso antes de publicar um artigo eu peço para que alguns amigos o leiam e me enviem feedbacks. Muitos deles reproduzem cada etapa descrita e indicam pontos que podem ser melhores explicados ou até suprimidos do texto original.
+Por mais detalhado que seja o texto, ele nem sempre vai contemplar todos os detalhes. Por isso antes de publicar um artigo eu peço para que alguns amigos o leiam e me enviem comentários e sugestões. Muitos deles reproduzem cada etapa descrita e indicam pontos que podem ser melhores explicados ou até suprimidos do texto original.
 
 ## Visual
 
@@ -24,7 +24,7 @@ Temos um diagrama simplificado da relação entre as páginas através dos links
 
 ![Diagrama representando os links entre as páginas](images/link-pages.png)
 
-Na sequência apresentada abaixo podemos observar que é possível chegar em qualquer artigo através de no máximo 2 cliques. Seja partindo da home e escolhendo um artigo, que resulta em 1 clique. Indo de um artigo ao próximo ou ao anterior, resultando também em 1 clique. Ou de um artigo qualquer para outro qualquer, que neste caso passa pela home do blog, resultando em 2 cliques.
+Na sequência apresentada abaixo podemos observar ser possível chegar em qualquer artigo através de no máximo 2 cliques. Seja partindo da home e escolhendo um artigo, que resulta em 1 clique. Indo de um artigo ao próximo ou ao anterior, resultando também em 1 clique. Ou de um artigo qualquer para outro qualquer, que neste caso passa pela home do blog, resultando em 2 cliques.
 
 ![Cenários possíveis de navegação entre as páginas](images/link-pages-scenarios.png)
 
@@ -34,9 +34,9 @@ Outro destaque que vale a pena falar é a presença de diagramas e imagens na ma
 
 ## Escrita
 
-Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é uma forma muito elegante de escrever os textos. Nesse ponto fica claro que precisamos de uma outra linguagem de marcação para nos auxiliar.
+Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é uma forma muito elegante de escrever os textos. Nesse ponto fica claro que precisamos de outra linguagem de marcação para nos auxiliar.
 
-Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão como forma de escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
+Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão para escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
 
 Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](/local/da/imagem.jpg)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
 
@@ -124,4 +124,4 @@ Utilizamos a biblioteca [Zooming](https://github.com/kingdido999/zooming) para a
 
 Ao longo deste artigo mostrei um pouco as tecnologias que este blog utiliza. Podemos perceber que é simples e direto em seu objetivo, ser um lugar para mostrar algumas ideias, aprendizados e provas de conceitos. 
 
-As decisões que foram tomadas e a arquitetura apresentada podem não refletir o estado atual do site. Muitas dessas decisões podem, foram ou serão revistas conforme o tempo passa e as necessidades mudam.p
+As decisões tomadas e a arquitetura apresentada podem não refletir o estado atual do site. Muitas dessas decisões podem, foram ou serão revistas conforme o tempo passa e as necessidades mudam.

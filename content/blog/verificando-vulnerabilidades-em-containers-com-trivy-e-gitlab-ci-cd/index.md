@@ -5,7 +5,7 @@ date: 2020-06-13
 layout: post
 ---
 
-Neste artigo vamos criar uma API na linguagem golang, armazenar o código fonte em um repositório do GitLab e construir um pipeline de continuous integration para build, teste de vulnerabilidade e push para o docker registry. Ao final teremos o fluxo de continuous integration de uma aplicação, desde o código fonte até a disponibilização da imagem docker em um container registry.
+Neste artigo vamos criar uma API na linguagem golang, armazenar o código-fonte em um repositório do GitLab e construir um pipeline de continuous integration para build, teste de vulnerabilidade e push para o docker registry. Ao final teremos o fluxo de continuous integration de uma aplicação, desde o código-fonte até a disponibilização da imagem docker em um container registry.
 
 ## Entendendo o plano
 
@@ -21,7 +21,7 @@ Vamos manter em mente que o objetivo do artigo é utilizarmos a ferramenta [Triv
 
 ## Construindo nossa API
 
-A API que será executada dentro de nosso container, para isso, vamos utilizar o framework [Gin](https://github.com/gin-gonic/gin). Ele irá nos auxiliar com a construção de uma simples API Rest.
+A API que será executada dentro de nosso container, para isso, vamos utilizar o framework [Gin](https://github.com/gin-gonic/gin). Ele irá auxiliar com a construção de uma simples API Rest.
 
 Não iremos descrever com detalhes o código, mas precisamos saber alguns detalhes. O arquivo ```go.mod``` corresponde ao gerenciador de dependências do go, ou seja, os módulos necessários para build de nossa aplicação estão descritos nele e que o arquivo ```main.go``` corresponde à nossa aplicação principal.
 
@@ -65,7 +65,7 @@ require github.com/gin-gonic/gin v1.6.3
 
 O Dockerfile é o arquivo que irá conter nossas instruções para a criação da imagem docker final. Algumas boas práticas de construção deste arquivo são:
 
-- Sempre utilizar uma tag especifíca quando fizer referência a outra imagem (linha 1)
+- Sempre utilizar uma tag específica quando se referir à outra imagem (linha 1)
 - Usar o label maintainer para identificar os responsáveis por aquela imagem (linha 3)
 - Instalar somente o necessário para que a aplicação seja executada
 - Nunca executar seu processo com o usuário root do container (linha 17)
@@ -94,7 +94,7 @@ EXPOSE 8080
 CMD ["./main"]
 ```
 
-Podemos observar acima que o processo de build e execução da nossa API estão em um mesmo container. Isso é prejudicial a segurança de nossa aplicação, pois temos um excesso de pacotes e dependências necessários somente para a geração do nosso executável.
+Podemos observar acima que o processo de build e execução da nossa API estão em um mesmo container. Isso é prejudicial à segurança de nossa aplicação, pois temos um excesso de pacotes e dependências necessários somente para a geração do nosso executável.
 
 ## GitLab CI/CD
 
@@ -176,7 +176,7 @@ Até o momento temos a seguinte estrutura de diretórios:
 \-\- main.go  
 \-\- .gitlab-ci.yml  
 
-O pipeline consiste na execução de três jobs. O primeiro é responsável pelo build da imagem. Vale um ponto de atenção aqui, para que possamos utilizar um diretório ou um arquivo entre um job e outro, é necessário termos um local para cache pré-definido (linha 22).
+O pipeline consiste na execução de três jobs. O primeiro é responsável pelo build da imagem. Vale um ponto de atenção aqui, para podermos utilizar um diretório ou um arquivo entre um job e outro, é necessário termos um local para cache pré-definido (linha 22).
 
 No segundo estágio é onde o Trivy executará o scanner em busca de vulnerabilidades conhecidas. Caso o scanner não identifique vulnerabilidade critica, será executado o terceiro estágio, que consiste no push da imagem para o registry.
 
@@ -188,7 +188,7 @@ Agora vamos aos resultados da nossa primeira verificação de vulnerabilidades, 
 
 ![Menu de tasks](images/scan_task.png)
 
-Ao identificar a task referente ao scan, vamos acessar os logs. Lembrando que o pipeline só irá falhar se encontrar uma vulnerabilidade critíca. No log as demais vulnerabilidade serão listadas, mas a task não falhará. Adiantando que nossa aplicação de exemplo não terá vulnerabilidades critícas, então ele não deve falhar em situações normais. Vamos focar em analisar a quantidade de vulnerabilidades de graus severidade abaixo de critico.
+Ao identificar a task referente ao scan, vamos acessar os logs. Lembrando que o pipeline só irá falhar se encontrar uma vulnerabilidade crítica. As demais vulnerabilidade serão listadas no log, mas a task não falhará. Adiantando que nossa aplicação de exemplo não terá vulnerabilidades críticas, então ele não deve falhar em situações normais. Vamos focar em analisar a quantidade de vulnerabilidades de graus severidade abaixo de crítico.
 
 ![Resultado da primeira abordagem](images/resultado1_geral.png)
 
@@ -202,9 +202,9 @@ Será que podemos melhorar nossos números? Atingir um nível de zero ou próxim
 
 ## Melhorando a segurança com multi-stage build
 
-Uma técnica muito interessante é separarmos nosso Dockerfile em duas parte. A primeira será usada para build e a segunda será onde nossa aplicação será executada. Isso diminui as dependências que o container carrega consigo, já que a imagem final conterá apenas o básico, sem todas as ferramentas necessárias para a compilação.
+Uma técnica muito interessante é separarmos nosso Dockerfile em duas partes. A primeira será usada para build e a segunda será onde nossa aplicação será executada. Isso diminui as dependências que o container carrega consigo, já que a imagem final conterá apenas o básico, sem todas as ferramentas necessárias para a compilação.
 
-No Dockerfile abaixo podemos ver essa divisão pela tag FROM. A primeira imagem temos todas as ferramentas necessárias para compilar a nossa aplicação em Go, ou seja, aqui vamos executar o build e gerar um único arquivo executável. Usamos como alias o nome ```builder``` que fazemos referência no segundo estágio, o estágio de execução.
+No Dockerfile abaixo podemos ver essa divisão pela tag `FROM`. A primeira imagem temos todas as ferramentas necessárias para compilar a nossa aplicação em Go, ou seja, aqui vamos executar o build e gerar um único arquivo executável. Usamos como alias o nome ```builder``` que fazemos referência no segundo estágio, o estágio de execução.
 
 No estágio da execução usamos como imagem base uma imagem mínima do alpine linux. Em seguida copiamos o executável já compilado, para dentro do container contendo o alpine, ou seja, nossa imagem final já não terá todas as bibliotecas necessárias para a compilação, apenas as necessárias para a execução.
 
@@ -246,7 +246,7 @@ Vamos observar em seguida a quantidade de vulnerabilidades detectadas nessa abor
 
 ![Size da segunda abordagem](images/resultado2_size.png)
 
-Notamos um melhoria significativa em todas as métricas, com isso temos ganhos de segurança ao diminuir a quantidade de dependências em nosso container e temos ganho de tamanho da imagem também.
+Notamos melhorias significativas em todas as métricas, com isso temos ganhos de segurança ao diminuir a quantidade de dependências em nosso container e temos ganho de tamanho da imagem também.
 
 ## Conclusão
 
@@ -254,4 +254,4 @@ Chegamos ao final e podemos observar uma grande variedade de conteúdo que tivem
 
 O entendimento dos vários componentes que compõem uma aplicação nos permite melhorar nossas métricas de segurança do container. Observamos que uma simples refatoração do nosso ```Dockerfile``` permitiu que eliminássemos dependências desnecessárias ao runtime, como mostrou os resultados do Trivy.
 
-O repositório contendo todo código fonte e os pipelines se encontra [neste link](https://gitlab.com/josehisse/trivy-in-ci).
+O repositório contendo todo código-fonte e os pipelines se encontra [neste link](https://gitlab.com/josehisse/trivy-in-ci).

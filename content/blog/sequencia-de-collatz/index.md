@@ -19,7 +19,7 @@ n =
 \end{cases}
 \\]
 
-De acordo com a regra acima e começando pelo número 13, temos a seguinte sequência:
+Conforme a regra acima e começando pelo número 13, temos a seguinte sequência:
 
 \\[ 13 \rightarrow 40 \rightarrow 20 \rightarrow 10 \rightarrow 5 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rightarrow 2 \rightarrow 1 \\]
 
@@ -33,7 +33,7 @@ Qual número abaixo de 1 milhão gera a maior sequência?
 
 Primeiro devemos ter uma função que represente o cálculo da sequência de Collatz, depois precisamos calcular a quantidade total de termos que partindo de um determinado número chegaremos ao 1.
 
-Como o problema propõe acharmos a maior sequência partido de um número abaixo de n, criaremos a função calcular_maior_sequencia que receberá um número máximo onde iremos iterar de 1 até o limite máximo para acharmos o número que tem a maior quantidade de termos.
+Como o problema propõe acharmos a maior sequência partindo de um número abaixo de n, criaremos a função calcular_maior_sequencia que receberá um número máximo onde iremos iterar de 1 até o limite máximo para acharmos o número que tem a maior quantidade de termos.
 
 ```python
 import timeit
@@ -92,7 +92,7 @@ Depois calculando a sequência do número 6:
 
 Como podemos observar a sequência do número 5 acaba sendo um subconjunto da sequência do número 6, ou seja, gastamos recursos computacionais com cálculos redundantes.
 
-Podemos reescrever a função calcular_qtd_em_sequencia para utilizarmos a técnica de memoização. Como isso evitamos recalculos.
+Podemos reescrever a função `calcular_qtd_em_sequencia` para utilizarmos a técnica de `memoização`. Como isso evitamos recálculos.
 
 ```python
 memo = {}
@@ -117,13 +117,13 @@ Número 837799 com 525 termos
 Tempo decorrido:  3.9822970859968336
 ```
 
-O cache poderia ser otimizado de algumas outras formas, como por exemplo, a utilização do cache LRU.
+O cache poderia ser otimizado de algumas outras formas, como, por exemplo, a utilização do cache LRU.
 
 ## Escovando bit
 
 Podemos otimizar a função collatz realizando operações de bits.
 
-Por exemplo, sabemos que o número 5 em binário é representado por 101 e o número 6 110, ou seja, o último bit nos indica a paridade do número. Então, para não termos que calcular o resto de uma divisão basta compararmos o último bit do número.
+Por exemplo, sabemos que o número 5 em binário é representado por 101 e o número 6, 110, ou seja, o último bit nos indica a paridade. Então, para não termos que calcular o resto de uma divisão basta compararmos o último bit do número.
 
 Outra melhoria é na operação de divisão por 2. Como a operação de divisão neste caso só é realizada sobre números pares, então podemos fazer uma operação de shift a direita.
 

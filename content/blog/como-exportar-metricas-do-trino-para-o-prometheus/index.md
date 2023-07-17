@@ -16,7 +16,7 @@ Você deverá ter instalado em sua máquina:
 
 ## Trino
 
-O Trino, antes denominado PrestoSQL, é um componente essencial em uma stack de big data. Com ele é possível realizarmos consultas SQL de modo distribuído e escalável. Ele é responsável por se conectar em diversas fontes diferentes e processar um grande volume de dados. Ele se conecta por exemplo em um data lake no S3, em uma base no Postgres ou até em um cluster Kafka.
+O Trino, antes denominado PrestoSQL, é um componente essencial em uma stack de big data. Com ele é possível realizarmos consultas SQL de modo distribuído e escalável. Ele é responsável por se conectar em diversas fontes diferentes e processar um grande volume de dados. Ele se conecta, por exemplo, em um data lake no S3, em uma base no Postgres ou até em um cluster Kafka.
 
 No nosso exemplo, iremos utilizar o [conector TPCDS](https://trino.io/docs/363/connector/tpcds.html), ele é muito utilizado para benchmark de banco de dados. Com ele, será possível realizar algumas queries sem precisar conectar o Trino em uma fonte de dados externa, pois esse conector gera os próprios dados quando uma consulta é realizada.
 
@@ -38,11 +38,11 @@ Vamos a nossa solução utilizando o java agent. Para uma melhor compreensão da
 
 O primeiro componente que devemos observar é o Trino, ele é executado como um aplicativo java. Dessa forma o JMX Exporter será configurado para atuar em conjunto com ele, expondo as métricas da JVM através de um endpoint http.
 
-O Prometheus irá realizar periodicamente um scraping no endpoint que iremos indicar e armazenar as métricas capturadas. Outras ferramentas poderão se conectar a ele para obter esse histórico de métricas e gerar visualizações, como o Grafana por exemplo. Esse último tópico citado não será parte do escopo desse artigo.
+O Prometheus irá realizar periodicamente um scraping no endpoint que iremos indicar e armazenar as métricas capturadas. Outras ferramentas poderão se conectar a ele para obter esse histórico de métricas e gerar visualizações, como o Grafana, por exemplo. Esse último tópico citado não será parte do escopo desse artigo.
 
 ### Preparando o ambiente
 
-Vamos iniciar preparando uma estrutura de diretórios, como representado abaixo. Vamos criar duas pastas, uma chamada trino e outra prometheus.
+Vamos iniciar preparando uma estrutura de diretórios, como representado abaixo. Vamos criar duas pastas, uma chamada trino e outra Prometheus.
 
 ```console
 .
@@ -110,9 +110,9 @@ scrape_configs:
           - "trino:9483"
 ```
 
-As 3 primeiras linhas se refere a configurações globais do Prometheus. A segunda linha, ```scrape_interval```, é sobre o intervalo de scraping, ou seja, ele irá realizar a coleta de métricas de 10 em 10 segundos. Já a terceira linha é o tempo limite de resposta da requisição http que o prometheus irá aguardar para obter uma resposta.
+As 3 primeiras linhas se refere a configurações globais do Prometheus. A segunda linha, ```scrape_interval```, é sobre o intervalo de scraping, ou seja, ele irá realizar a coleta de métricas de 10 em 10 segundos. Já a terceira linha é o tempo limite de resposta da requisição http que o Prometheus irá aguardar para obter uma resposta.
 
-A partir da quinta linha começa as configurações relacionadas as serviços que queremos monitorar. O ```job_name``` é o nome que daremos a esse job em especifico e ```metrics_path``` é o path que as métricas estão expostas no endpoint. Em ```static_configs``` iremos colocar em ```targets``` os endpoints que serão monitorados.
+A partir da quinta linha começa as configurações relacionadas aos serviços que queremos monitorar. O ```job_name``` é o nome que daremos a esse job em especifico e ```metrics_path``` é o path que as métricas estão expostas no endpoint. Em ```static_configs``` iremos colocar em ```targets``` os endpoints que serão monitorados.
 
 Por fim devemos criar um arquivo ```docker-compose.yml``` contendo as definições de nossos containers.
 
@@ -153,7 +153,7 @@ services:
 
 ### Executando a stack de monitoramento
 
-Agora basta executarmos nossa stack com o Docker compose e visualizar as métricas no Prometheus.
+Agora basta executarmos nossa stack com o Docker Compose e visualizar as métricas no Prometheus.
 
 ```console
 docker-compose up -d
@@ -180,13 +180,13 @@ $ trino --server localhost:8080 --catalog tpcds --schema sf10
 trino:sf10>
 ```
 
-Agora podemos executar algumas queries e verificar as métricas na interface do prometheus. Vamos a primeira query para conhecermos as tabelas desse catálogo e schema.
+Agora podemos executar algumas queries e verificar as métricas na interface do prometheus. Vamos à primeira query para conhecermos as tabelas desse catálogo e schema.
 
 ```console
 trino:sf10> SHOW tables;
 ```
 
-Além de sabermos quais tabelas compõem o schema, já podemos observar as métricas no Prometheus. Vamos a uma consulta simples, a quantidade total de queries que foram finalizadas. Para isso, na interface do Prometheus, vamos colocar a seguinte consulta:
+Além de sabermos quais tabelas compõem o schema, já podemos observar as métricas no Prometheus. Agora uma consulta simples, a quantidade total de queries que foram finalizadas. Para isso, na interface do Prometheus, vamos colocar a seguinte consulta:
 
 ```text
 trino_execution_QueryManager_CompletedQueries_TotalCount
@@ -216,7 +216,7 @@ Vale lembrar que essa forma **não é a recomendada**, devido ao que foi explica
 
 ### Arquitetura da solução alternativa
 
-Na seção do JMX Exporter citamos uma outra forma de obter métricas do Trino. Vamos visualizar a arquitetura da solução alternativa e depois discorrer sobre.
+Na seção do JMX Exporter citamos outra forma de obter métricas do Trino. Vamos visualizar a arquitetura da solução alternativa e depois discorrer sobre.
 
 ![Arquitetura alternativa da solução de exportar métricas do Trino para o Prometheus](images/arquitetura-alternativa.png)
 
@@ -237,13 +237,13 @@ A estrutura de pasta agora será a seguinte:
 └── docker-compose.yml
 ```
 
-Observamos que foi criada uma nova pasta chamada ```jmx-exporter``` na qual conterá o arquivo de configuração ```jmx_config.yml```.
+Observamos que foi criada uma pasta chamada ```jmx-exporter``` onde conterá o arquivo de configuração ```jmx_config.yml```.
 
 ```yaml
 hostPort: trino:9080
 ```
 
-O ```Dockerfile``` não irá mais carregar o jar do JMX Exporter, somente será necessário setar algumas configurações da JVM e do Trino, como iremos verificar a seguir.
+O ```Dockerfile``` não irá mais carregar o jar do JMX Exporter, somente será necessário setar algumas configurações da JVM e do Trino, como verificaremos a seguir.
 
 ```Dockerfile
 # Imagem base do Trino
@@ -335,4 +335,4 @@ Podemos observar que todas as métricas relacionadas ao Trino serão as mesmas d
 
 Apresentamos duas formas de exportar métricas do Trino através do JMX Exporter, porém a primeira forma apresentada é a recomendada, além de ser mais simples a configuração.
 
-Recomendo que explore as métricas do Trino para que possa melhor entender quais delas fazem mais sentido ao que deseja monitorar.
+Recomendo que explore as métricas do Trino para poder melhor entender quais delas fazem mais sentido ao que deseja monitorar.
