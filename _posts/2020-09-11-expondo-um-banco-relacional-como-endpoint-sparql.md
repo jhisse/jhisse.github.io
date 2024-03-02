@@ -4,11 +4,11 @@ date: 2020-09-11
 layout: post
 ---
 
-Introduziremos o artigo analisando uma estrutura parcial de um sistema de ERP que contêm um conjunto de tabelas e relacionamentos. Primeiro faremos algumas perguntas que serão respondidas através de consultas SQL. Após gerarmos essas consultas, introduziremos alguns conceitos básicos sobre web semântica, RDF, ontologias (owl) e SPARQL. Criaremos uma ontologia simples usando o software Protégé e analisaremos algumas regras de inferência. Iremos explorar a linguagem R2RML, a linguagem de mapeamento de banco de dados relacionais para linked data. Por fim iremos utilizar a ferramenta Ontop para conectarmos a nossa base SQL utilizando nossa ontologia e nosso mapeamento para disponibilizarmos um endpoint SPARQL.
+Introduziremos o artigo analisando uma estrutura parcial de um possível sistema de ERP que contêm um conjunto de tabelas e relacionamentos. Primeiro faremos algumas perguntas respondidas através de consultas SQL. Após gerarmos essas consultas, introduziremos alguns conceitos básicos sobre web semântica, RDF, ontologias (owl) e SPARQL. Criaremos uma ontologia simples e analisaremos algumas regras de inferência. Iremos explorar a linguagem R2RML, a linguagem de mapeamento de banco de dados relacionais para linked data. Por fim iremos utilizar a ferramenta Ontop para conectar a nossa base SQL utilizando nossa ontologia e nosso mapeamento para disponibilizarmos um endpoint SPARQL.
 
 ## Introdução
 
-Imagine uma situação onde uma empresa disponibilizou alguns dados de seu ERP, mais especificamente tabelas e relacionamentos envolvendo dados de seus funcionários, à qual departamento eles trabalham e à qual projeto estão envolvidos. A estrutura lógica disponibilizada é a seguinte:
+Imagine uma situação onde uma empresa disponibilizou alguns dados de seu ERP, mais especificamente tabelas e relacionamentos envolvendo dados de seus funcionários, à qual departamento eles trabalham e à, qual projeto estão envolvidos. A estrutura lógica disponibilizada é a seguinte:
 
 ![Modelo lógico parcial de um ERP](/images/expondo-um-banco-relacional-como-endpoint-sparql/logico.png)
 
@@ -18,7 +18,16 @@ A empresa deseja obter uma informação a partir desse conjunto:
 
 ## Preparando o ambiente de testes
 
-Vamos preparar nosso banco PostgreSQL com as tabelas indicadas no modelo lógico anteriormente e com alguns dados de testes. Para isso temos o script SQL abaixo:
+Vamos preparar nosso banco relacional com as tabelas indicadas no modelo lógico e com alguns dados de testes.
+
+Como em outros artigos do site, vamos utilizar o Docker para facilitar a reprodução de nossas execuções. Então vamos criar uma estrutura de diretórios da seguinte maneira:
+
+\- ./
+\-\- sqlite3/
+\-\-\- Dockerfile
+\-\-\- create.sql
+
+O conteúdo do arquivo "create.sql" será o seguinte:
 
 ```sql
 CREATE TABLE Departament (
@@ -72,14 +81,7 @@ INSERT INTO WorksOn VALUES (2, 2);
 INSERT INTO WorksOn VALUES (3, 2);
 ```
 
-Como em outros artigos do site, vamos utilizar o docker para facilitar a reprodução de nossas execuções. Então vamos criar uma estrutura de diretórios da seguinte maneira:
-
-\- raiz/  
-\-\- sqlite3/  
-\-\-\- Dockerfile
-\-\-\- create.sql
-
-O conteúdo do arquivo "create.sql" será o descrito acima, já o nosso dockerfile:
+Já o conteúdo do arquivo Dockerfile será:
 
 ```Dockerfile
 FROM alpine:3.12
@@ -90,13 +92,14 @@ COPY create.sql /
 
 WORKDIR /database
 
-RUN sqlite3 my_database.db < /create.sql
+RUN sqlite3 my_database.db < /create.sql && \
+    rm /create.sql
 
 ENTRYPOINT ["sqlite3"]
 CMD ["my_database.db"]
 ```
 
-Vamos testar nosso dockerfile para checarmos se tudo esta correto:
+Vamos testar nosso Dockerfile para checarmos se tudo esta correto:
 
 ```console
 $ cd sqlite3
@@ -116,7 +119,7 @@ sqlite> SELECT * FROM employee;
 6|Sara|2
 ```
 
-Neste ponto já teremos nosso database pronto para realizarmos as consultas necessárias.
+Neste ponto já teremos nosso banco de dados pronto para realizarmos as consultas necessárias.
 
 ## Respostas com consultas SQL
 
@@ -124,7 +127,7 @@ Vamos recordar a pergunta:
 
   Quais são os projetos que cada departamento está inserido?
 
-Analisando a pergunta chegamos a conclusão que o que desejamos como resultado final é uma tabela com duas colunas, departamento e projeto. sabemos de antemão que não existe um relacionamento direto entre a tabela departament e a tabela project, então necessariamente devemos passar pelas outras tabelas, employee e works_on.
+Analisando a pergunta chegamos a conclusão que o que desejamos como resultado é uma tabela com duas colunas, departamento e projeto. Sabemos de antemão que não existe um relacionamento direto entre a tabela departament e a tabela project, então necessariamente devemos passar pelas outras tabelas, employee e works_on.
 
 Pelo modelo lógico sabemos que cada funcionário pode estar inserido em somente 1 departamento e 1 departamento pode ter N funcionários. Sabemos também que cada funcionário pode trabalhar em N projetos, assim como um projeto pode ter N funcionários.
 
@@ -155,7 +158,7 @@ JOIN works_on as wo on em.id = wo.fk_employee_id
 JOIN project as pj on wo.fk_project_id = pj.id;
 ```
 
-Com essa última query estamos com a resposta para nossa pergunta, porém com alguns valores duplicados.
+Com essa última consulta, estamos com a resposta para nossa pergunta, porém com alguns valores duplicados.
 
 ```SQL
 SELECT DISTINCT dp.name as Departament, pj.name as Project
@@ -177,23 +180,25 @@ Tudo certo agora, obtemos a resposta final:
 
 ## Descrevendo a web semântica
 
-O termo web semântica foi citado pela primeira vez em 2001 pelo então criador da World Wide Web, Tim Berners-Lee. A ideia por traz desta estrutura proposta é dar significado aos conteúdos publicados na web, isso permitiria que tanto humanos pudessem entender o sentido das construções textuais, como também as máquinas. Para isso foi proposto um framework composto de layers que juntos permitiriam chegar ao objetivo principal, fazer a máquina entender e processar um conjunto de palavras.
+O termo web semântica foi citado pela primeira vez em 2001 pelo então criador da World Wide Web, Tim Berners-Lee. A ideia por trás desta estrutura proposta é dar significado aos conteúdos publicados na web, isso permitiria que tanto humanos pudessem entender o sentido das construções textuais, como também as máquinas. Para isso foi proposto um framework composto de layers que juntos permitiriam chegar ao objetivo principal, fazer a máquina entender e processar um conjunto de palavras.
 
 ![Semantic Cake](/images/expondo-um-banco-relacional-como-endpoint-sparql/semantic-cake.jpg "Semantic Cake [Fonte: Wikipedia]")
 
-Inúmeros recursos na internet podem ser consultados a fim de descrever com mais detalhes o mundo da web semântica, entre eles [a página da W3C sobre a web semântica](https://www.w3.org/standards/semanticweb/) ou o [artigo que deu origem ao termo](http://ww.wi-consortium.org/wicweb/pdf/wi-hendler.pdf).
+Inúmeros recursos na internet podem ser consultados de modo a descrever com mais detalhes o mundo da web semântica, entre eles [a página da W3C sobre a web semântica](https://www.w3.org/standards/semanticweb/) ou o [artigo que deu origem ao termo](http://ww.wi-consortium.org/wicweb/pdf/wi-hendler.pdf).
 
-A imagem acima representa o "semantic cake". Cada camada faz uso da camada inferior, então para o entendimento completo do topo, é necessário o entendimento de toda sua base. Vamos explicar de maneira resumida alguns termos que usaremos no restante deste artigo.
+A imagem acima representa o "semantic cake". Cada camada recorre à camada inferior, então para o entendimento completo do topo, é necessário o entendimento de toda sua base. Vamos explicar de maneira resumida alguns termos que usaremos no restante deste artigo.
 
-Começando pela base temos o URI, ele é a representação única de um recurso na web semântica. Em sua maioria das vezes ela é representada por uma URL, por exemplo, este artigo possui uma URI, que neste caso é a URL usada para acessá-lo. Lembrando que nem toda URI é uma URL, mas uma URL sempre é uma URI.
+Começando pela base, no primeiro nível, temos o URI, ele é a representação única de um recurso na web semântica. Em sua maioria das vezes ela é representada por uma URL, por exemplo, este artigo possui uma URI, que neste caso é a URL usada para acessá-lo. Lembrando que nem toda URI é uma URL, mas uma URL sempre é uma URI.
 
-Namespace são nomes que representam um conjunto de recursos, provendo um nome único. Por exemplo, eu poderia ter um recurso descrito por "CadeiraDePalha" em um namespace chamado ns1, e ao mesmo tempo ter outro recurso chamado "CadeiraDePalha", porém com o namespace ns2.
+Namespace são nomes que representam um conjunto de recursos, provendo um nome único. Por exemplo, eu poderia ter um recurso descrito por "CadeiraDePalha" em um namespace chamado namespace_da_marca_A, e ao mesmo tempo, ter outro recurso chamado "CadeiraDePalha", porém com o namespace namespace_da_marca_B.
 
 O XML é um formato estruturado de texto. Hoje você pode representar seus recursos estruturados em diversos formatos, entre eles estão o json-ld, turtle, n3, n-quads.
 
-RDF é o acrônimo para Resource Description Framework, ele define um conjunto de regras para descrevermos as relações, que chamaremos de predicado, entre um sujeito e um objeto. A sequência sujeito predicado objeto chamaremos de tripla. Observe que um conjunto de triplas representa um grafo. Por exemplo, o fragmento abaixo representa um grafo RDF em linguagem turtle.
+RDF é o acrônimo para Resource Description Framework, ele define um conjunto de regras para descrevermos as relações, que chamaremos de predicado, entre um sujeito e um objeto. A sequência sujeito predicado objeto chamaremos tripla. Observe que um conjunto de triplas representa um grafo. Por exemplo, o fragmento abaixo representa um grafo RDF em linguagem turtle.
 
 Ontologia é um modelo formal para descrever um determinado domínio de informação. Nela podemos descrever classes, objetos e instâncias.
+
+Abaixo um exemplo de uma representação em RDF, em formato turtle, de um grafo que representa uma pessoa chamada John que conhece uma pessoa chamada Fred.
 
 ```turtle
 @base <http://www.example.org/> .
