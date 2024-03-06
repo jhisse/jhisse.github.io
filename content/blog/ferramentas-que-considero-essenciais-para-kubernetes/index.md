@@ -330,7 +330,82 @@ spec:
     - Egress
 ```
 
+Vamos executar mais uma vez e ver se todas as pendências foram resolvidas. Executamos o comando `kube-score score pod.yaml` e obtemos a seguinte saída:
+
+![kube-score](images/kube-score-retentativa.png)
+
+Vemos que um novo alerta surgiu. O kube-score nos alertou a falta da iamgePullPolicy. Antes este não foi reportado pois com a tag latest o padrão da imagePullPolicy é Always. Quando fixamos a tag da imagem para a 22.04, o iamgePullPolicy passou a ser IfNotPresent por padrão e não mais Always, como é o padrão para a tag latest. Vamos corrigir isso adicionando a imagePullPolicy para o pod.
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ubuntu-dual-logging-pod
+  namespace: applications
+  labels:
+    app: ubuntu-logging-app
+spec:
+  containers:
+  - name: ubuntu-logger-one
+    image: ubuntu:22.04
+    imagePullPolicy: Always
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
+    securityContext:
+      runAsGroup: 10001
+      runAsUser: 10001
+      readOnlyRootFilesystem: true
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+        ephemeral-storage: "50Mi"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+        ephemeral-storage: "100Mi"
+  - name: ubuntu-logger-two
+    image: ubuntu:22.04
+    imagePullPolicy: Always
+    command: ["/bin/sh"]
+    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
+    securityContext:
+      runAsGroup: 10001
+      runAsUser: 10001
+      readOnlyRootFilesystem: true
+    resources:
+      requests:
+        memory: "128Mi"
+        cpu: "100m"
+        ephemeral-storage: "50Mi"
+      limits:
+        memory: "256Mi"
+        cpu: "200m"
+        ephemeral-storage: "100Mi"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-all-traffic
+  namespace: applications
+spec:
+  podSelector:
+    matchLabels:
+      app: ubuntu-logging-app
+  policyTypes:
+    - Ingress
+    - Egress
+```
+
+Por fim verificamos se todas as pendências foram resolvidas executando o comando `kube-score score pod.yaml` novamente.
+
+![kube-score](images/kube-score-final.png)
+
+Vemos que tudo foi corrigido e todas as recomendações estão seguindo as melhores práticas. Nesse exemplo vemos a importância desta ferramenta.
+
 ## kube-capacity
+
+
 
 ## kubescape
 
