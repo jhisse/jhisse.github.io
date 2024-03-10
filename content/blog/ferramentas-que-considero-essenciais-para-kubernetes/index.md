@@ -4,11 +4,11 @@ date: 2024-03-04
 layout: post
 ---
 
-O Kubernetes tem se tornado uma plataforma de orquestração de contêineres cada vez mais essencial para equipes de desenvolvimento em todo o mundo. Apesar das facilidades que a plataforma proporciona para a execução de aplicações, gerenciar clusters Kubernetes pode se revelar uma tarefa complexa. Desafios como depurar aplicações, monitorar recursos e logs exigem ferramentas adequadas e um conhecimento aprofundado para serem superados com eficiência.
+O Kubernetes tem-se tornado uma plataforma de orquestração de contêineres cada vez mais essencial para equipes de desenvolvimento em todo o mundo. Apesar das facilidades que a plataforma proporciona para a execução de aplicações, gerenciar clusters Kubernetes pode se revelar uma tarefa complexa. Desafios como depurar aplicações, monitorar recursos e logs exigem ferramentas adequadas e um conhecimento aprofundado para serem superados com eficiência.
 
-Este post tem o objetivo de compartilhar não as ferramentas mais populares, mas sim aquelas que, na minha experiência, se mostraram essenciais para o cotidiano de quem trabalha com Kubernetes. A seleção que apresentarei é fruto da experiência que adquiri no decorrer dos anos, durante os quais busquei otimizar meu tempo e aumentar a eficiência no gerenciamento de clusters Kubernetes.
+Este post visa compartilhar, com base em minha experiência, ferramentas não necessariamente populares, mas essenciais para o cotidiano de quem trabalha com Kubernetes. A seleção que apresentarei é fruto da experiência que adquiri no decorrer dos anos, durante os quais busquei otimizar meu tempo e aumentar a eficiência no gerenciamento de clusters Kubernetes.
 
-Nas próximas linhas, descreverei cada uma dessas ferramentas essenciais e como elas podem ser úteis no dia a dia. Além disso, compartilharei um pouco sobre como utilizo cada uma delas na prática. Para ilustrar suas aplicações, utilizarei dois clusters locais gerenciados pelo Kind, denominados cluster1 e cluster2, servindo como exemplos práticos de suas funcionalidades e benefícios.
+Nas próximas linhas, descreverei cada uma dessas ferramentas essenciais e como elas podem ser úteis no dia a dia. Além disso, compartilharei um pouco sobre como utilizo cada uma delas. Para ilustrar suas aplicações, utilizarei dois clusters locais gerenciados pelo Kind, denominados cluster1 e cluster2, servindo como exemplos práticos de suas funcionalidades e benefícios.
 
 ---
 
@@ -18,21 +18,35 @@ TL;DR: As ferramentas que considero essenciais para Kubernetes são:
 2. [kubectx e kubens](https://github.com/ahmetb/kubectx)
 3. [stern](https://github.com/stern/stern)
 4. [kube-score](https://github.com/zegl/kube-score)
-5. [kube-capacity]()
-6. [kubescape]()
-7. [kubeshark]()
+5. [kube-capacity](https://github.com/robscott/kube-capacity)
+6. [kube-no-trouble](https://github.com/doitintl/kube-no-trouble)
+7. [kubeshark](https://github.com/kubeshark/kubeshark)
 
 ---
 
 ## kind
 
-Por diversas vezes tenho a necessidade de testar alguma aplicação nova ou preciso simular os impactos que determina atualização pode causar em um cluster Kubernetes. O Kind permite que eu possa criar cluster locais em questão de minutos, o que me permite testar e validar cenários de forma rápida e eficiente.
+Por diversas vezes, tenho a necessidade de testar novas aplicações ou simular os impactos que determinada atualização pode causar em um cluster Kubernetes. O Kind possibilita a criação de clusters locais em questão de minutos, facilitando o teste e validação de cenários de forma rápida e eficiente.
 
 Veja o exemplo abaixo onde crio um cluster chamado cluster1 e outro chamado cluster2:
 
 ```bash
-kind create cluster --name cluster1
-kind create cluster --name cluster2
+kind create cluster --name cluster1 --config - << EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  image: kindest/node:v1.25.16@sha256:e8b50f8e06b44bb65a93678a65a26248fae585b3d3c2a669e5ca6c90c69dc519
+EOF
+
+kind create cluster --name cluster2 --config - << EOF
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+- role: control-plane
+  image: kindest/node:v1.25.16@sha256:e8b50f8e06b44bb65a93678a65a26248fae585b3d3c2a669e5ca6c90c69dc519
+EOF
+
 kind get clusters
 ```
 
@@ -46,7 +60,7 @@ Mudar de contexto muitas vezes pode ser uma tarefa tediosa, principalmente quand
 
 ![kubectx](images/use-context.png)
 
-Neste ponto que entra o kubectx, com ele podemos listar todos os contextos disponíveis e mudar de contexto de forma rápida e eficiente. Veja, com o comando `kubectx` podemos listar todos os contextos disponíveis e com o comando `kubectx kind-cluster1` podemos mudar para o contexto do cluster1, assim como `kubectx kind-cluster2` para mudar para o contexto do cluster2. Muito mais fácil de lembrar e executar, não?
+É neste ponto que o kubectx se destaca, permitindo listar todos os contextos disponíveis e mudar de contexto rapidamente e com eficiência. Veja, com o comando `kubectx` podemos listar todos os contextos disponíveis e com o comando `kubectx kind-cluster1` podemos mudar para o contexto do cluster1, assim como `kubectx kind-cluster2` para mudar para o contexto do cluster2. Muito mais fácil de lembrar e executar, não?
 
 ![kubectx](images/kubectx.png)
 
@@ -72,14 +86,22 @@ metadata:
   namespace: applications
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-  - name: ubuntu-logger-two
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
+    - name: ubuntu-logger-one
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+    - name: ubuntu-logger-two
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
 ```
 
 Podemos ver os logs de cada container com os comandos `kubectl logs ubuntu-dual-logging-pod` e `kubectl logs ubuntu-dual-logging-pod -c ubuntu-logger-two`, ou seja, não é possível ver ambos os logs ao mesmo tempo, a não ser que um novo terminal seja aberto.
@@ -104,14 +126,22 @@ metadata:
   namespace: applications
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-  - name: ubuntu-logger-two
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
+    - name: ubuntu-logger-one
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+    - name: ubuntu-logger-two
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
 ```
 
 Executamos o comando `kube-score score pod.yaml` e obtemos a seguinte saída:
@@ -128,20 +158,28 @@ metadata:
   namespace: applications
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-  - name: ubuntu-logger-two
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
+    - name: ubuntu-logger-one
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+    - name: ubuntu-logger-two
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
 ```
 
 O segundo aviso se refere ao network policy, que não foi definido. Vamos corrigir isso adicionando um network policy para pod, mas para isso precisamos adicionar uma label ao pod para poder dar match com a network policy. Como nosso pod não precisa se comunicar com nenhum outro pod em nosso cluster, vamos bloquear tanto o trafego de entrada quanto o de saída. A definição do pod e da network policy ficará da seguinte maneira:
@@ -156,20 +194,28 @@ metadata:
     app: ubuntu-logging-app
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-  - name: ubuntu-logger-two
-    image: ubuntu
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
+    - name: ubuntu-logger-one
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+    - name: ubuntu-logger-two
+      image: ubuntu
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -197,20 +243,28 @@ metadata:
     app: ubuntu-logging-app
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-  - name: ubuntu-logger-two
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
+    - name: ubuntu-logger-one
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+    - name: ubuntu-logger-two
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -238,22 +292,30 @@ metadata:
     app: ubuntu-logging-app
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-  - name: ubuntu-logger-two
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
+    - name: ubuntu-logger-one
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
+    - name: ubuntu-logger-two
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -281,40 +343,48 @@ metadata:
     app: ubuntu-logging-app
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-    resources:
-      requests:
-        memory: "128Mi"
-        cpu: "100m"
-        ephemeral-storage: "50Mi"
-      limits:
-        memory: "256Mi"
-        cpu: "200m"
-        ephemeral-storage: "100Mi"
-  - name: ubuntu-logger-two
-    image: ubuntu:22.04
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-    resources:
-      requests:
-        memory: "128Mi"
-        cpu: "100m"
-        ephemeral-storage: "50Mi"
-      limits:
-        memory: "256Mi"
-        cpu: "200m"
-        ephemeral-storage: "100Mi"
+    - name: ubuntu-logger-one
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"
+          ephemeral-storage: "50Mi"
+        limits:
+          memory: "256Mi"
+          cpu: "200m"
+          ephemeral-storage: "100Mi"
+    - name: ubuntu-logger-two
+      image: ubuntu:22.04
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"
+          ephemeral-storage: "50Mi"
+        limits:
+          memory: "256Mi"
+          cpu: "200m"
+          ephemeral-storage: "100Mi"
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -346,42 +416,50 @@ metadata:
     app: ubuntu-logging-app
 spec:
   containers:
-  - name: ubuntu-logger-one
-    image: ubuntu:22.04
-    imagePullPolicy: Always
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-    resources:
-      requests:
-        memory: "128Mi"
-        cpu: "100m"
-        ephemeral-storage: "50Mi"
-      limits:
-        memory: "256Mi"
-        cpu: "200m"
-        ephemeral-storage: "100Mi"
-  - name: ubuntu-logger-two
-    image: ubuntu:22.04
-    imagePullPolicy: Always
-    command: ["/bin/sh"]
-    args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-    securityContext:
-      runAsGroup: 10001
-      runAsUser: 10001
-      readOnlyRootFilesystem: true
-    resources:
-      requests:
-        memory: "128Mi"
-        cpu: "100m"
-        ephemeral-storage: "50Mi"
-      limits:
-        memory: "256Mi"
-        cpu: "200m"
-        ephemeral-storage: "100Mi"
+    - name: ubuntu-logger-one
+      image: ubuntu:22.04
+      imagePullPolicy: Always
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"
+          ephemeral-storage: "50Mi"
+        limits:
+          memory: "256Mi"
+          cpu: "200m"
+          ephemeral-storage: "100Mi"
+    - name: ubuntu-logger-two
+      image: ubuntu:22.04
+      imagePullPolicy: Always
+      command: ["/bin/sh"]
+      args:
+        [
+          "-c",
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+        ]
+      securityContext:
+        runAsGroup: 10001
+        runAsUser: 10001
+        readOnlyRootFilesystem: true
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"
+          ephemeral-storage: "50Mi"
+        limits:
+          memory: "256Mi"
+          cpu: "200m"
+          ephemeral-storage: "100Mi"
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -405,12 +483,145 @@ Vemos que tudo foi corrigido e todas as recomendações estão seguindo as melho
 
 ## kube-capacity
 
+Ao definir, na etapa anterior, os requests e limits de recursos para os containers, baseamos nossas estimativas em conhecimento e experiência prévios. No entanto, frequentemente, essas estimativas são imprecisas devido à falta de dados suficientes para avaliar de maneira eficaz os recursos necessários para nossas aplicações.
 
+Podemos verificar o quanto um pod está consumindo de memória e cpu utilizando o comando `kubectl top pod ubuntu-dual-logging-pod`. Se precisarmos verificar o consumo de recursos de todos os conatainers deste pod podemos executar o comando `kubectl top pod ubuntu-dual-logging-pod --containers`. No entanto, não conseguimos ver simultaneamente o consumo de cpu e memória e os request e limits definidos para os containers. Desta forma o kube-capacity preenche essa lacuna, nos fornecendo informações sobre o consumo de recursos de nossos pods e como eles se comparam com os recursos reservados.
 
-## kubescape
+Lembre-se que as métricas de consumo de recursos são coletadas pelo metrics-server, que é um componente do Kubernetes utilizado para coletar métricas de consumo de recursos. Portanto, para que o kube-capacity funcione corretamente, o metrics-server deve estar instalado e funcionando corretamente em seu cluster.
+
+Vamos verificar o consumo de recursos do pod que criamos anteriormente com o kube-capacity além do request e limit definido para cada container. Depois de instalar o kube-capacity, executamos o comando `kube-capacity -n applications --util --containers` e obtemos a seguinte saída:
+
+![kube-capacity](images/kube-capacity.png)
+
+## kube-no-trouble
+
+Vamos introduzir um novo componente, o Horizontal Pod Autoscaler (HPA), que é um recurso do Kubernetes que nos permite escalar automaticamente o número de pods em um deployment ou statefulset com base em algumas métricas de pods ou containers. Observe que no início de nosso artigo, criamos os clusters na versão 1.25.
+
+Para nosso teste agora, vamos criar um deployment aproveitando a mesma especificação do pod que criamos anteriormente, ao mesmo tempo que criamos um HPA para este deployment. O HPA poderá escalar ao número de pods do deployment com base na utilização de CPU. Vamos criar o deployment e o HPA com o seguinte arquivo de manifesto:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ubuntu-dual-logging-pod
+  namespace: applications
+spec:
+  selector:
+    matchLabels:
+      app: ubuntu-logging-app
+  template:
+    metadata:
+      labels:
+        app: ubuntu-logging-app
+    spec:
+      containers:
+      - name: ubuntu-logger-one
+        image: ubuntu:22.04
+        imagePullPolicy: Always
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
+        securityContext:
+          runAsGroup: 10001
+          runAsUser: 10001
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+            ephemeral-storage: "50Mi"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+            ephemeral-storage: "100Mi"
+      - name: ubuntu-logger-two
+        image: ubuntu:22.04
+        imagePullPolicy: Always
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
+        securityContext:
+          runAsGroup: 10001
+          runAsUser: 10001
+          readOnlyRootFilesystem: true
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+            ephemeral-storage: "50Mi"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+            ephemeral-storage: "100Mi"
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: block-all-traffic
+  namespace: applications
+spec:
+  podSelector:
+    matchLabels:
+      app: ubuntu-logging-app
+  policyTypes:
+    - Ingress
+    - Egress
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ubuntu-logging-app-autoscaler
+  namespace: applications
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ubuntu-dual-logging-pod
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+Criamos um Horizontal Pod Autoscaler com a api version v2beta2. Esta versão da API é deprecada na versão 1.26 do Kubernetes, ou seja, o Kubernetes não suportará mais a versão v2beta2 do HPA a partir da versão 1.26. O kube-no-trouble, ou kubent, nos alerta sobre isso, nos fornecendo informações sobre os recursos que serão deprecados em versões mais novas do Kubernetes. Desta forma podemos nos preparar para atualizações de cluster.
+
+No caso acima o kubent nos alerta que a versão v2beta2 do HPA será deprecada na versão 1.26 do Kubernetes e que devemos atualizar para a versão v2. Vamos verificar essa informação executando o comando `kubent`:
+
+![kubent](images/kubent.png)
+
+Vamos atualiza a apiVersion do HPA para v2 e verificar se o kubent nos alerta sobre alguma outra coisa. A definição do HPA ficará da seguinte maneira:
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: ubuntu-logging-app-autoscaler
+  namespace: applications
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ubuntu-dual-logging-pod
+  minReplicas: 1
+  maxReplicas: 2
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+Após aplicarmos esta definição do HPA, executamos o comando `kubent` novamente e obtemos a seguinte saída:
+
+![kubent](images/kubent-all-ok.png)
+
+Com isso verificamos não haver mais api deprecadas precisando de atualização e podemos prosseguir com uma possível atualização do cluster.
 
 ## kubeshark
 
 ## Conclusão
-
-
