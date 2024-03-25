@@ -1,10 +1,10 @@
 ---
 title: Ferramentas que considero essenciais para Kubernetes
-date: 2024-03-04
+date: 2024-03-24
 layout: post
 ---
 
-O Kubernetes tem-se tornado uma plataforma de orquestração de contêineres cada vez mais essencial para equipes de desenvolvimento em todo o mundo. Apesar das facilidades que a plataforma proporciona para a execução de aplicações, gerenciar clusters Kubernetes pode se revelar uma tarefa complexa. Desafios como depurar aplicações, monitorar recursos e logs exigem ferramentas adequadas e um conhecimento aprofundado para serem superados com eficiência.
+O Kubernetes tem se tornado uma plataforma de orquestração de contêineres cada vez mais essencial para equipes de desenvolvimento ao redor do mundo. Apesar das facilidades que a plataforma oferece para a execução de aplicações, gerenciar clusters Kubernetes pode revelar-se uma tarefa complexa. Desafios como depurar aplicações, monitorar recursos e logs exigem ferramentas adequadas e conhecimento aprofundado para serem superados com eficiência.
 
 Este post visa compartilhar, com base em minha experiência, ferramentas não necessariamente populares, mas essenciais para o cotidiano de quem trabalha com Kubernetes. A seleção que apresentarei é fruto da experiência que adquiri no decorrer dos anos, durante os quais busquei otimizar meu tempo e aumentar a eficiência no gerenciamento de clusters Kubernetes.
 
@@ -20,11 +20,12 @@ TL;DR: As ferramentas que considero essenciais para Kubernetes são:
 4. [kube-score](https://github.com/zegl/kube-score)
 5. [kube-capacity](https://github.com/robscott/kube-capacity)
 6. [kube-no-trouble](https://github.com/doitintl/kube-no-trouble)
-7. [kubeshark](https://github.com/kubeshark/kubeshark)
 
 ---
 
-## kind
+## kind - Cluster Kubernetes para testes
+
+Versão utilizada: 0.20.0
 
 Por diversas vezes, tenho a necessidade de testar novas aplicações ou simular os impactos que determinada atualização pode causar em um cluster Kubernetes. O Kind possibilita a criação de clusters locais em questão de minutos, facilitando o teste e validação de cenários de forma rápida e eficiente.
 
@@ -54,7 +55,9 @@ kind get clusters
 
 O Kind cria clusters locais usando contêineres Docker como nós, o que torna a criação e destruição de clusters extremamente rápidas. Além disso, podemos carregar imagens locais para os clusters, basta executar o comando `kind load docker-image <image-name> --name cluster1` para carregar a imagem no cluster1.
 
-## kubectx e kubens
+## kubectx e kubens - Mudança de contexto e namespace
+
+Versão utilizada: 0.9.5
 
 Mudar de contexto muitas vezes pode ser uma tarefa tediosa, principalmente quando estamos lidando com múltiplos clusters como é o caso acima. Imagine toda vez que quiser mudar de contexto você precisar executar o comando `kubectl config use-context kind-cluster1` para começar a trabalhar no cluster1 ou `kubectl config use-context kind-cluster2` para alterarmos o contexto para o cluster2. E se não lembrarmos os nomes dos clusters? Devemos executar o comando `kubectl config get-contexts` para listar todos os contextos disponíveis e depois escolher o contexto desejado.
 
@@ -72,7 +75,9 @@ O kubens funciona da mesma maneira que o kubectx, mas ao invés de mudar de cont
 
 ![Change namespace with kubens](images/kubens.png)
 
-## stern
+## stern - Visualização de logs
+
+Versão utilizada: 1.25.0
 
 Podemos facilmente obter os logs de um pod especifico com o comando `kubectl logs <pod-name>`, mas se precisarmos obter os logs de vários pods em simultâneo? Ou mesmo de múltiplos containers no mesmo pod? Este comando não nos atenderá nesse caso. O Stern é uma ferramenta que nos permite obter os logs de vários pods ou containers em simultâneo, o que é extremamente útil quando precisamos depurar múltiplas aplicações.
 
@@ -112,7 +117,9 @@ Com o Stern, podemos obter os logs de ambos os containers em simultâneo com o c
 
 ![Visualizando logs com stern](images/stern.png)
 
-## kube-score
+## kube-score - Melhores práticas em definições de recursos
+
+Versão utilizada: 1.18.0
 
 Podemos perceber que a definição do pod que demos como exemplo acima não é a mais segura e não segue as melhores práticas. O kube-score é uma ferramenta que nos ajuda a avaliar as melhores práticas das definições de nossos recursos Kubernetes. Ele verifica se nossos recursos seguem as melhores práticas de segurança e resiliência e nos fornece sugestões de como podemos melhorar a segurança de nossos recursos.
 
@@ -481,11 +488,13 @@ Por fim verificamos se todas as pendências foram resolvidas executando o comand
 
 Vemos que tudo foi corrigido e todas as recomendações estão seguindo as melhores práticas. Nesse exemplo vemos a importância desta ferramenta.
 
-## kube-capacity
+## kube-capacity - Verificação de consumo de recursos
+
+Versão utilizada: 0.7.4
 
 Ao definir, na etapa anterior, os requests e limits de recursos para os containers, baseamos nossas estimativas em conhecimento e experiência prévios. No entanto, frequentemente, essas estimativas são imprecisas devido à falta de dados suficientes para avaliar de maneira eficaz os recursos necessários para nossas aplicações.
 
-Podemos verificar o quanto um pod está consumindo de memória e cpu utilizando o comando `kubectl top pod ubuntu-dual-logging-pod`. Se precisarmos verificar o consumo de recursos de todos os conatainers deste pod podemos executar o comando `kubectl top pod ubuntu-dual-logging-pod --containers`. No entanto, não conseguimos ver simultaneamente o consumo de cpu e memória e os request e limits definidos para os containers. Desta forma o kube-capacity preenche essa lacuna, nos fornecendo informações sobre o consumo de recursos de nossos pods e como eles se comparam com os recursos reservados.
+Podemos verificar o quanto um pod está consumindo de memória e cpu utilizando o comando `kubectl top pod ubuntu-dual-logging-pod`. Se precisarmos verificar o consumo de recursos de todos os containers deste pod podemos executar o comando `kubectl top pod ubuntu-dual-logging-pod --containers`. No entanto, não conseguimos ver simultaneamente o consumo de cpu e memória e os request e limits definidos para os containers. Desta forma o kube-capacity preenche essa lacuna, nos fornecendo informações sobre o consumo de recursos de nossos pods e como eles se comparam com os recursos reservados.
 
 Lembre-se que as métricas de consumo de recursos são coletadas pelo metrics-server, que é um componente do Kubernetes utilizado para coletar métricas de consumo de recursos. Portanto, para que o kube-capacity funcione corretamente, o metrics-server deve estar instalado e funcionando corretamente em seu cluster.
 
@@ -493,7 +502,9 @@ Vamos verificar o consumo de recursos do pod que criamos anteriormente com o kub
 
 ![kube-capacity](images/kube-capacity.png)
 
-## kube-no-trouble
+## kube-no-trouble - Alertas de recursos deprecados
+
+Versão utilizada: 0.7.1
 
 Vamos introduzir um novo componente, o Horizontal Pod Autoscaler (HPA), que é um recurso do Kubernetes que nos permite escalar automaticamente o número de pods em um deployment ou statefulset com base em algumas métricas de pods ou containers. Observe que no início de nosso artigo, criamos os clusters na versão 1.25.
 
@@ -622,6 +633,6 @@ Após aplicarmos esta definição do HPA, executamos o comando `kubent` novament
 
 Com isso verificamos não haver mais api deprecadas precisando de atualização e podemos prosseguir com uma possível atualização do cluster.
 
-## kubeshark
-
 ## Conclusão
+
+O Kubernetes é conhecido por sua complexidade e os desafios que traz. Pode parecer que as ferramentas que mencionei são desnecessárias porque o `kubectl` faz praticamente tudo. Mas, na verdade, elas tornam nosso trabalho diário mais fácil e rápido. Escolhi essas ferramentas por serem, na minha experiência, essenciais para gerenciar clusters Kubernetes de forma eficiente. Elas nos ajudam a economizar tempo e esforço, simplificando tarefas complicadas.
