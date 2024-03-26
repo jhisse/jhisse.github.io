@@ -100,7 +100,7 @@ Então o primeiro passo é criarmos um OAuth App em nosso provedor de autentica�
 
 Escolha um nome para sua aplicação e como estamos testando localmente em **Homepage URL** coloque `http://localhost` e em **Callback URL** coloque `http://localhost/oauth2/callback`.
 
-Os endpoints disponíveis do oauth2_proxy podem ser consultados na [documentação oficial](https://oauth2-proxy.github.io/oauth2-proxy/docs/features/endpoints).
+Os endpoints disponíveis do oauth2_proxy podem ser consultados na [documentação oficial](https://oauth2-proxy.github.io/oauth2-proxy/features/endpoints).
 
 ![Campos OAuth App Github](images/fields_oauth_app_github.png)
 
@@ -155,7 +155,7 @@ services:
       - oauth2_proxy
 ```
 
-Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
+Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
 
 - "OAUTH2_PROXY_EMAIL_DOMAINS=*": Domínios de e-mails permitidos. Aqui estamos permitindo todos os domínios.
 - "OAUTH2_PROXY_REDIRECT_URL=`http://localhost/oauth2/callback`": Quando usamos o Github como provedor precisamos setar a url de redirecionamento igual a url de callback configurada no momento da criação do App.
@@ -163,7 +163,7 @@ Observando o compose acima, estamos configurando o container do oauth2_proxy com
 - "OAUTH2_PROXY_CLIENT_ID=": Após o sinal de igual iremos colocar o Client ID que recebemos no momento da criação do App.
 - "OAUTH2_PROXY_CLIENT_SECRET="Após o sinal de igual iremos colocar o Client Secret que recebemos no momento da criação do App.
 
-O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options).
+O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#command-line-options).
 
 Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo *default.conf* na pasta do nginx.
 
