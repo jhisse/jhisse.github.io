@@ -171,7 +171,7 @@ As métricas relacionadas com ao Trino iniciam com o prefixo *trino_*.
 
 ![Métricas do Trino no Prometheus](images/metricas-no-trino-no-prometheus.png)
 
-Vou realizar algumas queries no catálogo *TPCDS* utilizando o [trino-cli](https://trino.io/docs/current/installation/cli.html). O catálogo *TPCDS* tem diversos schemas, *sf1*, *sf10*, *sf100* e mais, o número inteiro após o prefixo *sf* indica a quantidade de gigabytes de dados que o schema terá. Nos nossos testes a seguir vamos utilizar o *sf10*.
+Vou realizar algumas queries no catálogo *TPCDS* utilizando o [trino-cli](https://trino.io/docs/363/installation/cli.html). O catálogo *TPCDS* tem diversos schemas, *sf1*, *sf10*, *sf100* e mais, o número inteiro após o prefixo *sf* indica a quantidade de gigabytes de dados que o schema terá. Nos nossos testes a seguir vamos utilizar o *sf10*.
 
 Para conectar ao trino através da linha de comando, você precisa instalar o trino-cli em sua máquina, ter a stack que construirmos sendo executada na máquina e digitar no terminal:
 
@@ -257,7 +257,7 @@ RUN echo "-Dcom.sun.management.jmxremote" >> /etc/trino/jvm.config && \
     echo "-Dcom.sun.management.jmxremote.port=9080" >> /etc/trino/jvm.config && \
     echo "-Dcom.sun.management.jmxremote.rmi.port=9081" >> /etc/trino/jvm.config
 
-# https://trino.io/docs/current/admin/jmx.html#admin-jmx--page-root
+# https://trino.io/docs/363/admin/jmx.html#admin-jmx--page-root
 RUN echo "jmx.rmiregistry.port=9080" >> /etc/trino/config.properties && \
     echo "jmx.rmiserver.port=9081" >> /etc/trino/config.properties
 ```
