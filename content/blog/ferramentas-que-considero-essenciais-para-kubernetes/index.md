@@ -67,7 +67,7 @@ Mudar de contexto muitas vezes pode ser uma tarefa tediosa, principalmente quand
 
 ![kubectx](images/kubectx.png)
 
-E que tal listar os namespaces do cluster1? Para isso usaremos o comando `kubectl get namespaces`. Verificamos com o comando `kubectl config view --minify --output 'jsonpath={..namespace}'` que estamos no namespace default, ou seja, a saída será em branco. Vamos alterar nosso namespace de trabalho para o namespace kube-system com o comando `kubectl config set-context --current --namespace=kube-system`. Verificando com o comando `kubectl config view --minify --output 'jsonpath={..namespace}'` que agora estamos no namespace kube-system e em segguida listamos os pods do namespace kube-system com o comando `kubectl get pods`, para confirmar que estamos no namespace correto.
+E que tal listar os namespaces do cluster1? Para isso usaremos o comando `kubectl get namespaces`. Verificamos com o comando `kubectl config view --minify --output 'jsonpath={..namespace}'` que estamos no namespace default, ou seja, a saída será em branco. Vamos alterar nosso namespace de trabalho para o namespace kube-system com o comando `kubectl config set-context --current --namespace=kube-system`. Verificando com o comando `kubectl config view --minify --output 'jsonpath={..namespace}'` que agora estamos no namespace kube-system e em seguida listamos os pods do namespace kube-system com o comando `kubectl get pods`, para confirmar que estamos no namespace correto.
 
 ![Change context with kubectx](images/change-namespace.png)
 
@@ -81,7 +81,7 @@ Versão utilizada: 1.25.0
 
 Podemos facilmente obter os logs de um pod especifico com o comando `kubectl logs <pod-name>`, mas se precisarmos obter os logs de vários pods em simultâneo? Ou mesmo de múltiplos containers no mesmo pod? Este comando não nos atenderá nesse caso. O Stern é uma ferramenta que nos permite obter os logs de vários pods ou containers em simultâneo, o que é extremamente útil quando precisamos depurar múltiplas aplicações.
 
-Vamos fazer um pequeno experimento com um pod que contêm dois containers. Ambos os containers irão gerar logs diferentes. Desta forma poderemos visualizar a limitação que temos ao usar o comando `kubectl logs <pod-name>`. Antes de mais nada, não esqueça de criar um namespace para nossas aplicações com o comando `kubectl create namespace applications`. Em seguida, vamos criar um pod com dois containers, um chamado ubuntu-logger-one e outro chamado ubuntu-logger-two.
+Vamos fazer um pequeno experimento com um pod que contêm dois containers. Ambos os containers gerarão logs diferentes. Desta forma poderemos visualizar a limitação que temos ao usar o comando `kubectl logs <pod-name>`. Antes de mais nada, não esqueça de criar um namespace para nossas aplicações com o comando `kubectl create namespace applications`. Em seguida, vamos criar um pod com dois containers, um chamado ubuntu-logger-one e outro chamado ubuntu-logger-two.
 
 ```yaml
 apiVersion: v1
@@ -155,7 +155,7 @@ Executamos o comando `kube-score score pod.yaml` e obtemos a seguinte saída:
 
 ![kube-score](images/kube-score.png)
 
-O primeiro aviso que vemos é que o pod em questão não tem um Security Context Group ID definido. Vamos corriger isso adicionando um Security Context Group ID ao pod. A definição do pod ficará da seguinte maneira:
+O primeiro aviso que vemos é que o pod em questão não tem um Security Context Group ID definido. Vamos corrigir isso adicionando um Security Context Group ID ao pod. A definição do pod ficará da seguinte maneira:
 
 ```yaml
 apiVersion: v1
@@ -189,7 +189,7 @@ spec:
         runAsUser: 10001
 ```
 
-O segundo aviso se refere ao network policy, que não foi definido. Vamos corrigir isso adicionando um network policy para pod, mas para isso precisamos adicionar uma label ao pod para poder dar match com a network policy. Como nosso pod não precisa se comunicar com nenhum outro pod em nosso cluster, vamos bloquear tanto o trafego de entrada quanto o de saída. A definição do pod e da network policy ficará da seguinte maneira:
+O segundo aviso se refere ao network policy, que não foi definido. Vamos corrigir isso adicionando um network policy para pod, mas para isso precisamos adicionar uma label ao pod para poder dar match com a network policy. Como nosso pod não precisa se comunicar com nenhum outro pod em nosso cluster, vamos bloquear tanto o tráfego de entrada quanto o de saída. A definição do pod e da network policy ficará da seguinte maneira:
 
 ```yaml
 apiVersion: v1
@@ -238,7 +238,7 @@ spec:
     - Egress
 ```
 
-Agora vamos ajustar o terceiro ponto que o kube-score nos alertou, que é o uso da tag latest, já que não definimos tag na imagem, o padrão é a latest. Vamos fixar a imagem do ubuntu para a versão 22.04. Portanto, agora teremos:
+Agora vamos ajustar o terceiro ponto que o kube-score nos alertou, o uso da tag latest, já que não definimos tag na imagem, o padrão é a latest. Vamos fixar a imagem do ubuntu para a versão 22.04. Portanto, agora teremos:
 
 ```yaml
 apiVersion: v1
@@ -411,7 +411,7 @@ Vamos executar mais uma vez e ver se todas as pendências foram resolvidas. Exec
 
 ![kube-score](images/kube-score-retentativa.png)
 
-Vemos que um novo alerta surgiu. O kube-score nos alertou a falta da iamgePullPolicy. Antes este não foi reportado pois com a tag latest o padrão da imagePullPolicy é Always. Quando fixamos a tag da imagem para a 22.04, o iamgePullPolicy passou a ser IfNotPresent por padrão e não mais Always, como é o padrão para a tag latest. Vamos corrigir isso adicionando a imagePullPolicy para o pod.
+Vemos que um novo alerta surgiu. O kube-score nos alertou a falta da imagePullPolicy. Antes este não foi reportado, pois, com a tag latest, o padrão da imagePullPolicy é Always. Quando fixamos a tag da imagem para a 22.04, o imagePullPolicy passou a ser IfNotPresent por padrão e não mais Always, como é o padrão para a tag latest. Vamos corrigir isso adicionando a imagePullPolicy para o pod.
 
 ```yaml
 apiVersion: v1
@@ -496,9 +496,9 @@ Ao definir, na etapa anterior, os requests e limits de recursos para os containe
 
 Podemos verificar o quanto um pod está consumindo de memória e cpu utilizando o comando `kubectl top pod ubuntu-dual-logging-pod`. Se precisarmos verificar o consumo de recursos de todos os containers deste pod podemos executar o comando `kubectl top pod ubuntu-dual-logging-pod --containers`. No entanto, não conseguimos ver simultaneamente o consumo de cpu e memória e os request e limits definidos para os containers. Desta forma o kube-capacity preenche essa lacuna, nos fornecendo informações sobre o consumo de recursos de nossos pods e como eles se comparam com os recursos reservados.
 
-Lembre-se que as métricas de consumo de recursos são coletadas pelo metrics-server, que é um componente do Kubernetes utilizado para coletar métricas de consumo de recursos. Portanto, para que o kube-capacity funcione corretamente, o metrics-server deve estar instalado e funcionando corretamente em seu cluster.
+Lembre-se que as métricas de consumo de recursos são coletadas pelo metrics-server, sendo um componente do Kubernetes utilizado para coletar métricas de consumo de recursos. Portanto, para que o kube-capacity funcione corretamente, o metrics-server deve estar instalado e funcionando corretamente em seu cluster.
 
-Vamos verificar o consumo de recursos do pod que criamos anteriormente com o kube-capacity além do request e limit definido para cada container. Depois de instalar o kube-capacity, executamos o comando `kube-capacity -n applications --util --containers` e obtemos a seguinte saída:
+Vamos verificar o consumo de recursos do pod que criamos anteriormente com o kube-capacity além do request e limit definido para cada container. Após instalar o kube-capacity, executamos o comando `kube-capacity -n applications --util --containers` e obtemos a seguinte saída:
 
 ![kube-capacity](images/kube-capacity.png)
 
@@ -506,9 +506,9 @@ Vamos verificar o consumo de recursos do pod que criamos anteriormente com o kub
 
 Versão utilizada: 0.7.1
 
-Vamos introduzir um novo componente, o Horizontal Pod Autoscaler (HPA), que é um recurso do Kubernetes que nos permite escalar automaticamente o número de pods em um deployment ou statefulset com base em algumas métricas de pods ou containers. Observe que no início de nosso artigo, criamos os clusters na versão 1.25.
+Vamos introduzir um novo componente, o Horizontal Pod Autoscaler (HPA), um recurso do Kubernetes que nos permite escalar automaticamente o número de pods em um deployment ou statefulset com base em algumas métricas de pods, ou containers. Observe que no início de nosso artigo, criamos os clusters na versão 1.25.
 
-Para nosso teste agora, vamos criar um deployment aproveitando a mesma especificação do pod que criamos anteriormente, ao mesmo tempo que criamos um HPA para este deployment. O HPA poderá escalar ao número de pods do deployment com base na utilização de CPU. Vamos criar o deployment e o HPA com o seguinte arquivo de manifesto:
+Para nosso teste agora, vamos criar um deployment aproveitando a mesma especificação do pod que criamos anteriormente, enquanto criamos um HPA para este deployment. O HPA poderá escalar ao número de pods do deployment com base na utilização de CPU. Vamos criar o deployment e o HPA com o seguinte arquivo de manifesto:
 
 ```yaml
 apiVersion: apps/v1
@@ -597,13 +597,13 @@ spec:
         averageUtilization: 80
 ```
 
-Criamos um Horizontal Pod Autoscaler com a api version v2beta2. Esta versão da API é deprecada na versão 1.26 do Kubernetes, ou seja, o Kubernetes não suportará mais a versão v2beta2 do HPA a partir da versão 1.26. O kube-no-trouble, ou kubent, nos alerta sobre isso, nos fornecendo informações sobre os recursos que serão deprecados em versões mais novas do Kubernetes. Desta forma podemos nos preparar para atualizações de cluster.
+Criamos um Horizontal Pod Autoscaler com a apiVersion v2beta2. Esta versão da API é deprecada na versão 1.26 do Kubernetes, ou seja, o Kubernetes não suportará mais a v2beta2 do HPA a partir do 1.26. O kube-no-trouble, ou kubent, nos alerta sobre isso, nos fornecendo informações sobre os recursos que serão deprecados em versões mais novas do Kubernetes. Desta forma podemos nos preparar para atualizações de cluster.
 
-No caso acima o kubent nos alerta que a versão v2beta2 do HPA será deprecada na versão 1.26 do Kubernetes e que devemos atualizar para a versão v2. Vamos verificar essa informação executando o comando `kubent`:
+No caso acima o kubent nos alerta que a versão v2beta2 do HPA será deprecada na versão 1.26 do Kubernetes e devemos atualizar para a v2. Vamos verificar essa informação executando o comando `kubent`:
 
 ![kubent](images/kubent.png)
 
-Vamos atualiza a apiVersion do HPA para v2 e verificar se o kubent nos alerta sobre alguma outra coisa. A definição do HPA ficará da seguinte maneira:
+Vamos atualizar a apiVersion do HPA para v2 e verificar se o kubent nos alerta sobre alguma outra coisa. A definição do HPA ficará da seguinte maneira:
 
 ```yaml
 apiVersion: autoscaling/v2
