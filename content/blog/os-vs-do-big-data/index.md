@@ -16,5 +16,5 @@ Em abril de 2017, Tom Shafer, cientista de dados, publicou o artigo "The 42 V's 
 
 ## Fontes
 
-- [3D Data Management Controlling Data Volume Velocity and Variety](https://blogs.gartner.com/doug-laney/files/2012/01/ad949-3D-Data-Management-Controlling-Data-Volume-Velocity-and-Variety.pdf)
-- [42 V of Big Data](https://www.elderresearch.com/blog/42-v-of-big-data)
+- 3D Data Management Controlling Data Volume Velocity and Variety - Doug Laney
+- [42 V of Big Data - Tom Shafe](https://www.elderresearch.com/blog/42-v-of-big-data)
