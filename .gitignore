@@ -1,9 +1,0 @@
-_site/
-.idea/
-.jekyll-cache/
-Gemfile.lock
-.DS_Store
-resources/
-public/
-.vscode/
-.hugo_build.lock
