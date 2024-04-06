@@ -14,7 +14,7 @@ A sequência de Collatz é gerada pela seguinte regra:
 \\[
 n =
 \begin{cases}
-  & n/2 \text{, se } n \text{ é par } \\\\  
+  & n/2 \text{, se } n \text{ é par } \\\\
   & 3n+1 \text{, se } n \text{ é ímpar }
 \end{cases}
 \\]

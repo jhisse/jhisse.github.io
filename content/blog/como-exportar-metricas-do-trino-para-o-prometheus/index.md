@@ -290,7 +290,7 @@ services:
     ports:
       - "8080:8080"
       - "9080:9080"
-  
+
   jmx-exporter:
     # Imagem do jmx exporter
     image: "bitnami/jmx-exporter:0.16.1"

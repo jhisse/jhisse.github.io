@@ -170,11 +170,11 @@ Após o commit do ```.gitlab-ci.yml``` o processo de continuous integration inic
 
 Até o momento temos a seguinte estrutura de diretórios:
 
-\- SimpleApi/  
-\-\- Dockerfile  
-\-\- go.mod  
-\-\- main.go  
-\-\- .gitlab-ci.yml  
+\- SimpleApi/
+\-\- Dockerfile
+\-\- go.mod
+\-\- main.go
+\-\- .gitlab-ci.yml
 
 O pipeline consiste na execução de três jobs. O primeiro é responsável pelo build da imagem. Vale um ponto de atenção aqui, para podermos utilizar um diretório ou um arquivo entre um job e outro, é necessário termos um local para cache pré-definido (linha 22).
 

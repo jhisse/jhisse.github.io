@@ -73,10 +73,10 @@ ADD index.html /usr/share/nginx/html
 
 A estrutura do diretório irá ficar da seguinte forma:
 
-\- raiz/  
-\-\- nginx/  
-\-\-\- Dockerfile  
-\-\-\- index.html  
+\- raiz/
+\-\- nginx/
+\-\-\- Dockerfile
+\-\-\- index.html
 
 Temos que buildar nossa imagem do nginx e executa-lá em seguida:
 
@@ -127,7 +127,7 @@ services:
       - OAUTH2_PROXY_UPSTREAM=http://localhost
       # Restrictions (Not use in same time)
       # - OAUTH2_PROXY_AUTHENTICATED_EMAILS_FILE=/home/emails.txt
-      - OAUTH2_PROXY_EMAIL_DOMAINS=*  
+      - OAUTH2_PROXY_EMAIL_DOMAINS=*
       # Same url in Github Callback URL
       - OAUTH2_PROXY_REDIRECT_URL=http://localhost/oauth2/callback
       - OAUTH2_PROXY_SESSION_STORE_TYPE=redis
@@ -239,11 +239,11 @@ ADD default.conf /etc/nginx/conf.d
 
 A estrutura do diretório deve estar da seguinte forma:
 
-\- raiz/  
-\-\- docker-compose.yml  
-\-\- nginx/  
-\-\-\- Dockerfile  
-\-\-\- index.html  
+\- raiz/
+\-\- docker-compose.yml
+\-\- nginx/
+\-\-\- Dockerfile
+\-\-\- index.html
 
 Após a inserção do *Client ID* e do *Client Secret* no docker-compose.yml iremos executar nossas aplicações. Vá para a raiz do nosso projeto e execute o seguinte comando:
 
@@ -285,14 +285,14 @@ Porém queremos restringir ainda mais o acesso. Para isso vamos trabalhar mais u
 
 Criaremos uma nova pasta na raiz do nosso projeto chamada *oauth2_proxy*. E dentro criaremos um arquivo chamado *emails.txt* e outro chamado *Dockerfile*.
 
-\- raiz/  
-\-\- docker-compose.yml  
-\-\- nginx/  
-\-\-\- Dockerfile  
-\-\-\- index.html  
-\-\- oauth2_proxy/  
-\-\-\- Dockerfile  
-\-\-\- emails.txt  
+\- raiz/
+\-\- docker-compose.yml
+\-\- nginx/
+\-\-\- Dockerfile
+\-\-\- index.html
+\-\- oauth2_proxy/
+\-\-\- Dockerfile
+\-\-\- emails.txt
 
 *emails.txt*:
 
@@ -326,7 +326,7 @@ services:
       - OAUTH2_PROXY_UPSTREAM=http://localhost
       # Restrictions (Not use in same time)
       - OAUTH2_PROXY_AUTHENTICATED_EMAILS_FILE=/home/emails.txt
-      # - OAUTH2_PROXY_EMAIL_DOMAINS=*  
+      # - OAUTH2_PROXY_EMAIL_DOMAINS=*
       # Same url in Github Callback URL
       - OAUTH2_PROXY_REDIRECT_URL=http://localhost/oauth2/callback
       - OAUTH2_PROXY_SESSION_STORE_TYPE=redis

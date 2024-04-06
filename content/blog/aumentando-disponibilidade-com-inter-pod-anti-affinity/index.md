@@ -1,5 +1,5 @@
 ---
-title: Aumentando a disponibilidade no k8s com inter-pod anti-affinity 
+title: Aumentando a disponibilidade no k8s com inter-pod anti-affinity
 date: 2021-04-03
 layout: post
 ---

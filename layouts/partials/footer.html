@@ -11,8 +11,8 @@
   <a href="/sitemap.xml">Sitemap</a>
 </p>
 
-{{ with .Type }} 
-{{ if eq . "blog" }} 
+{{ with .Type }}
+{{ if eq . "blog" }}
 {{ $zooming := resources.Get "js/zooming.min.js" }}
 <script src="{{ $zooming.RelPermalink }}"></script>
 

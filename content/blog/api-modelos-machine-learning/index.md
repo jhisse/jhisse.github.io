@@ -255,8 +255,8 @@ Vamos construir nosso primeiro endpoint para entendermos um pouco mais de como t
 
 Para isso teremos a seguinte estrutura de diretório:
 
-\- predict-api/  
-\-\- ping_handler.py  
+\- predict-api/
+\-\- ping_handler.py
 \-\- serverless.yml
 
 ping_handler.py
@@ -498,13 +498,13 @@ pip freeze > requirements.txt
 
 A estrutura final do diretório será a seguinte:
 
-\- predict-api/  
-\-\- ping_handler.py  
-\-\- predict_handler.py  
-\-\- serverless.yml  
-\-\- requirements.txt  
-\-\- package.json  
-\-\- package-lock.json  
+\- predict-api/
+\-\- ping_handler.py
+\-\- predict_handler.py
+\-\- serverless.yml
+\-\- requirements.txt
+\-\- package.json
+\-\- package-lock.json
 
 Não esqueça de fazer o deploy novamente.
 

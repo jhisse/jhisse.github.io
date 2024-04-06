@@ -4,11 +4,11 @@ date: 2022-05-15
 layout: post
 ---
 
-A seguir apresentarei as decisões tomadas na construção deste blog e apresentar as principais tecnologias utilizadas. Buscarei ao máximo descrever o porquê de cada decisão tomada e explicar qual o pensamento por trás. Um aviso, se você estiver lendo este artigo em uma data futura a da publicação, ele pode não descrever mais a realidade do atual blog. 
+A seguir apresentarei as decisões tomadas na construção deste blog e apresentar as principais tecnologias utilizadas. Buscarei ao máximo descrever o porquê de cada decisão tomada e explicar qual o pensamento por trás. Um aviso, se você estiver lendo este artigo em uma data futura a da publicação, ele pode não descrever mais a realidade do atual blog.
 
 ## Objetivo do blog
 
-O objetivo do blog é compartilhar com os leitores um pouco da minha maneira de pensar e meus principais aprendizados, aos quais envolvem assuntos diversos, quase sempre presentes no meu dia-a-dia. Assuntos simples ou complexos, sempre é um desafio explicar de forma clara cada etapa que compõem um pensamento que leva a determinada decisão. 
+O objetivo do blog é compartilhar com os leitores um pouco da minha maneira de pensar e meus principais aprendizados, aos quais envolvem assuntos diversos, quase sempre presentes no meu dia-a-dia. Assuntos simples ou complexos, sempre é um desafio explicar de forma clara cada etapa que compõem um pensamento que leva a determinada decisão.
 
 Por mais detalhado que seja o texto, ele nem sempre vai contemplar todos os detalhes. Por isso antes de publicar um artigo eu peço para que alguns amigos o leiam e me enviem comentários e sugestões. Muitos deles reproduzem cada etapa descrita e indicam pontos que podem ser melhores explicados ou até suprimidos do texto original.
 
@@ -38,7 +38,7 @@ Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é
 
 Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão para escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
 
-Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](/local/da/imagem.jpg)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown. 
+Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](/local/da/imagem.jpg)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown.
 
 ![Markdown para HTML](images/markdown2html.png)
 
@@ -52,7 +52,7 @@ Os geradores de sites estáticos funcionam como uma espécie de pré-processador
 
 ![Gerador de site estático](images/diagrama-ssg.png)
 
-No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este artigo está sendo escrito. O que ele faz é transformar arquivos Markdown e de templates em HTML já processado, como se fosse um processo de compilação. Ele é escrito em Ruby e precisa ser instalado como uma command-line interface. 
+No site [Jamstack](https://jamstack.org/generators/) podemos encontrar uma lista extensa de geradores de sites estáticos. Neste blog utilizamos o [Jekyll](https://jekyllrb.com), pelo menos até o momento que este artigo está sendo escrito. O que ele faz é transformar arquivos Markdown e de templates em HTML já processado, como se fosse um processo de compilação. Ele é escrito em Ruby e precisa ser instalado como uma command-line interface.
 
 Nessa altura você deve estar se perguntando por que a escolha dele e não de outros, já que há muitas opções disponíveis. A resposta é simples, o Github Pages já tem suporte para ele. O Jekyll aceita uma sintaxe chamada [Liquid](https://shopify.github.io/liquid/). Não vou entrar em detalhes sobre o Liquid, basta sabermos que ela é uma linguagem de template para páginas web, uma linguagem de marcação, que através de regras lógicas simples é possível criar páginas web diferentes umas das outras.
 
@@ -112,7 +112,7 @@ Não vou entrar em maiores detalhes sobre o template Liquid que o Jekyll utiliza
 
 ### Syntax highlighting
 
-Na maioria dos artigos desse blog há trechos de códigos nas mais diversas linguagens. Há trechos de dockerfile, yaml, python, r, entre outros, que precisam ter destaque de sintaxe. Isso vai dar ao leitor uma melhor experiência na leitura. 
+Na maioria dos artigos desse blog há trechos de códigos nas mais diversas linguagens. Há trechos de dockerfile, yaml, python, r, entre outros, que precisam ter destaque de sintaxe. Isso vai dar ao leitor uma melhor experiência na leitura.
 
 Para o syntax highlight, utilizo o [highlightjs](https://highlightjs.org). Neste site é possível gerar um pacote personalizado somente com as linguagens que você escolher. Isso é útil para termos pacotes css e javascript mais enxutos.
 
@@ -122,6 +122,6 @@ Utilizamos a biblioteca [Zooming](https://github.com/kingdido999/zooming) para a
 
 ## Considerações finais
 
-Ao longo deste artigo mostrei um pouco as tecnologias que este blog utiliza. Podemos perceber que é simples e direto em seu objetivo, ser um lugar para mostrar algumas ideias, aprendizados e provas de conceitos. 
+Ao longo deste artigo mostrei um pouco as tecnologias que este blog utiliza. Podemos perceber que é simples e direto em seu objetivo, ser um lugar para mostrar algumas ideias, aprendizados e provas de conceitos.
 
 As decisões tomadas e a arquitetura apresentada podem não refletir o estado atual do site. Muitas dessas decisões podem, foram ou serão revistas conforme o tempo passa e as necessidades mudam.

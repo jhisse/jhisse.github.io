@@ -50,7 +50,7 @@ Vamos modificar a política já existente, [add label](https://release-1-5-0.kyv
 apiVersion: kyverno.io/v1
 kind: Policy
 metadata:
-  name: add-team-label 
+  name: add-team-label
   namespace: default
 spec:
   rules:
@@ -142,7 +142,7 @@ cat << EOF | kyverno validate -
 apiVersion: kyverno.io/v1
 kind: Policy
 metadata:
-  name: add-team-label 
+  name: add-team-label
   namespace: default
 spec:
   rules:
@@ -201,7 +201,7 @@ A regra que iremos executar neste teste é a [Always Pull Image](https://release
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: always-pull-images    
+  name: always-pull-images
 spec:
   rules:
   - name: always-pull-images

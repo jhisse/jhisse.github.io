@@ -223,10 +223,10 @@ Em nossa abordagem vamos inserir o modelo treinado no container junto com códig
 
 Vamos a nossa estrutura de diretórios:
 
-\- raiz/  
-\-\- Dockerfile  
-\-\- api.r  
-\-\- glm_model.rds  
+\- raiz/
+\-\- Dockerfile
+\-\- api.r
+\-\- glm_model.rds
 
 Primeiro vamos copiar o modelo já treinado, *glm_model.rds*, e o código da API, *api.r* para dentro do diretório raiz. A seguir, vamos criar o arquivo chamado *Dockerfile* com o seguinte conteúdo:
 

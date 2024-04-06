@@ -17,12 +17,12 @@ Então, vamos criar nosso cluster local, para isso vamos ao terminal:
 ```console
 $ kind create cluster --name yamls-test
 Creating cluster "yamls-test" ...
- ✓ Ensuring node image (kindest/node:v1.20.2) 🖼 
- ✓ Preparing nodes 📦  
- ✓ Writing configuration 📜 
- ✓ Starting control-plane 🕹️ 
- ✓ Installing CNI 🔌 
- ✓ Installing StorageClass 💾 
+ ✓ Ensuring node image (kindest/node:v1.20.2) 🖼
+ ✓ Preparing nodes 📦
+ ✓ Writing configuration 📜
+ ✓ Starting control-plane 🕹️
+ ✓ Installing CNI 🔌
+ ✓ Installing StorageClass 💾
 Set kubectl context to "kind-yamls-test"
 You can now use your cluster with:
 
