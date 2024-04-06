@@ -1,0 +1,33 @@
+baseURL: "https://www.josehisse.dev/"
+defaultcontentlanguage: "pt-br"
+languageCode: "pt-br"
+languageName: "Português"
+title: "José Hisse"
+cleanDestinationDir: true
+copyright: ""
+enableRobotsTXT: true
+timeZone: "America/Sao_Paulo"
+
+permalinks:
+  blog: "/blog/:filename/"
+
+disableKinds:
+  - taxonomy
+  - term
+  - section
+
+params:
+  description: >-
+    Engenheiro de dados (Big Data). Spark, Nifi, ElasticSearch,
+    Kafka, Docker, BigQuery, Data lake
+  linkedin: https://www.linkedin.com/in/josehisse/
+  github: https://github.com/jhisse
+
+minify:
+  minifyOutput: true
+
+removepathaccents: true
+
+markup:
+  highlight:
+    noClasses: false

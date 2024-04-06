@@ -1,0 +1,28 @@
+<p style="max-width:580px;margin-left:auto;margin-right:auto;padding: 10px 0;">Disclaimer: Este blog é pessoal e as opiniões expressas aqui são estritamente do autor, não refletindo as visões ou posições do seu empregador.
+</p>
+
+<p>
+  me [AT] josehisse.dev
+  <br />
+  <a href="{{ .Site.Params.linkedin }}">Linkedin</a>
+  <br />
+  <a href="{{ .Site.Params.github }}">Github</a>
+  <br />
+  <a href="/sitemap.xml">Sitemap</a>
+</p>
+
+{{ with .Type }} 
+{{ if eq . "blog" }} 
+{{ $zooming := resources.Get "js/zooming.min.js" }}
+<script src="{{ $zooming.RelPermalink }}"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    new Zooming({
+      bgOpacity: 0.8,
+      scaleBase: 0.7,
+    }).listen("img");
+  });
+</script>
+{{ end }}
+{{ end }}

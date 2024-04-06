@@ -1,0 +1,126 @@
+:root {
+  --background-body: #fff;
+  --background: #ddd;
+  --background-alt: #f7f7f7;
+  --selection: #9e9e9e;
+  --text-main: #363636;
+  --text-bright: #000;
+  --text-muted: #555;
+  --links: #0076d1;
+  --focus: #0096bfab;
+  --border: #dbdbdb;
+  --code: #000;
+  --animation-duration: 0.1s;
+  --button-hover: #ddd;
+  --scrollbar-thumb: rgb(44, 63, 79);
+  --scrollbar-thumb-hover: rgb(32, 45, 56);
+  --form-placeholder: #949494;
+  --form-text: #000;
+  --variable: #39a33c;
+  --highlight: #ff0;
+}
+
+nav {
+  display: inline;
+  margin-left: 20px;
+}
+
+nav a {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+nav a:hover {
+  color: var(--text-bright);
+}
+
+a {
+  color: var(--links);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--focus);
+  text-decoration: underline;
+}
+
+p {
+  color: var(--text-main);
+}
+
+img {
+  width: 100%;
+}
+
+small > time {
+  margin-right: 5px;
+  color: var(--text-muted);
+  font-family: monospace;
+  font-size: medium;
+}
+
+.post {
+  line-height: 1.5em;
+  padding-bottom: 8px;
+}
+
+#title {
+  color: var(--text-bright);
+  font-weight: 500;
+}
+
+h1, h2, h3, h4, h5, h6, #title {
+  font-size: 1.4em;
+  margin-bottom: 12px;
+}
+
+header {
+  margin: 4rem 0;
+}
+
+.MathJax {
+  overflow-x: auto;
+}
+
+.PageNavigation {
+  font-size: 0.8rem;
+  display: block;
+  width: auto;
+  overflow: hidden;
+  padding-top: 3rem;
+}
+
+.PageNavigation a {
+  display: block;
+  width: 50%;
+}
+
+.PageNavigation .next {
+  text-align: right;
+  float: right;
+}
+
+.PageNavigation .prev {
+  text-align: left;
+  float: left;
+}
+
+footer {
+  line-height: 2em;
+  text-align: center;
+  border-top: 1px solid var(--background);
+  margin-top: 5px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+pre {
+  border-radius: 6px;
+  padding: 6px;
+}
+
+p > code {
+  background: #efefef;
+  border-radius: 2px;
+  padding: 3px;
+}
