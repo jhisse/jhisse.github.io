@@ -527,7 +527,7 @@ docker run --rm --net metrics-network remote-write
 Setamos o tempo do Prometheus para algumas horas para frente do tempo de execução do script e efetuamos a seguinte query em PromQL para verificar se nossos 13 pontos de dados foram enviados com sucesso:
 
 ```promql
-gasolina_disponivel_litros{posto="Posto de Gasolina da Cidade X", tanque="3"}[5h]
+gasolina_disponivel_litros[4h]
 ```
 
 ![Prometheus Range](./images/prometheus_range.png)
