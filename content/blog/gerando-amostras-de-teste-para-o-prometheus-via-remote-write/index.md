@@ -332,8 +332,6 @@ _sym_db.RegisterMessage(Sample)
 # @@protoc_insertion_point(module_scope)
 ```
 
-## Dependência da Biblioteca `protobuf`
-
 É importante notar que o código Python gerado, `remote_write_pb2.py`, necessita da biblioteca `protobuf` para ser executado corretamente. Essa biblioteca é essencial para interpretar e manipular os dados serializados no formato Protobuf, conforme definido pelo arquivo `.proto`.
 
 ## Iniciando o Prometheus
