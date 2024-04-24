@@ -353,11 +353,11 @@ docker run --rm -d -p 9090:9090 -e TZ=UTC --net metrics-network \
 
 ![Docker Prometheus](./images/docker_run_prometheus.png)
 
-A interface web do Prometheus estará disponível em <http://localhost:9090>.
+A interface web do Prometheus estará disponível em `http://localhost:9090`.
 
 ![Prometheus Web Interface](./images/prometheus_web_interface.png)
 
-A flag `--web.enable-remote-write-receiver` habilita o endpoint de Remote Write. Podemos verificar se o endpoint está ativado acessando a URL <http://localhost:9090/flags> e procurando pela chave `web.enable-remote-write-receiver`:
+A flag `--web.enable-remote-write-receiver` habilita o endpoint de Remote Write. Podemos verificar se o endpoint está ativado acessando a URL `http://localhost:9090/flags` e procurando pela chave `web.enable-remote-write-receiver`:
 
 ![Prometheus Remote Write Enabled](./images/prometheus_remote_write_enabled.png)
 
