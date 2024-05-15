@@ -10,19 +10,19 @@ Com eles podemos garantir que determinados pods sejam executados em determinados
 
 É importante deixar claro que o exemplo a seguir não teve sua analogia criada por mim, não me recordo se o ouvi em uma palestra ou li em algum lugar. Caso você saiba a fonte original, por favor, me avise para que eu possa dar os devidos créditos.
 
-A seguir vamos explicar de forma suscinta o que são *taint* e *toleration* e como eles funcionam.
+A seguir vamos explicar de forma sucinta o que são *taint* e *toleration* e como eles funcionam.
 
 ## Taint
 
-Imagine que você pertence a um ministério do governo responsável pelo monitoramento de mosquitos em residências e tem como objetivo identificar e eliminar focos do mosquito Aedes aegypti e Anopheles. Caso você encontre um foco, você coloca um adesivo na residência informando que ali existe um foco de mosquito e qual o tipo. Ou seja, você informa que determinada residência está contaminada e que só pessoas com determinadas proteções podem entrar. Isso é um *taint*.
+Imagine que você pertence a um ministério do governo responsável pelo monitoramento de mosquitos em residências e tem como objetivo identificar e eliminar focos do mosquito Aedes aegypti e Anopheles. Caso você encontre um foco, você coloca uma placa na residência informando que ali existe um foco de mosquito e qual o tipo. Ou seja, você informa que determinada residência está contaminada e que só pessoas com determinadas proteções podem entrar. Isso é um *taint*.
 
 ## Toleration
 
-Agora, é a hora de indicar aos agentes de saúde que eles podem entrar na residência contaminada. Para isso, você fornece a eles um repelente especifico que os permite entrar na residência sem serem contaminados. Ou seja, você tolera a presença deles, já que você possui um mecanismo que o protege do mosquito. Isso é uma *toleration*.
+Agora, é a hora de indicar aos agentes de saúde que eles podem entrar na residência contaminada. Para isso, você fornece a eles um repelente específico que os permite entrar na residência sem serem contaminados. Ou seja, você tolera a presença deles, já que você possui um mecanismo que o protege do mosquito. Isso é uma *toleration*.
 
 ## NodeSelector
 
-Imagine agora que os agentes de saúde agora não podem mais entrar em qualquer residência, apenas em residencias que possuem a identificação de foco de mosquito. O João só pode entrar em residências com foco de mosquito Aedes aegypti e o Paulo só pode entrar em residências com foco de mosquito Anopheles. Isso é um NodeSelector.
+Imagine agora que os agentes de saúde agora não podem mais entrar em qualquer residência, apenas em residências que possuem a identificação de foco de mosquito. O João só pode entrar em residências com foco de mosquito Aedes aegypti e o Paulo só pode entrar em residências com foco de mosquito Anopheles. Isso é um NodeSelector.
 
 ## Entendendo passo a passo
 
@@ -46,7 +46,7 @@ Passada algumas horas Paulo recebeu um repelente que o protege do mosquito Anoph
 
 ---
 
-Mais algumas horas se passaram e João recebeu um repelente que o protege do mosquito Aedes Aegypti. Agora, ele pode entrar na casa 1 e ajudar a remover o foco de mosquito transmissor da dengue. Além disso, ele continua podendo entrar na casa 2 e Paulo continua podendo entrar na casa 2 e 3.
+Mais algumas horas se passaram e João recebeu um repelente que o protege do mosquito Aedes aegypti. Agora, ele pode entrar na casa 1 e ajudar a remover o foco de mosquito transmissor da dengue. Além disso, ele continua podendo entrar na casa 2 e Paulo continua podendo entrar na casa 2 e 3.
 
 ![Taint e Toleration](./images/taint-toleration-03.png)
 
@@ -80,6 +80,6 @@ Nas imagens que acompanharam o exemplo, o conceito é apresentado de uma forma m
 
 ## Conclusão
 
-Espero que este artigo tenha ajudado a entender de forma mais clara o conceito de *taint* e *toleration* do Kubernetes. Entender esses conceitos é essencial para extrair mais valor do Kubernetes e garantir que suas aplicações sejam resilientes, seguras e otimizadas para o desempenho necessário.
+Espero que este artigo tenha ajudado a esclarecer os conceitos de *taint* e *toleration* do Kubernetes. Compreender esses conceitos é essencial para extrair mais valor do Kubernetes e assegurar que suas aplicações sejam resilientes, seguras e otimizadas para o desempenho necessário.
 
-No futuro pretendo escrever um artigo utilizando o Kwok, uma ferramenta para simular nodes no Kubernetes sem necessariamente executar pods neles, apenas simulando a presença deles. Será um artigo interessante para visualizarmos na prática o conceito de *taint* e *toleration*.
+No futuro, pretendo escrever um artigo utilizando o Kwok, uma ferramenta que simula nodes no Kubernetes sem a necessidade de executar pods, apenas simulando a presença deles. Será um artigo interessante para visualizarmos na prática o conceito de *taint* e *toleration*.
