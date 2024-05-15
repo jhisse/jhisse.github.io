@@ -277,4 +277,4 @@ $ echo "h1 {color: #00ff00; border-style: solid; border-color: #92a8d1;}" | grep
 
 ## Conclusão
 
-Agora que exploramos diversos exemplos, podemos ver claramente como as expressões regulares são uma ferramenta poderosa para manipulação de texto e validações. Compreender e dominar seu uso pode facilitar muito a realização de tarefas complexas em diversas áreas, desde a programação até a análise de dados. Esperamos que este guia tenha ajudado você a sair do zero com expressões regulares.
+Agora que exploramos diversos exemplos, podemos ver claramente como as expressões regulares são uma ferramenta poderosa para manipulação de texto e validações. Compreender e dominar seu uso pode facilitar muito a realização de tarefas complexas em diversas áreas, desde a programação até a análise de dados. Espero que este guia tenha ajudado você a sair do zero com expressões regulares.
