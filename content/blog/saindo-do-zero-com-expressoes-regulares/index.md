@@ -4,11 +4,11 @@ date: 2020-03-14
 layout: post
 ---
 
-Você já precisou procurar em um texto, sequências de caracteres que correspondiam a um padrão? Validar um número de telefone? Analisar logs de um servidor? São inúmeros os casos de uso das expressões regulares, porém seu uso pode parecer um pouco complicado à primeira vista. Ao longo deste texto, vamos entender o contexto em que elas surgiram e aprender suas principais funções.
+Você já precisou procurar em um texto sequências de caracteres que correspondiam a um padrão? Validar um número de telefone? Analisar logs de um servidor? São inúmeros os casos de uso das expressões regulares, porém seu uso pode parecer um pouco complicado à primeira vista. Ao longo deste texto, vamos entender o contexto em que elas surgiram e aprender suas principais funções.
 
 ## História
 
-Tudo começou em 1943, quando Warren McCulloch e Walter Pitts publicaram um artigo intitulado ["A logical calculus of the ideas immanent in nervous activity"](https://link.springer.com/article/10.1007/BF02478259) onde eles associaram a atividade neuronal com a lógica proposicional, ou seja, eles modelaram através da lógica a forma que os neurônios interagiam entre si.
+Tudo começou em 1943, quando Warren McCulloch e Walter Pitts publicaram um artigo intitulado ["A logical calculus of the ideas immanent in nervous activity"](https://link.springer.com/article/10.1007/BF02478259) onde eles associaram a atividade neuronal com a lógica proposicional: eles modelaram através da lógica a forma que os neurônios interagiam entre si.
 
 Mais tarde, em 1951, com o paper [“Representation of Events in Nerve Nets and Finite Automata”](https://www.rand.org/content/dam/rand/pubs/research_memoranda/2008/RM704.pdf), Stephen Kleene formalizou algebricamente os modelos neurológicos descritos por McCulloch e Pitts.
 
@@ -277,4 +277,4 @@ $ echo "h1 {color: #00ff00; border-style: solid; border-color: #92a8d1;}" | grep
 
 ## Conclusão
 
-As expressões regulares são uma ferramenta poderosa para manipulação de texto e validações. Compreender e dominar seu uso pode facilitar muito a realização de tarefas complexas em diversas áreas, desde a programação até a análise de dados. Esperamos que este guia tenha ajudado você a sair do zero com expressões regulares.
+Agora que exploramos diversos exemplos, podemos ver claramente como as expressões regulares são uma ferramenta poderosa para manipulação de texto e validações. Compreender e dominar seu uso pode facilitar muito a realização de tarefas complexas em diversas áreas, desde a programação até a análise de dados. Esperamos que este guia tenha ajudado você a sair do zero com expressões regulares.
