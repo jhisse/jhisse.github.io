@@ -473,17 +473,22 @@ Nossa estrutura de diretório ficará da seguinte forma:
 Observe que o arquivo `remote_write_pb2.py` não precisa estar em nosso diretório, já que ele será copiado do container que compilamos anteriormente. Vamos utilizar para isso o multi-stage build do Docker. Precisamos incrementar nossa imagem para incluir nosso script acima e as libs necessárias para executá-lo:
 
 ```Dockerfile
+# Usando como imagem base o Ubuntu 22.04 (Jammy)
 FROM --platform=linux/amd64 ubuntu:jammy
 
+# Definindo o diretório de trabalho dentro do container
 WORKDIR /work
 
+# Instalando as dependências necessárias para compilar o arquivo .proto
 RUN apt-get update && \
     apt-get install -y curl unzip && \
     curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip && \
     unzip protoc-3.15.8-linux-x86_64.zip -d /usr/local && \
-    rm protoc-3.15.8-linux-x86_64.zip && \
-    # https://prometheus.io/docs/concepts/remote_write_spec/#protocol
-    echo 'syntax = "proto3"; \n\
+    rm protoc-3.15.8-linux-x86_64.zip
+
+# Criando o arquivo .proto com a estrutura necessária para o Remote Write
+# https://prometheus.io/docs/concepts/remote_write_spec/#protocol
+RUN echo 'syntax = "proto3"; \n\
     message WriteRequest { \n\
       repeated TimeSeries timeseries = 1; \n\
       reserved  2; \n\
@@ -502,21 +507,28 @@ RUN apt-get update && \
       int64 timestamp = 2; \n\
     }\n' > remote_write.proto
 
-RUN mkdir python-lib && \
-    protoc remote_write.proto --python_out python-lib
-
+# Definindo o diretório de trabalho para armazenar o arquivo gerado
 WORKDIR /work/python-lib
 
+# Compilando o arquivo .proto para Python e gerando as classes necessárias
+RUN protoc --proto_path .. remote_write.proto --python_out .
+
+# Utilizando o multi-stage build para criar a imagem final
 FROM --platform=linux/amd64 python:3.10-slim
 
+# Definindo o diretório de trabalho dentro do container
 WORKDIR /work
 
+# Copiando o arquivo gerado pelo protoc da etapa anterior para o diretório de trabalho
 COPY --from=0 /work/python-lib/remote_write_pb2.py .
 
+# Instalando as dependências necessárias para executar o script
 RUN pip install protobuf==3.15.8 python-snappy==0.7.1 requests==2.31.0
 
+# Copiando o script Python para o diretório de trabalho
 COPY main.py .
 
+# Definindo o entrypoint para executar o script
 ENTRYPOINT ["python", "main.py"]
 ```
 
