@@ -4,7 +4,7 @@ date: 2021-06-20
 layout: post
 ---
 
-Neste artigo vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o Kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final iremos utilizar o *Kustomize*, já presente no *kubectl*.
+Neste artigo, vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o Kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final, iremos utilizar o *Kustomize*, já presente no *kubectl*.
 
 ## Ambiente de testes
 
@@ -290,7 +290,7 @@ namespace "my-namespace" deleted
 
 ## Conclusão
 
-Vimos 3 maneiras diferentes de organizar um pequeno conjunto de definições do Kubernetes. Em cada uma delas existem vantagens e desvantagens, cabendo ao desenvolvedor a escolha da mais adequada ao seu projeto.
+Vimos três maneiras diferentes de organizar um pequeno conjunto de definições do Kubernetes. Em cada uma delas, existem vantagens e desvantagens, cabendo ao desenvolvedor a escolha da mais adequada ao seu projeto.
 
 O uso do Kustomize pode aparentar trazer ao projeto uma pequena complexidade a mais, porém suas vantagens não se limitam às apresentadas aqui. Em projetos onde você precisa fazer pequenas alterações em seu yaml, como aumentar o número de réplicas por ambiente ou ter labels diferentes em produção e desenvolvimento, ele será um facilitador.
 
