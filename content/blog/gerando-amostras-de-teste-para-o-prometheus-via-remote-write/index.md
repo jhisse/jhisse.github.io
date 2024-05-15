@@ -65,17 +65,22 @@ message Sample {
 Para facilitar a compilação do arquivo `.proto` sem a necessidade de instalar ferramentas adicionais em nossa máquina, criei um pequeno Dockerfile. Esse Dockerfile configura um ambiente isolado onde todas as dependências necessárias estão presentes, permitindo compilar o arquivo de maneira eficiente e segura utilizando o `protoc`.
 
 ```Dockerfile
+# Usando como imagem base o Ubuntu 22.04 (Jammy)
 FROM --platform=linux/amd64 ubuntu:jammy
 
+# Definindo o diretório de trabalho dentro do container
 WORKDIR /work
 
+# Instalando as dependências necessárias para compilar o arquivo .proto
 RUN apt-get update && \
     apt-get install -y curl unzip && \
     curl -LO https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip && \
     unzip protoc-3.15.8-linux-x86_64.zip -d /usr/local && \
-    rm protoc-3.15.8-linux-x86_64.zip && \
-    # https://prometheus.io/docs/concepts/remote_write_spec/#protocol
-    echo 'syntax = "proto3"; \n\
+    rm protoc-3.15.8-linux-x86_64.zip
+
+# Criando o arquivo .proto com a estrutura necessária para o Remote Write
+# https://prometheus.io/docs/concepts/remote_write_spec/#protocol
+RUN echo 'syntax = "proto3"; \n\
     message WriteRequest { \n\
       repeated TimeSeries timeseries = 1; \n\
       reserved  2; \n\
@@ -94,11 +99,13 @@ RUN apt-get update && \
       int64 timestamp = 2; \n\
     }\n' > remote_write.proto
 
-RUN mkdir python-lib && \
-    protoc remote_write.proto --python_out python-lib
-
+# Definindo o diretório de trabalho para armazenar o arquivo gerado
 WORKDIR /work/python-lib
 
+# Compilando o arquivo .proto para Python e gerando as classes necessárias
+RUN protoc --proto_path .. remote_write.proto --python_out .
+
+# Definindo o entrypoint para visualizar o arquivo gerado
 ENTRYPOINT ["bash", "-c", "tail -n +1 -v *.py"]
 ```
 
