@@ -16,15 +16,9 @@
 
 {{ partial "jsonld.html" . }}
 
-{{ $lightStyle := resources.Get "css/light.min.css" | resources.Minify }}
-<link rel="stylesheet" href="{{ $lightStyle.RelPermalink }}" />
-
-{{ $mainStyle := resources.Get "css/main.css" | resources.Minify }}
-<link rel="stylesheet" href="{{ $mainStyle.RelPermalink }}" />
-
-{{ $monokai := resources.Get "css/monokai.css" | resources.Minify }}
-<link rel="stylesheet" href="{{ $monokai.RelPermalink }}" />
-
+{{- $CSS := slice (resources.Get "css/light.min.css") (resources.Get "css/main.css") (resources.Get "css/monokai.css") |
+            resources.Concat "css/main.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $CSS.RelPermalink }}" media="all" />
 
 {{ if .Params.mathjax }}
 <script>
