@@ -1,5 +1,5 @@
 baseURL: "https://www.josehisse.dev/"
-defaultcontentlanguage: "pt-br"
+defaultContentLanguage: "pt-br"
 languageCode: "pt-br"
 languageName: "Português"
 title: "José Hisse"
@@ -7,6 +7,7 @@ cleanDestinationDir: true
 copyright: ""
 enableRobotsTXT: true
 timeZone: "America/Sao_Paulo"
+removePathAccents: true
 
 permalinks:
   blog: "/blog/:filename/"
@@ -25,8 +26,6 @@ params:
 
 minify:
   minifyOutput: true
-
-removepathaccents: true
 
 markup:
   highlight:
