@@ -63,6 +63,9 @@ small > time {
 .post {
   line-height: 1.5em;
   padding-bottom: 8px;
+  display: grid;
+  grid-template-columns: max-content auto;
+  align-items: center;
 }
 
 #title {
@@ -86,7 +89,6 @@ header {
 .PageNavigation {
   font-size: 0.8rem;
   display: block;
-  width: auto;
   overflow: hidden;
   padding-top: 3rem;
 }
