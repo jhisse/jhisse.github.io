@@ -18,7 +18,9 @@
 
 {{- $CSS := slice (resources.Get "css/light.min.css") (resources.Get "css/main.css") (resources.Get "css/monokai.css") |
             resources.Concat "css/main.css" | minify | fingerprint }}
-<link rel="stylesheet" href="{{ $CSS.RelPermalink }}" media="all" />
+{{ with $CSS }}
+  <style>{{ .Content | safeCSS }}</style>
+{{ end }}
 
 {{ if .Params.mathjax }}
 <script>
