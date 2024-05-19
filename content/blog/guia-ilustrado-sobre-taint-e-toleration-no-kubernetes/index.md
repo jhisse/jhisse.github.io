@@ -28,51 +28,51 @@ Imagine agora que os agentes de saúde agora não podem mais entrar em qualquer 
 
 Seguindo o exemplo citado acima, vamos imaginar que temos três casas. A casa 1 está contaminada com o mosquito Aedes aegypti, a casa 2 está livre de contaminação e a casa 3 está contaminada com o mosquito Anopheles. Temos dois agentes de saúde querendo remover os focos de mosquito. O agente 1, de chapéu, se chama João e o agente 2, sem chapéu, se chama Paulo. Como ambos estão sem repelente, eles não podem entrar nas casas contaminadas, restando apenas a casa 2 para ser inspecionada.
 
-![Taint e Toleration](./images/taint-toleration-01.png)
+![Taint e Toleration](images/taint-toleration-01.png)
 
 ---
 
-![Taint e Toleration](./images/k8s-diagram-taint-toleration-01.png)
+![Taint e Toleration](images/k8s-diagram-taint-toleration-01.png)
 
 ---
 
 Passada algumas horas Paulo recebeu um repelente que o protege do mosquito Anopheles. Agora, ele pode entrar na casa 3 e ajudar a remover o foco de mosquito transmissor da malária. Além disso, ele continua podendo entrar na casa 2, já que ela está livre de contaminação. Já João, continua sem proteção extra e só pode entrar na casa 2.
 
-![Taint e Toleration](./images/taint-toleration-02.png)
+![Taint e Toleration](images/taint-toleration-02.png)
 
 ---
 
-![Taint e Toleration](./images/k8s-diagram-taint-toleration-02.png)
+![Taint e Toleration](images/k8s-diagram-taint-toleration-02.png)
 
 ---
 
 Mais algumas horas se passaram e João recebeu um repelente que o protege do mosquito Aedes aegypti. Agora, ele pode entrar na casa 1 e ajudar a remover o foco de mosquito transmissor da dengue. Além disso, ele continua podendo entrar na casa 2 e Paulo continua podendo entrar na casa 2 e 3.
 
-![Taint e Toleration](./images/taint-toleration-03.png)
+![Taint e Toleration](images/taint-toleration-03.png)
 
 ---
 
-![Taint e Toleration](./images/k8s-diagram-taint-toleration-03.png)
+![Taint e Toleration](images/k8s-diagram-taint-toleration-03.png)
 
 ---
 
 Agora, as casas receberam novas placas informando sobre a infestações de mosquitos. A casa 1 recebeu a placa "Mosquitos: Aedes aegypti", a casa 2 não recebeu placa e a casa 3 recebeu a placa "Mosquitos: Anopheles". Além disso, João recebeu a missão de remover os focos de mosquito Aedes aegypti somente, ou seja, ele não pode mais ir para a casa 2, já que ela não possui foco de mosquito.
 
-![Taint e Toleration](./images/taint-toleration-04.png)
+![Taint e Toleration](images/taint-toleration-04.png)
 
 ---
 
-![Taint e Toleration](./images/k8s-diagram-taint-toleration-04.png)
+![Taint e Toleration](images/k8s-diagram-taint-toleration-04.png)
 
 ---
 
 Agora entramos no conceito de NodeSelector. João só pode entrar na casa 1, já que ela possui foco de mosquito Aedes aegypti. Paulo só pode entrar na casa 3, já que ela possui foco de mosquito Anopheles. A casa 2 não possui foco de mosquito, então nenhum dos agentes de saúde pode entrar nela.
 
-![Taint e Toleration](./images/taint-toleration-05.png)
+![Taint e Toleration](images/taint-toleration-05.png)
 
 ---
 
-![Taint e Toleration](./images/k8s-diagram-taint-toleration-05.png)
+![Taint e Toleration](images/k8s-diagram-taint-toleration-05.png)
 
 ---
 

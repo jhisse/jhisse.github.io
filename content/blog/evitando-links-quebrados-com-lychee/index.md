@@ -26,7 +26,7 @@ lychee --help
 
 Você deverá obter uma saída similar a essa :
 
-![lychee help](./images/lychee-help.png)
+![lychee help](images/lychee-help.png)
 
 No meu sistema, a versão instalada é 15.1, e você pode verificar a sua com o comando `lychee --version`.
 
@@ -52,7 +52,7 @@ O parâmetro `--suggest` permite que o lychee sugira uma URL alternativa para a 
 
 Isso é muito útil, abaixo um exemplo de um link quebrado e a sugestão do lychee:
 
-![lychee suggest](./images/lychee-suggest.png)
+![lychee suggest](images/lychee-suggest.png)
 
 ## Verificação periódica
 
@@ -60,7 +60,7 @@ Para manter o blog sempre atualizado, podemos adicionar no repository do GitHub 
 
 Em um workflow configuramos o lychee para rodar em um cronjob, por exemplo, a cada dia. Caso o workflow encontre um link quebrado, ele abrirá uma issue no repositório com o link quebrado e a sugestão do lychee.
 
-![lychee issue](./images/lychee-issue.png)
+![lychee issue](images/lychee-issue.png)
 
 Abaixo segue um exemplo de um arquivo de configuração para o workflow que uso em meu repositório:
 

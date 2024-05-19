@@ -118,7 +118,7 @@ docker build -t remote-write .
 docker run --rm remote-write
 ```
 
-![Generating Protobuf Python File](./images/generating_protobuf_python_file.png)
+![Generating Protobuf Python File](images/generating_protobuf_python_file.png)
 
 Após a execução do container, o código Python gerado, denominado remote_write_pb2.py, estará visível em nosso terminal.
 
@@ -358,15 +358,15 @@ docker run --rm -d -p 9090:9090 -e TZ=UTC --net metrics-network \
   --web.enable-remote-write-receiver
 ```
 
-![Docker Prometheus](./images/docker_run_prometheus.png)
+![Docker Prometheus](images/docker_run_prometheus.png)
 
 A interface web do Prometheus estará disponível em `http://localhost:9090`.
 
-![Prometheus Web Interface](./images/prometheus_web_interface.png)
+![Prometheus Web Interface](images/prometheus_web_interface.png)
 
 A flag `--web.enable-remote-write-receiver` habilita o endpoint de Remote Write. Podemos verificar se o endpoint está ativado acessando a URL `http://localhost:9090/flags` e procurando pela chave `web.enable-remote-write-receiver`:
 
-![Prometheus Remote Write Enabled](./images/prometheus_remote_write_enabled.png)
+![Prometheus Remote Write Enabled](images/prometheus_remote_write_enabled.png)
 
 ## Enviando Dados para o Prometheus
 
@@ -539,7 +539,7 @@ docker build -t remote-write .
 docker run --rm --net metrics-network remote-write
 ```
 
-![Docker Remote Write](./images/docker_run_remote_write.png)
+![Docker Remote Write](images/docker_run_remote_write.png)
 
 Setamos o tempo do Prometheus para algumas horas para frente do tempo de execução do script e efetuamos a seguinte query em PromQL para verificar se nossos 13 pontos de dados foram enviados com sucesso:
 
@@ -547,7 +547,7 @@ Setamos o tempo do Prometheus para algumas horas para frente do tempo de execuç
 gasolina_disponivel_litros[4h]
 ```
 
-![Prometheus Range](./images/prometheus_range.png)
+![Prometheus Range](images/prometheus_range.png)
 
 Os 13 pontos de dados foram enviados com sucesso e estão disponíveis para consulta. Da mesma forma, podemos verificar o gráfico de amostras com a query abaixo. Fique atento ao horário da consulta e ao intervalo de tempo que você está consultando:
 
@@ -555,7 +555,7 @@ Os 13 pontos de dados foram enviados com sucesso e estão disponíveis para cons
 gasolina_disponivel_litros{posto="Posto de Gasolina da Cidade X", tanque="3"}
 ```
 
-![Prometheus Graph](./images/prometheus_graph.png)
+![Prometheus Graph](images/prometheus_graph.png)
 
 ## Conclusão
 
