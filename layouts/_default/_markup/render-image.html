@@ -1,33 +1,30 @@
 {{- $src := .Page.Resources.GetMatch (.Destination | safeURL) | fingerprint }}
 {{- $resized := $src }}
 {{- if (gt $src.Width 800) }}
-{{- $resized := $src.Resize "800x" }}
-{{- $image_ext := path.Ext .Destination }}
-{{- if ne $image_ext ".gif" }}
-{{- $jpg := $resized.Process "jpg" }}
-{{- $webp := $src.Process "webp q100" }}
-{{- $webpSmall := $src.Resize "400x webp q100" }}
-<picture>
-  <source srcset="{{ $webpSmall.RelPermalink }}" media="(max-width: 400px)" type="image/webp">
-  <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
-  <source srcset="{{ $jpg.RelPermalink }}" type="image/jpeg">
-  <img src="{{ $jpg.RelPermalink }}"
+  {{- $resized := $src.Resize "800x" }}
+
+  {{- $image_ext := path.Ext .Destination }}
+  {{- if ne $image_ext ".gif" }}
+    {{- $jpg := $resized.Process "jpg" }}
+    {{- $webp := $resized.Process "webp q100" }}
+    {{- $webpSmall := $src.Resize "400x webp q100" }}
+    <picture>
+      <source srcset="{{ $webpSmall.RelPermalink }}" media="(max-width: 400px)" type="image/webp">
+      <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+      <source srcset="{{ $jpg.RelPermalink }}" type="image/jpeg">
+      <img src="{{ $jpg.RelPermalink }}"
+          {{- with .Text }} alt="{{ . }}"{{ end -}}
+          {{- with .Title }} title="{{ . }}"{{ end -}}
+          decoding="async"
+          loading="lazy"
+          width="{{ $jpg.Width }}">
+    </picture>
+  {{- else }}
+    <img src="{{ $resized.RelPermalink }}"
         {{- with .Text }} alt="{{ . }}"{{ end -}}
         {{- with .Title }} title="{{ . }}"{{ end -}}
         decoding="async"
         loading="lazy"
-        width="{{ $jpg.Width }}"
-        height="{{ $jpg.Height }}"
-  >
-</picture>
-{{- else }}
-<img src="{{ $resized.RelPermalink }}"
-      {{- with .Text }} alt="{{ . }}"{{ end -}}
-      {{- with .Title }} title="{{ . }}"{{ end -}}
-      decoding="async"
-      loading="lazy"
-      width="{{ $resized.Width }}"
-      height="{{ $resized.Height }}"
->
-{{- end }}
+        width="{{ $resized.Width }}">
+  {{- end }}
 {{- end }}
