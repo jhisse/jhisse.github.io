@@ -10,19 +10,3 @@
   <br />
   <a href="/sitemap.xml">Sitemap</a>
 </p>
-
-{{ with .Type }}
-{{ if eq . "blog" }}
-{{ $zooming := resources.Get "js/zooming.min.js" }}
-<script src="{{ $zooming.RelPermalink }}"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    new Zooming({
-      bgOpacity: 0.8,
-      scaleBase: 0.7,
-    }).listen("img");
-  });
-</script>
-{{ end }}
-{{ end }}
