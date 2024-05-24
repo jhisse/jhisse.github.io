@@ -8,6 +8,8 @@ copyright: ""
 enableRobotsTXT: true
 timeZone: "America/Sao_Paulo"
 removePathAccents: true
+timeout: 120s
+buildFuture: true
 
 permalinks:
   blog: "/blog/:filename/"

@@ -1,0 +1,28 @@
+{{- $src := .Page.Resources.GetMatch (.Destination | safeURL) | fingerprint }}
+{{- $resized := $src.Resize "800x" }}
+{{- $image_ext := path.Ext .Destination }}
+{{- if ne $image_ext ".gif" }}
+{{- $jpg := $resized.Process "jpg" }}
+{{- $webp := $src.Process "webp q100" }}
+<picture>
+  <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
+  <source srcset="{{ $jpg.RelPermalink }}" type="image/jpg">
+  <img src="{{ $jpg.RelPermalink }}"
+        {{- with .Text }} alt="{{ . }}"{{ end -}}
+        {{- with .Title }} title="{{ . }}"{{ end -}}
+        decoding="async"
+        loading="lazy"
+        width="{{ $jpg.Width }}"
+        height="{{ $jpg.Height }}"
+  >
+</picture>
+{{- else }}
+<img src="{{ $resized.RelPermalink }}"
+      {{- with .Text }} alt="{{ . }}"{{ end -}}
+      {{- with .Title }} title="{{ . }}"{{ end -}}
+      decoding="async"
+      loading="lazy"
+      width="{{ $resized.Width }}"
+      height="{{ $resized.Height }}"
+>
+{{- end }}
