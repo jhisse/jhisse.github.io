@@ -6,7 +6,7 @@
 {{- if ne $image_ext ".gif" }}
 {{- $jpg := $resized.Process "jpg" }}
 {{- $webp := $src.Process "webp q100" }}
-{{- $webpSmall := $src.Process "webp q100 400x" }}
+{{- $webpSmall := $src.Resize "400x webp q100" }}
 <picture>
   <source srcset="{{ $webpSmall.RelPermalink }}" media="(max-width: 400px)" type="image/webp">
   <source srcset="{{ $webp.RelPermalink }}" type="image/webp">
