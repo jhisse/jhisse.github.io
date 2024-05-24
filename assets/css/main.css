@@ -65,7 +65,6 @@ small > time {
   padding-bottom: 8px;
   display: grid;
   grid-template-columns: max-content auto;
-  align-items: center;
 }
 
 #title {
