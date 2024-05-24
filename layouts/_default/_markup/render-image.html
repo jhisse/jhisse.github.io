@@ -1,7 +1,7 @@
 {{- $src := .Page.Resources.GetMatch (.Destination | safeURL) | fingerprint }}
 {{- $resized := $src }}
 {{- if (gt $src.Width 800) }}
-  {{- $resized := $src.Resize "800x" }}
+  {{- $resized := $src.Resize "800x MitchellNetravali" }}
 
   {{- $image_ext := path.Ext .Destination }}
   {{- if ne $image_ext ".gif" }}
