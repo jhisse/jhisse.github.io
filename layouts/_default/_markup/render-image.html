@@ -1,8 +1,7 @@
 {{- $src := .Page.Resources.GetMatch (.Destination | safeURL) | fingerprint }}
 {{- $resized := $src }}
-{{- if gt $src.Width 800 }}
+{{- if (gt $src.Width 800) }}
 {{- $resized := $src.Resize "800x" }}
-{{- end }}
 {{- $image_ext := path.Ext .Destination }}
 {{- if ne $image_ext ".gif" }}
 {{- $jpg := $resized.Process "jpg" }}
@@ -28,4 +27,5 @@
       width="{{ $resized.Width }}"
       height="{{ $resized.Height }}"
 >
+{{- end }}
 {{- end }}
