@@ -45,8 +45,10 @@ nodes:
 Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos conforme a localidade das instâncias que compõem o cluster.
 
 ```console
-kind create cluster --config config_artigo.yaml --name affinity
+kind create cluster --config cluster_config.yaml --name affinity
 ```
+
+![Creating kind cluster](images/creating-cluster.png)
 
 Precisamos checar o contexto do kubectl e verificar se conseguimos acessar nosso cluster:
 
@@ -57,8 +59,6 @@ kubectl config current-context
 ```console
 kubectl get pods --all-namespaces
 ```
-
-![Creating kind cluster](images/creating-cluster.gif)
 
 ## Labels de topologia
 
