@@ -1,11 +1,11 @@
 {{- $image := .Page.Resources.GetMatch (.Destination | safeURL) }}
 
-{{- if gt $image.Width 1600 }}
-{{- $image = $image.Resize "1600x Lanczos q100" }}
+{{- if gt $image.Width 1200 }}
+{{- $image = $image.Resize "1200x Lanczos" }}
 {{- end }}
 
-{{- $jpg := $image.Process "jpeg q100" | fingerprint }}
-{{- $webp := $image.Process "webp q100" | fingerprint }}
+{{- $jpg := $image.Process "jpeg" | fingerprint }}
+{{- $webp := $image.Process "webp q80" | fingerprint }}
 
 <picture>
   <source srcset="{{with $webp.RelPermalink }}{{.}}{{ end }}" type="image/webp">
