@@ -5,7 +5,7 @@
 {{- end }}
 
 {{- $jpg := $image.Process "jpeg" | fingerprint }}
-{{- $webp := $image.Process "webp q80" | fingerprint }}
+{{- $webp := $image.Process "webp q100" | fingerprint }}
 
 <picture>
   <source srcset="{{with $webp.RelPermalink }}{{.}}{{ end }}" type="image/webp">
