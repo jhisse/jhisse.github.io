@@ -1,10 +1,10 @@
 {{- $image := .Page.Resources.GetMatch (.Destination | safeURL) }}
 
-{{- if gt $image.Width 1200 }}
-{{- $image = $image.Resize "1200x Lanczos" }}
+{{- if gt $image.Width 1400 }}
+{{- $image = $image.Resize "1400x Lanczos" }}
 {{- end }}
 
-{{- $jpg := $image.Process "jpeg" | fingerprint }}
+{{- $jpg := $image.Process "jpeg q100" | fingerprint }}
 {{- $webp := $image.Process "webp q100" | fingerprint }}
 
 <picture>
