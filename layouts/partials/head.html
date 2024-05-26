@@ -16,10 +16,14 @@
 
 {{ partial "jsonld.html" . }}
 
-{{- $CSS := slice (resources.Get "css/light.min.css") (resources.Get "css/main.css") (resources.Get "css/monokai.css") |
-            resources.Concat "css/main.css" | minify | fingerprint }}
-{{ with $CSS }}
-  <style>{{ .Content | safeCSS }}</style>
+{{ with ( resources.Get "css/light.min.css" | minify ) }}
+<style>{{ .Content | safeCSS }}</style>
+{{ end }}
+{{ with ( resources.Get "css/main.css" | minify ) }}
+<style>{{ .Content | safeCSS }}</style>
+{{ end }}
+{{ with ( resources.Get "css/monokai.css" | minify ) }}
+<style>{{ .Content | safeCSS }}</style>
 {{ end }}
 
 {{ if .Params.mathjax }}
