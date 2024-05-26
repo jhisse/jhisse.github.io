@@ -1,7 +1,7 @@
 {{- $image := .Page.Resources.GetMatch (.Destination | safeURL) }}
 
-{{- if gt $image.Width 1400 }}
-{{- $image = $image.Resize "1400x Lanczos" }}
+{{- if gt $image.Width 1200 }}
+{{- $image = $image.Resize "1200x Lanczos" }}
 {{- end }}
 
 {{- $jpg := $image.Process "jpeg q100" | fingerprint }}
@@ -14,5 +14,6 @@
       {{- with .Title }} title="{{ . }}"{{ end -}}
       decoding="async"
       loading="lazy"
-      width="{{ $jpg.Width }}">
+      width="{{ $jpg.Width }}"
+      data-zoomable>
 </picture>

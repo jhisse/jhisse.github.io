@@ -10,3 +10,7 @@
   <br />
   <a href="/sitemap.xml">Sitemap</a>
 </p>
+
+{{ with .Resources.ByType "image" }}
+<script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" onload="mediumZoom('[data-zoomable]')"></script>
+{{ end }}
