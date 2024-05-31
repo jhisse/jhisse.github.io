@@ -1,4 +1,4 @@
-{{- $image := .Page.Resources.GetMatch (.Destination | safeURL) }}
+{{- $image := .Page.Resources.Get (.Destination | safeURL) }}
 
 {{- if gt $image.Width 1400 }}
 {{- $image = $image.Resize "1400x Lanczos" }}
