@@ -112,7 +112,7 @@ Se estiver utilizando o Windows, você deve verificar o IP do Raspberry Pi Zero 
 
 ### Adicionando a impressora no CUPS
 
-No navegador acesse o endereço *http://dietpi.local:631* e clique em *Administração*.
+No navegador acesse o endereço `http://dietpi.local:631` e clique em *Administração*.
 
 ![CUPS Administration](images/cups-administration.png)
 
