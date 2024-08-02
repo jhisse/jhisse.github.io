@@ -16,7 +16,7 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v1.9.0
         with:
-          args: "--verbose --no-progress --require-https './content/blog/**/*.md'"
+          args: "--verbose --no-progress --require-https './content/blog/**/*.md' --retry-wait-time 20"
 
       - name: Create Issue From File
         if: env.lychee_exit_code != 0
