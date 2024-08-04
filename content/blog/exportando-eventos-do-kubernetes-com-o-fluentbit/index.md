@@ -29,6 +29,8 @@ Thanks for using kind!
 
 Caso você não tenha o Kind instalado, você pode seguir as [instruções de instalação](https://kind.sigs.k8s.io/docs/user/quick-start/#installation) da documentação oficial.
 
+## Eventos do Kubernetes
+
 Com o cluster criado, devemos verificar os eventos do Kubernetes que foram emitidos nos primeiros segundos após a criação dos primeiros recursos. Vamos utilizar o `kubectl` para interagir com o cluster.
 
 ```bash
@@ -84,9 +86,15 @@ Vemos que logo nos primeiros segundos após a criação do cluster, diversos eve
 - Múltiplos pods tentando acessar o mesmo volume: A menos que o volume seja do tipo `ReadWriteMany`, apenas um pod pode acessar o volume por vez. Se mais de um pod tentar acessar o volume, um evento de erro será emitido.
 - Falta de recursos: Se um pod tentar ser criado com recursos acima do limite do nó, um evento de erro será emitido.
 
-Inúmeros outros problemas podem ser identificados desta forma de análise, por isso é importante coletar e armazenar esses eventos para análise posterior ou até para alerta em tempo real.
+Além dos eventos de erro, temos os eventos de informação e de aviso. Como os que aparecem nos logs acima:
 
-## Diagrama
+- `0/1 nodes are available: 1 node(s) had untolerated taint {node.kubernetes.io/not-ready: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.`: Indica que não há nós disponíveis com os requisitos necessários para a execução do pod.
+- `Container image "registry.k8s.io/coredns/coredns:v1.11.1" already present on machine`: Indica que a imagem do container já está presente na máquina.
+- `MountVolume.SetUp failed for volume "kube-api-access-lj5mj" : configmap "kube-root-ca.crt" not found`: Indica que um configmap não foi encontrado. Geralmente esse erro é temporário, dado que o configmap ainda pode estar sendo criado.
+
+Inúmeros outros problemas podem ser identificados através desta forma de análise, por isso é importante coletar e armazenar esses eventos para análise posterior ou até para alerta em tempo real.
+
+## Diagrama da solução
 
 Para ilustrar o que vamos fazer e termos uma ideia do fluxo geral, vamos criar um diagrama da solução.
 
@@ -240,6 +248,8 @@ export POD_NAME=$(kubectl get pods --namespace k8s-events-exporter -l "app.kuber
 kubectl --namespace k8s-events-exporter port-forward $POD_NAME 2020:2020
 curl http://127.0.0.1:2020
 ```
+
+## Validando a instalação
 
 Agora vamos verificar os logs do pod do FluentBit para ver se os eventos do Kubernetes estão sendo coletados e enviados para o stdout.
 
@@ -553,6 +563,12 @@ Após fazer o download de um arquivo que foi enviado para nosso bucket, vamos pe
 ```
 
 Podemos perceber que os eventos estão sendo salvos de maneira adequada em nosso bucket. Isso valida nossa solução de envio dos eventos do Kubernetes para um datalake. Esse arquivo no futuro poderá ser lido pelo Apache Spark, Pandas, Trino, Athena, ou qualquer outra ferramenta de análise de dados que você desejar.
+
+Por fim, não esqueça de deletar o cluster Kind:
+
+```bash
+kind delete cluster --name events-exporter-test
+```
 
 ## Conclusão
 
