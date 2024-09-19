@@ -30,7 +30,7 @@ Por padrão, o EKS disponibiliza uma classe de armazenamento, chamada *gp2*, par
 
 O *gp2* é uma solução de armazenamento versátil oferecida pelo EKS, mas ao instalar o [Amazon EBS CSI Driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver), abrem-se novas possibilidades. Com ele, é viável provisionar volumes *gp3*, que, dependendo da configuração, podem ser mais econômicos e oferecer taxas de transferência superiores, ou *io1*, destinados a cargas de trabalho com intensa leitura e escrita.
 
-Conforme discutido na seção [IAM roles para service accounts](#iam-roles-for-service-accounts), o Amazon EBS CSI Driver necessita de permissões específicas para gerir volumes. Portanto, ao invés de recorrer ao uso de credenciais AWS, o recomendado é vincular uma role IAM específica a um service account do Kubernetes, possibilitando que o pod do driver opere com essa configuração. Isso enfatiza a importância de adotar práticas seguras, minimizando o risco associado ao gerenciamento de credenciais.
+Conforme discutido na seção [IAM roles para service accounts](#iam-roles-para-service-accounts), o Amazon EBS CSI Driver necessita de permissões específicas para gerir volumes. Portanto, ao invés de recorrer ao uso de credenciais AWS, o recomendado é vincular uma role IAM específica a um service account do Kubernetes, possibilitando que o pod do driver opere com essa configuração. Isso enfatiza a importância de adotar práticas seguras, minimizando o risco associado ao gerenciamento de credenciais.
 
 ### Amazon EFS CSI Driver
 
