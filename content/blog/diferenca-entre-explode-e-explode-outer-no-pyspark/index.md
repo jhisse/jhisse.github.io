@@ -4,7 +4,7 @@ date: 2020-03-22
 layout: post
 ---
 
-É comum em transformações de dados nos depararmos com estruturas de arrays de strings, inteiros ou algum outro tipo de arrays de objetos. Em alguns casos podemos querer transformar esses arrays em colunas. Usando o PySpark podemos usar as funções [explode](https://spark.apache.org/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode.html) ou [explode_outer](https://spark.apache.org/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode_outer.html) para isso. Vamos entender a diferença entre essas duas funções.
+É comum em transformações de dados nos depararmos com estruturas de arrays de strings, inteiros ou algum outro tipo de arrays de objetos. Em alguns casos podemos querer transformar esses arrays em colunas. Usando o PySpark podemos usar as funções [explode](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode.html) ou [explode_outer](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode_outer.html) para isso. Vamos entender a diferença entre essas duas funções.
 
 ## Preparação do ambiente
 
@@ -28,7 +28,7 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import explode, explode_outer
 ```
 
-O primeiro import é o principal do PySpark, no [SparkSession](https://spark.apache.org/docs/3.3.0/api/python/reference/pyspark.sql/spark_session.html) iniciaremos a sessão do spark. O segundo é relacionando aos tipos usados para construímos nosso schema, como ```StringType()```, ```IntegerType()``` ou ```ArrayType()```. Já o terceiro é onde importaremos as funções explode e explode_outer, o principal ponto deste artigo.
+O primeiro import é o principal do PySpark, no [SparkSession](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/spark_session.html) iniciaremos a sessão do spark. O segundo é relacionando aos tipos usados para construímos nosso schema, como ```StringType()```, ```IntegerType()``` ou ```ArrayType()```. Já o terceiro é onde importaremos as funções explode e explode_outer, o principal ponto deste artigo.
 
 ## Criando a sessão do Spark
 
