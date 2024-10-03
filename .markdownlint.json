@@ -1,0 +1,4 @@
+{
+  "extends": ".prettierrc.json",
+  "MD013": false
+}
