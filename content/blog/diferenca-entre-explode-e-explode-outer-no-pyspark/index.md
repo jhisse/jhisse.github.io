@@ -28,7 +28,7 @@ from pyspark.sql.types import *
 from pyspark.sql.functions import explode, explode_outer
 ```
 
-O primeiro import é o principal do PySpark, no [SparkSession](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/spark_session.html) iniciaremos a sessão do spark. O segundo é relacionando aos tipos usados para construímos nosso schema, como ```StringType()```, ```IntegerType()``` ou ```ArrayType()```. Já o terceiro é onde importaremos as funções explode e explode_outer, o principal ponto deste artigo.
+O primeiro import é o principal do PySpark, no [SparkSession](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/spark_session.html) iniciaremos a sessão do spark. O segundo é relacionando aos tipos usados para construímos nosso schema, como `StringType()`, `IntegerType()` ou `ArrayType()`. Já o terceiro é onde importaremos as funções explode e explode_outer, o principal ponto deste artigo.
 
 ## Criando a sessão do Spark
 

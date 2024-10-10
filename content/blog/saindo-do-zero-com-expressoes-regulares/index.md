@@ -64,7 +64,7 @@ Nos exemplos que virão a seguir usaremos a seguinte estrutura:
 echo "<texto>" | grep -oE "<pattern>"
 ```
 
-Essa estrutura indica que o \<texto\> será enviado para o comando grep como input e, o grep irá buscar o \<pattern\>. A opção *o* faz o grep imprimir no terminal cada sequência encontrada em uma linha diferente e a opção *P* faz com que o grep interprete o pattern como a linguagem Perl que permite utilizar algumas funções a mais.
+Essa estrutura indica que o \<texto\> será enviado para o comando grep como input e, o grep irá buscar o \<pattern\>. A opção _o_ faz o grep imprimir no terminal cada sequência encontrada em uma linha diferente e a opção _P_ faz com que o grep interprete o pattern como a linguagem Perl que permite utilizar algumas funções a mais.
 
 ## Metacaracteres
 

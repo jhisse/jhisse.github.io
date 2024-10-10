@@ -93,19 +93,19 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
     - name: ubuntu-logger-two
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
 ```
 
@@ -135,19 +135,19 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
     - name: ubuntu-logger-two
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
 ```
 
@@ -167,22 +167,22 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
         runAsUser: 10001
     - name: ubuntu-logger-two
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -203,22 +203,22 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
         runAsUser: 10001
     - name: ubuntu-logger-two
       image: ubuntu
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -252,22 +252,22 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
         runAsUser: 10001
     - name: ubuntu-logger-two
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -301,11 +301,11 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -313,11 +313,11 @@ spec:
         readOnlyRootFilesystem: true
     - name: ubuntu-logger-two
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -352,11 +352,11 @@ spec:
   containers:
     - name: ubuntu-logger-one
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -364,20 +364,20 @@ spec:
         readOnlyRootFilesystem: true
       resources:
         requests:
-          memory: "128Mi"
-          cpu: "100m"
-          ephemeral-storage: "50Mi"
+          memory: '128Mi'
+          cpu: '100m'
+          ephemeral-storage: '50Mi'
         limits:
-          memory: "256Mi"
-          cpu: "200m"
-          ephemeral-storage: "100Mi"
+          memory: '256Mi'
+          cpu: '200m'
+          ephemeral-storage: '100Mi'
     - name: ubuntu-logger-two
       image: ubuntu:22.04
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -385,13 +385,13 @@ spec:
         readOnlyRootFilesystem: true
       resources:
         requests:
-          memory: "128Mi"
-          cpu: "100m"
-          ephemeral-storage: "50Mi"
+          memory: '128Mi'
+          cpu: '100m'
+          ephemeral-storage: '50Mi'
         limits:
-          memory: "256Mi"
-          cpu: "200m"
-          ephemeral-storage: "100Mi"
+          memory: '256Mi'
+          cpu: '200m'
+          ephemeral-storage: '100Mi'
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -426,11 +426,11 @@ spec:
     - name: ubuntu-logger-one
       image: ubuntu:22.04
       imagePullPolicy: Always
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done',
+          '-c',
+          'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -438,21 +438,21 @@ spec:
         readOnlyRootFilesystem: true
       resources:
         requests:
-          memory: "128Mi"
-          cpu: "100m"
-          ephemeral-storage: "50Mi"
+          memory: '128Mi'
+          cpu: '100m'
+          ephemeral-storage: '50Mi'
         limits:
-          memory: "256Mi"
-          cpu: "200m"
-          ephemeral-storage: "100Mi"
+          memory: '256Mi'
+          cpu: '200m'
+          ephemeral-storage: '100Mi'
     - name: ubuntu-logger-two
       image: ubuntu:22.04
       imagePullPolicy: Always
-      command: ["/bin/sh"]
+      command: ['/bin/sh']
       args:
         [
-          "-c",
-          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done',
+          '-c',
+          'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
         ]
       securityContext:
         runAsGroup: 10001
@@ -460,13 +460,13 @@ spec:
         readOnlyRootFilesystem: true
       resources:
         requests:
-          memory: "128Mi"
-          cpu: "100m"
-          ephemeral-storage: "50Mi"
+          memory: '128Mi'
+          cpu: '100m'
+          ephemeral-storage: '50Mi'
         limits:
-          memory: "256Mi"
-          cpu: "200m"
-          ephemeral-storage: "100Mi"
+          memory: '256Mi'
+          cpu: '200m'
+          ephemeral-storage: '100Mi'
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -526,42 +526,50 @@ spec:
         app: ubuntu-logging-app
     spec:
       containers:
-      - name: ubuntu-logger-one
-        image: ubuntu:22.04
-        imagePullPolicy: Always
-        command: ["/bin/sh"]
-        args: ["-c", "while true; do echo \"$(date) - Logger One: Gerando logs para teste...\"; sleep 10; done"]
-        securityContext:
-          runAsGroup: 10001
-          runAsUser: 10001
-          readOnlyRootFilesystem: true
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-            ephemeral-storage: "50Mi"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
-            ephemeral-storage: "100Mi"
-      - name: ubuntu-logger-two
-        image: ubuntu:22.04
-        imagePullPolicy: Always
-        command: ["/bin/sh"]
-        args: ["-c", "while true; do echo \"$(date) - Logger Two: Gerando logs para teste de outro contêiner...\"; sleep 15; done"]
-        securityContext:
-          runAsGroup: 10001
-          runAsUser: 10001
-          readOnlyRootFilesystem: true
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "100m"
-            ephemeral-storage: "50Mi"
-          limits:
-            memory: "256Mi"
-            cpu: "200m"
-            ephemeral-storage: "100Mi"
+        - name: ubuntu-logger-one
+          image: ubuntu:22.04
+          imagePullPolicy: Always
+          command: ['/bin/sh']
+          args:
+            [
+              '-c',
+              'while true; do echo "$(date) - Logger One: Gerando logs para teste..."; sleep 10; done'
+            ]
+          securityContext:
+            runAsGroup: 10001
+            runAsUser: 10001
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '100m'
+              ephemeral-storage: '50Mi'
+            limits:
+              memory: '256Mi'
+              cpu: '200m'
+              ephemeral-storage: '100Mi'
+        - name: ubuntu-logger-two
+          image: ubuntu:22.04
+          imagePullPolicy: Always
+          command: ['/bin/sh']
+          args:
+            [
+              '-c',
+              'while true; do echo "$(date) - Logger Two: Gerando logs para teste de outro contêiner..."; sleep 15; done'
+            ]
+          securityContext:
+            runAsGroup: 10001
+            runAsUser: 10001
+            readOnlyRootFilesystem: true
+          resources:
+            requests:
+              memory: '128Mi'
+              cpu: '100m'
+              ephemeral-storage: '50Mi'
+            limits:
+              memory: '256Mi'
+              cpu: '200m'
+              ephemeral-storage: '100Mi'
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -589,12 +597,12 @@ spec:
   minReplicas: 1
   maxReplicas: 2
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
 ```
 
 Criamos um Horizontal Pod Autoscaler com a apiVersion v2beta2. Esta versão da API é deprecada na versão 1.26 do Kubernetes, ou seja, o Kubernetes não suportará mais a v2beta2 do HPA a partir do 1.26. O kube-no-trouble, ou kubent, nos alerta sobre isso, nos fornecendo informações sobre os recursos que serão deprecados em versões mais novas do Kubernetes. Desta forma podemos nos preparar para atualizações de cluster.
@@ -619,12 +627,12 @@ spec:
   minReplicas: 1
   maxReplicas: 2
   metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 80
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
 ```
 
 Após aplicarmos esta definição do HPA, executamos o comando `kubent` novamente e obtemos a seguinte saída:

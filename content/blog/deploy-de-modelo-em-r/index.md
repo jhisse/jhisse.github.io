@@ -15,7 +15,7 @@ Vamos utilizar a Pima Indians Diabetes Database, assim como usamos neste [artigo
 - **pressure**: Pressão arterial diastólica (mmHg);
 - **triceps**: Espessura da dobra de pele do tríceps (mm);
 - **insulin**: Quantidade de insulina após 2 horas do teste de intolerância à glicose;
-- **mass**: Índice de massa corporal (IMC = peso(kg)/(altura(m)*altura(m)));
+- **mass**: Índice de massa corporal (IMC = peso(kg)/(altura(m)\*altura(m)));
 - **pedigree**: Função que retorna um score com base no histórico familiar;
 - **age**: Idade (anos);
 - **diabetes**: Indicativo se a pessoa é diabética (pos/neg).
@@ -32,7 +32,7 @@ Como o foco do artigo é utilizarmos o Docker para facilitar a padronização do
 docker run --rm -d -p 8787:8787 --name rstudio-pima -e DISABLE_AUTH=true rocker/rstudio:4.0.0
 ```
 
-Ao acessar o navegador no endereço ```localhost:8787``` teremos acesso à interface do RStudio.
+Ao acessar o navegador no endereço `localhost:8787` teremos acesso à interface do RStudio.
 
 ![Interface padrão do RStudio](images/rstudio-interface-padrao.png)
 
@@ -48,13 +48,13 @@ docker stop rstudio-pima
 
 ## Personalizando uma imagem R
 
-Como vimos mais acima, a imagem do RStudio que vamos utiliar é a [rocker/rstudio:4.0.0](https://hub.docker.com/r/rocker/rstudio/), então vamos  começar criando um diretório modelo-r para ser a nossa pasta de trabalho e dentro desta pasta vamos criar o arquivo de definição de imagem chamado ```Dockerfile```:
+Como vimos mais acima, a imagem do RStudio que vamos utiliar é a [rocker/rstudio:4.0.0](https://hub.docker.com/r/rocker/rstudio/), então vamos começar criando um diretório modelo-r para ser a nossa pasta de trabalho e dentro desta pasta vamos criar o arquivo de definição de imagem chamado `Dockerfile`:
 
 ```Dockerfile
 FROM rocker/rstudio:4.0.0
 ```
 
-O arquivo de definição acima apenas cria um novo layer a partir da imagem base *rocker/rstudio:4.0.0*, porém precisamos instalar as bibliotecas mlbench, caret e suas dependências. A imagem base que estamos utilizando disponibiliza um script R que nos ajuda nessa tarefa, o nome dele é [install2.r](https://github.com/eddelbuettel/littler/blob/master/inst/examples/install2.r). Então vamos ao nosso Dockerfile:
+O arquivo de definição acima apenas cria um novo layer a partir da imagem base _rocker/rstudio:4.0.0_, porém precisamos instalar as bibliotecas mlbench, caret e suas dependências. A imagem base que estamos utilizando disponibiliza um script R que nos ajuda nessa tarefa, o nome dele é [install2.r](https://github.com/eddelbuettel/littler/blob/master/inst/examples/install2.r). Então vamos ao nosso Dockerfile:
 
 ```Dockerfile
 FROM rocker/rstudio:4.0.0
@@ -72,7 +72,7 @@ RUN install2.r -s -d TRUE --error \
 
 ```
 
-Vamos construir nossa imagem definindo o nome dela como *minhaimagemr*:
+Vamos construir nossa imagem definindo o nome dela como _minhaimagemr_:
 
 ```bash
 docker build -t minhaimagemr .
@@ -88,7 +88,7 @@ Observação: caso a senha seja requisitada, basta colocar "rstudio" no campo us
 
 ## Desenvolvendo nosso modelo
 
-Verificando o funcionamento de nossa imagem em ```localhost:8787```, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
+Verificando o funcionamento de nossa imagem em `localhost:8787`, vamos criar um novo arquivo no rstuido e carregar nosso script contendo o treinamento do modelo.
 
 ![Criando um novo arquivo no RStudio](images/create-new-file-in-rstudio.png)
 
@@ -167,7 +167,7 @@ Para disponibilizarmos uma interface para nosso modelo preditivo vamos criar uma
 
 Primeiro devemos criar um novo arquivo no RStudio e carregar nosso modelo salvo anteriormente. Após o o modelo treinado estar carregado em um objeto do R, vamos definir nossa API, usando os decorators na função de previsão. Os decorators irão expandir nossa função à transformando em uma espécie de núcleo do nosso endpoint da API.
 
-Além dos elementos descritivos do endpoint preditivo, vamos dizer que aquela função será invocada pelo [método post do protocolo http](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) pelo decorator ```#* @post /predict``` e que o [serializador unboxedJSON](https://www.rplumber.io/articles/rendering-output.html#boxed-vs-unboxed-json), descrito com ```#* @serializer unboxedJSON``` será o método que converte o retorno da função para um formato de saída desejado, em nosso caso, em json.
+Além dos elementos descritivos do endpoint preditivo, vamos dizer que aquela função será invocada pelo [método post do protocolo http](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) pelo decorator `#* @post /predict` e que o [serializador unboxedJSON](https://www.rplumber.io/articles/rendering-output.html#boxed-vs-unboxed-json), descrito com `#* @serializer unboxedJSON` será o método que converte o retorno da função para um formato de saída desejado, em nosso caso, em json.
 
 ```r
 # Importando a biblioteca plumber
@@ -223,12 +223,14 @@ Em nossa abordagem vamos inserir o modelo treinado no container junto com códig
 
 Vamos a nossa estrutura de diretórios:
 
-\- raiz/
-\-\- Dockerfile
-\-\- api.r
-\-\- glm_model.rds
+```plaintext
+./
+├── Dockerfile
+├── api.r
+├── glm_model.rds
+```
 
-Primeiro vamos copiar o modelo já treinado, *glm_model.rds*, e o código da API, *api.r* para dentro do diretório raiz. A seguir, vamos criar o arquivo chamado *Dockerfile* com o seguinte conteúdo:
+Primeiro vamos copiar o modelo já treinado, _glm_model.rds_, e o código da API, _api.r_ para dentro do diretório raiz. A seguir, vamos criar o arquivo chamado _Dockerfile_ com o seguinte conteúdo:
 
 ```Dockerfile
 FROM r-base:4.0.0
@@ -282,7 +284,7 @@ Após o build já podemos executar nossa aplicação com o modelo treinado. No t
 docker run -p 8080:8080 api-r
 ```
 
-Agora podemos acessar a interface do swagger no browser, ```localhost:8080/__swagger__/``` como imagem abaixo.
+Agora podemos acessar a interface do swagger no browser, `localhost:8080/__swagger__/` como imagem abaixo.
 
 ![Interface Swagger](images/interface_swagger.png)
 

@@ -4,7 +4,7 @@ date: 2021-06-20
 layout: post
 ---
 
-Neste artigo, vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o Kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final, iremos utilizar o *Kustomize*, já presente no *kubectl*.
+Neste artigo, vamos explorar diferentes formas de organizar seus arquivos yaml. Os arquivos yaml para o Kubernetes contem as definições de services, deployments, pods, namespaces, configmaps, secrets e outros objetos. Vamos perceber que determinadas formas de organização podem trazer vantagens e desvantagens. Ao final, iremos utilizar o _Kustomize_, já presente no _kubectl_.
 
 ## Ambiente de testes
 
@@ -58,14 +58,12 @@ spec:
       image: k8s.gcr.io/pause:3.2
 ```
 
-As definições devem ser separadas por `---`. No primeiro bloco temos a definição de namespace e no segundo bloco temos a do pod. Vamos observar que a do pod tem uma dependência com a do namespace.
+As definições devem ser separadas por `---`. No primeiro bloco temos a definição de namespace e no segundo bloco temos a do pod. Vamos observar que a definição do pod tem uma dependência com a do namespace como podemos ver no metadata.namespace.
 
 ```yaml
-...
 metadata:
   name: my-pod
   namespace: my-namespace
-...
 ```
 
 Vamos salvar essas definições em um arquivo yaml.
@@ -199,7 +197,7 @@ $ ls
 my-pod.yaml  namespace.yaml
 ```
 
-Se tentarmos aplicar nossas definições no cluster receberemos um erro. Isso porque ele tentou aplicar a definição do pod, *my-pod.yaml*, antes da definição do namespace, *namespace.yaml*.
+Se tentarmos aplicar nossas definições no cluster receberemos um erro. Isso porque ele tentou aplicar a definição do pod, _my-pod.yaml_, antes da definição do namespace, _namespace.yaml_.
 
 ```console
 $ kubectl apply -f ./
@@ -210,7 +208,7 @@ $ kubectl delete --ignore-not-found=true -f ./
 namespace "my-namespace" deleted
 ```
 
-E se nós atribuirmos novos nomes aos arquivos para manter a ordem correta? Iremos renomear o *namespace.yaml* para *00-namespace.yaml* e o *my-pod.yaml* para *01-my-pod.yaml*, depois tentaremos aplicar novamente nossas definições.
+E se nós atribuirmos novos nomes aos arquivos para manter a ordem correta? Iremos renomear o _namespace.yaml_ para _00-namespace.yaml_ e o _my-pod.yaml_ para _01-my-pod.yaml_, depois tentaremos aplicar novamente nossas definições.
 
 ```console
 $ mv -v namespace.yaml 00-namespace.yaml
@@ -227,7 +225,7 @@ namespace/my-namespace created
 pod/my-pod created
 ```
 
-Resolvemos nosso problema, porém não é uma solução muito elegante. Em projetos grandes e em desenvolvimento, pode resultar na necessidade de renomear constantemente nossas definições. Por exemplo, quando uma nova definição for dependência, como um ConfigMap, por exemplo. Se ele fosse dependência do pod, teríamos que renomear o *01-my-pod.yaml* para *02-my-pod.yaml* e o ConfigMap seria algo como *01-my-configmap.yaml*.
+Resolvemos nosso problema, porém não é uma solução muito elegante. Em projetos grandes e em desenvolvimento, pode resultar na necessidade de renomear constantemente nossas definições. Por exemplo, quando uma nova definição for dependência, como um ConfigMap, por exemplo. Se ele fosse dependência do pod, teríamos que renomear o _01-my-pod.yaml_ para _02-my-pod.yaml_ e o ConfigMap seria algo como _01-my-configmap.yaml_.
 
 Vamos remover os recursos criados para avançarmos para a próxima seção.
 
@@ -270,7 +268,7 @@ $ ls
 kustomization.yaml  my-pod.yaml  namespace.yaml
 ```
 
-Felizmente o *kubectl* já vem com [suporte ao *kustomize*](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/). Basta utilizarmos a flag **-k** no lugar da **-f**, ```kubectl apply -k ./```.
+Felizmente o _kubectl_ já vem com [suporte ao _kustomize_](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/kustomization/). Basta utilizarmos a flag **-k** no lugar da **-f**, `kubectl apply -k ./`.
 
 ```console
 $ kubectl apply -k ./
@@ -278,9 +276,9 @@ namespace/my-namespace created
 pod/my-pod created
 ```
 
-Vimos que utilizando o *Kustomize* resolvemos nosso problema. Os objetos são ordenados de acordo com uma [hierarquia já definida no código-fonte](https://github.com/kubernetes-sigs/kustomize/blob/cb4f5c39837e50a02e063e48941ed515da28356f/kyaml/resid/gvk.go#L132-L159). Isso minimiza quaisquer problemas relacionados a yaml que dependem de outro recurso, como o caso visto neste artigo.
+Vimos que utilizando o _Kustomize_ resolvemos nosso problema. Os objetos são ordenados de acordo com uma [hierarquia já definida no código-fonte](https://github.com/kubernetes-sigs/kustomize/blob/cb4f5c39837e50a02e063e48941ed515da28356f/kyaml/resid/gvk.go#L132-L159). Isso minimiza quaisquer problemas relacionados a yaml que dependem de outro recurso, como o caso visto neste artigo.
 
-É importante ressaltar que o *Kustomize* não se limita a esse uso. Ele possui recursos que trazem muitas vantagens para seus templates yaml. Você pode checar as [principais features no site oficial](https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/).
+É importante ressaltar que o _Kustomize_ não se limita a esse uso. Ele possui recursos que trazem muitas vantagens para seus templates yaml. Você pode checar as [principais features no site oficial](https://kubectl.docs.kubernetes.io/guides/introduction/kustomize/).
 
 ```console
 $ kubectl delete -k ./
@@ -296,7 +294,7 @@ O uso do Kustomize pode aparentar trazer ao projeto uma pequena complexidade a m
 
 ## Extra
 
-Podemos usar o *Kustomize* para gerar um único yaml. Tendo nossos 3 arquivos de exemplo no diretório, o kustomization, o do namespace e o do pod, basta executar o comando ```kubectl kustomize ./```
+Podemos usar o _Kustomize_ para gerar um único yaml. Tendo nossos 3 arquivos de exemplo no diretório, o kustomization, o do namespace e o do pod, basta executar o comando `kubectl kustomize ./`
 
 ```console
 $ ls

@@ -14,8 +14,10 @@ Vamos contar com a ajuda de um framework web chamado [Falcon](https://falcon.rea
 
 Vamos criar a seguinte estrutura de diretórios:
 
-\- predict-api/
-\-\- app/
+```plaintext
+predict-api/
+└── app/
+```
 
 Dentro da pasta predict-api vamos inicializar nosso virtual environment e instalar a biblioteca do framework Falcon.
 
@@ -104,12 +106,14 @@ CMD [ "python", "app.py" ]
 
 Nossa estrutura final de diretórios está da seguinte maneira:
 
-\- predict-api/
-\-\- app/
-\-\-\- app.py
-\-\-\- ping_handler.py
-\-\-\- requirements.txt
-\-\- Dockerfile
+```plaintext
+predict-api/
+├── app/
+│   ├── app.py
+│   ├── ping_handler.py
+│   └── requirements.txt
+└── Dockerfile
+```
 
 Para executarmos o container precisamos fazer o build da imagem e depois instanciá-la. Para isso, no diretório **predict-api** vamos executar os seguintes comandos no terminal:
 
@@ -218,16 +222,18 @@ if __name__ == '__main__':
 
 A estrutura final de diretórios ficará da seguinte forma:
 
-\- predict-api/
-\-\- app/
-\-\-\- app.py
-\-\-\- ping_handler.py
-\-\-\- predict_handler.py
-\-\-\- finalized_model.pkl
-\-\-\- requirements.txt
-\-\- Dockerfile
+```plaintext
+predict-api/
+├── app/
+│   ├── app.py
+│   ├── ping_handler.py
+│   ├── predict_handler.py
+│   ├── finalized_model.pkl
+│   └── requirements.txt
+└── Dockerfile
+```
 
-Vamos agora fazer o build da imagem novcamente e testar o endpoint de previsão usando o curl na linha de comando:
+Vamos agora fazer o build da imagem novamente e testar o endpoint de previsão usando o curl na linha de comando:
 
 ```bash
 docker build -t predict-api:latest .

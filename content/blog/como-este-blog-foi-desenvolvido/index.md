@@ -36,7 +36,7 @@ Outro destaque que vale a pena falar é a presença de diagramas e imagens na ma
 
 Seria ruim se cada artigo fosse escrito em HTML puro. Apesar de simples, não é uma forma muito elegante de escrever os textos. Nesse ponto fica claro que precisamos de outra linguagem de marcação para nos auxiliar.
 
-Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão para escrever texto em fóruns ou nos famosos *README.md* presentes nos repositórios git.
+Agora o Markdown entra na história. Ele foi pensado para ser mais enxuto e com uma melhor legibilidade do que o HTML. Com poucas regras de marcação, ele se tornou um padrão para escrever texto em fóruns ou nos famosos _README.md_ presentes nos repositórios git.
 
 Ele possui algumas poucas regras, como utilizar `#`, `##`, `###` para representar cabeçalhos, neste caso ele será convertido para `<h1>`, `<h2>` e `<h3>` no HTML. Ou `![descrição da imagem](/local/da/imagem.jpg)` para imagens, neste caso a conversão ficaria `<img alt="descrição da imagem" src="/local/da/imagem.jpg">`. Podemos perceber como a escrita vai ficando mais simples com o Markdown.
 

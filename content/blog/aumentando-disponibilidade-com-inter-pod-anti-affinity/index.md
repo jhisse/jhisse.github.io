@@ -12,37 +12,37 @@ Para realizarmos as simulações propostas ao longo deste artigo iremos precisar
 
 Até agora vimos dois pré-requisitos, o kind e o kubectl. Você pode conferir como instalar essas ferramentas nos respectivos sites indicados acima.
 
-Tendo-os instalados, vamos a configuração do cluster. Em uma pasta crie um arquivo chamado ```cluster_config.yaml```. Ele vai ter o seguinte conteúdo:
+Tendo-os instalados, vamos a configuração do cluster. Em uma pasta crie um arquivo chamado `cluster_config.yaml`. Ele vai ter o seguinte conteúdo:
 
 ```yaml
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
-- role: control-plane
-- role: worker
-  kubeadmConfigPatches:
-    - |
-      kind: JoinConfiguration
-      nodeRegistration:
-        kubeletExtraArgs:
-          node-labels: "topology.kubernetes.io/zone=west-1a,topology.kubernetes.io/region=west"
-- role: worker
-  kubeadmConfigPatches:
-    - |
-      kind: JoinConfiguration
-      nodeRegistration:
-        kubeletExtraArgs:
-          node-labels: "topology.kubernetes.io/zone=west-1c,topology.kubernetes.io/region=west"
-- role: worker
-  kubeadmConfigPatches:
-    - |
-      kind: JoinConfiguration
-      nodeRegistration:
-        kubeletExtraArgs:
-          node-labels: "topology.kubernetes.io/zone=east-1b,topology.kubernetes.io/region=east"
+  - role: control-plane
+  - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: JoinConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "topology.kubernetes.io/zone=west-1a,topology.kubernetes.io/region=west"
+  - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: JoinConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "topology.kubernetes.io/zone=west-1c,topology.kubernetes.io/region=west"
+  - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: JoinConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "topology.kubernetes.io/zone=east-1b,topology.kubernetes.io/region=east"
 ```
 
-Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels ```topology.kubernetes.io/zone``` e ```topology.kubernetes.io/region```. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos conforme a localidade das instâncias que compõem o cluster.
+Esse é um arquivo no formato yaml que descreve como nosso cluster kubernetes será. A chave kind indica o tipo de objeto que estamos criando e a chave apiVersion indica a versão da api. Em seguida, representado pela chave nodes, temos uma lista de nós do nosso cluster. Vamos configurar 4 nós. O primeiro será o nó principal, do tipo control-plane e vamos enriquecer os metadados dos três outros nós do tipo workers com os labels `topology.kubernetes.io/zone` e `topology.kubernetes.io/region`. Desta forma vamos simular a alocação de nós em diferentes zonas e regiões. Em clusters hospedados na nuvem, AWS, GCP, Azure, esses labels já são definidos conforme a localidade das instâncias que compõem o cluster.
 
 ```console
 kind create cluster --config cluster_config.yaml --name affinity
@@ -68,7 +68,7 @@ Para este artigo nos interessa 3 labels específicas dos nós:
 - topology.kubernetes.io/zone
 - topology.kubernetes.io/region
 
-Escolheremos um deles como domínio quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, ```kubernetes.io/hostname```, passando pela zona que pode haver repetição, ```topology.kubernetes.io/zone``` e seguido pela região ```topology.kubernetes.io/region``` que engloba as zonas.
+Escolheremos um deles como domínio quando formos definir anti afinidades dos pods. Repare que existe uma hierarquina na topologia. A lista está ordenada do elemento mais granular, `kubernetes.io/hostname`, passando pela zona que pode haver repetição, `topology.kubernetes.io/zone` e seguido pela região `topology.kubernetes.io/region` que engloba as zonas.
 
 A descrição de todos os nós do nosso cluster pode ser verificada da seguinte forma:
 
@@ -122,7 +122,7 @@ Temos dois tipos de anti afinidade, a obrigatória, onde os pods devem ser aloca
 
 ### Hard
 
-A anti afinidade obrigatória é caracterizada pela chave ```requiredDuringSchedulingIgnoredDuringExecution``` e pode ser definida pela seguinte especificação:
+A anti afinidade obrigatória é caracterizada pela chave `requiredDuringSchedulingIgnoredDuringExecution` e pode ser definida pela seguinte especificação:
 
 ```yaml
 apiVersion: apps/v1
@@ -163,7 +163,7 @@ spec:
               memory: 128Mi
 ```
 
-O que isso quer dizer? Estamos definindo um deployment para um pod com um container apenas, porém com algumas restrições. Queremos que esses pods residam em nós que estejam em regiões distintas, indicados por ```topologyKey: topology.kubernetes.io/region```. Em uma aplicação real isso é uma garantia que ela seja resiliente a falhas causadas por indisponibilidade em regiões inteiras. Vamos aplicar este deployment e visualizar o comportamento no cluster.
+O que isso quer dizer? Estamos definindo um deployment para um pod com um container apenas, porém com algumas restrições. Queremos que esses pods residam em nós que estejam em regiões distintas, indicados por `topologyKey: topology.kubernetes.io/region`. Em uma aplicação real isso é uma garantia que ela seja resiliente a falhas causadas por indisponibilidade em regiões inteiras. Vamos aplicar este deployment e visualizar o comportamento no cluster.
 
 ```console
 $ kubectl create -f deployment.yaml
@@ -176,7 +176,7 @@ lorem-ipsum-deployment-6944477b78-m7rqq   1/1     Running   0          21s   10.
 
 ```
 
-Recapitulando. Nós queríamos garantir que cada pod estivesse em regiões separadas para aumentar a resiliência à falhas. O nó affinity-worker2 está na região ```topology.kubernetes.io/region=west``` e o nó affinity-worker3 está na região ```topology.kubernetes.io/region=east```. Cumprimos assim o objetivo do primeiro caso de teste.
+Recapitulando. Nós queríamos garantir que cada pod estivesse em regiões separadas para aumentar a resiliência à falhas. O nó affinity-worker2 está na região `topology.kubernetes.io/region=west` e o nó affinity-worker3 está na região `topology.kubernetes.io/region=east`. Cumprimos assim o objetivo do primeiro caso de teste.
 
 Vamos agora alterar uma pequena linha na nossa definição do deployment.
 
@@ -240,7 +240,7 @@ lorem-ipsum-deployment-548b947664-jz7p5   1/1     Running   0          21s   10.
 lorem-ipsum-deployment-548b947664-pdzjf   1/1     Running   0          21s   10.244.1.3   affinity-worker2   <none>           <none>
 ```
 
-Como observado, nenhum pod foi alocado na mesma zona. Mais uma última alteração, vamos aumentar o número de réplicas para 4 e alterar o topologyKey para ```kubernetes.io/hostname```.
+Como observado, nenhum pod foi alocado na mesma zona. Mais uma última alteração, vamos aumentar o número de réplicas para 4 e alterar o topologyKey para `kubernetes.io/hostname`.
 
 ```diff
 8c8
@@ -268,11 +268,11 @@ lorem-ipsum-deployment-7d6cb547c6-m9jvs   0/1     Pending   0          86s   <no
 lorem-ipsum-deployment-7d6cb547c6-st5p5   1/1     Running   0          86s   10.244.2.4   affinity-worker3   <none>           <none>
 ```
 
-Da mesma forma que só tínhamos 3 ```topology.kubernetes.io/zone``` distintas, no caso acima, só temos 3 ```kubernetes.io/hostname``` distintos. Isso faz que nosso 4º pod não seja alocado.
+Da mesma forma que só tínhamos 3 `topology.kubernetes.io/zone` distintas, no caso acima, só temos 3 `kubernetes.io/hostname` distintos. Isso faz que nosso 4º pod não seja alocado.
 
 ### Soft
 
-O modo de anti afinidade preferível ou soft, não torna obrigatória a alocação de acordo com as regras pré-estabelecidas, e sim estabelece uma prioridade para a definição. Ela é caracterizada pela chave ```preferredDuringSchedulingIgnoredDuringExecution``` e podemos utilizar os mesmo valores do modo hard para a topologyKey.
+O modo de anti afinidade preferível ou soft, não torna obrigatória a alocação de acordo com as regras pré-estabelecidas, e sim estabelece uma prioridade para a definição. Ela é caracterizada pela chave `preferredDuringSchedulingIgnoredDuringExecution` e podemos utilizar os mesmo valores do modo hard para a topologyKey.
 
 ```yaml
 apiVersion: apps/v1
@@ -315,7 +315,7 @@ spec:
               memory: 128Mi
 ```
 
-Já iremos aplicar com 3 réplicas e com a topologyKey igual a ```topology.kubernetes.io/region```. Lembrando que temos nós em somente duas regiões.
+Já iremos aplicar com 3 réplicas e com a topologyKey igual a `topology.kubernetes.io/region`. Lembrando que temos nós em somente duas regiões.
 
 ```console
 $ kubectl delete -f deployment.yaml
@@ -333,7 +333,7 @@ lorem-ipsum-deployment-57c779f4bd-wrk98   1/1     Running   0          12s   10.
 
 Não houve problema neste caso, diferente do modo hard de anti afinidade.
 
-Vamos fazer um outro caso de teste, vamos aumentar o número de réplicas para 10 e alterar o topologyKey para ```kubernetes.io/hostname```.
+Vamos fazer um outro caso de teste, vamos aumentar o número de réplicas para 10 e alterar o topologyKey para `kubernetes.io/hostname`.
 
 ```diff
 8c8
@@ -367,7 +367,7 @@ lorem-ipsum-deployment-89456ffdd-t47j7   1/1     Running   0          9s    10.2
 lorem-ipsum-deployment-89456ffdd-vb2vr   1/1     Running   0          9s    10.244.2.7   affinity-worker3   <none>           <none>
 ```
 
-Por fim, mais um caso de teste. Vamos determinar pesos para priorizar ```topologyKey: topology.kubernetes.io/regio``` e em menor prioridade ```topologyKey: topology.kubernetes.io/zone```.
+Por fim, mais um caso de teste. Vamos determinar pesos para priorizar `topologyKey: topology.kubernetes.io/regio` e em menor prioridade `topologyKey: topology.kubernetes.io/zone`.
 
 ```yaml
 apiVersion: apps/v1
@@ -448,7 +448,7 @@ Labels:             topology.kubernetes.io/region=east
 ...
 ```
 
-O esperado é que, com duas réplicas, ele aloque primeiro nos nós que tenha ```topology.kubernetes.io/region=west``` e outro ```topology.kubernetes.io/region=east```.
+O esperado é que, com duas réplicas, ele aloque primeiro nos nós que tenha `topology.kubernetes.io/region=west` e outro `topology.kubernetes.io/region=east`.
 
 ```console
 $ kubectl delete -f deployment.yaml

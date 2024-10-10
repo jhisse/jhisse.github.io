@@ -50,8 +50,7 @@ Temos alguns requisitos para que as imagens estejam otimizadas de uma forma efic
 3. Lazy loading para otimizar o carregamento das páginas.
 4. Imagens em JPEG para compatibilidade de browsers sem suporte a WebP.
 
-Vamos analisar o nosso render hook para imagens, localizado no diretório `layouts/_default/_markup/render-image.html`.
-Ele garante que as imagens do blog sejam convertidas e otimizadas para o formato WebP, além de fornecer versões em JPEG para navegadores que ainda não suportam WebP.
+Vamos analisar o nosso render hook para imagens, localizado no diretório `layouts/_default/_markup/render-image.html`. Ele garante que as imagens do blog sejam convertidas e otimizadas para o formato WebP, além de fornecer versões em JPEG para navegadores que ainda não suportam WebP.
 
 ```go-html-template
 {{- $image := .Page.Resources.Get (.Destination | safeURL) }}

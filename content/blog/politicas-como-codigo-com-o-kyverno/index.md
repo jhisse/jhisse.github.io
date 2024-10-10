@@ -10,9 +10,9 @@ Gerenciar políticas e garantir que recursos do Kubernetes sigam determinadas re
 
 Como este artigo busca explorar de forma prática o funcionamento do Kyverno, precisamos que alguns softwares estejam instalados na máquina. Segue a lista dos que serão usados:
 
-- [kind *versão: 0.11.1*](https://kind.sigs.k8s.io/) - O kind nos permite ter um cluster k8s local de forma rápida e fácil. Cada node do nosso clusters será executado como um container, por este motivo é necessário ter o docker ou o podman instalado na máquina.
-- [kubectl *versão: 1.22.2*](https://kubernetes.io/docs/tasks/tools/#kubectl) - Este cli nos permite executar e controlar nosso cluster k8s.
-- [kyverno cli *versão: 1.5.1*](https://kyverno.io/docs/kyverno-cli) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
+- [kind _versão: 0.11.1_](https://kind.sigs.k8s.io/) - O kind nos permite ter um cluster k8s local de forma rápida e fácil. Cada node do nosso clusters será executado como um container, por este motivo é necessário ter o docker ou o podman instalado na máquina.
+- [kubectl _versão: 1.22.2_](https://kubernetes.io/docs/tasks/tools/#kubectl) - Este cli nos permite executar e controlar nosso cluster k8s.
+- [kyverno cli _versão: 1.5.1_](https://kyverno.io/docs/kyverno-cli) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
 
 ## Aplicando uma política simples
 
@@ -24,7 +24,7 @@ kind create cluster --name kyverno
 
 ![Criando um cluster com o kind](images/criando-o-cluster.png)
 
-Agora devemos instalar o Kyverno, vamos utilizar o método de instalação via yaml e instalar a versão *1.5.1*.
+Agora devemos instalar o Kyverno, vamos utilizar o método de instalação via yaml e instalar a versão _1.5.1_.
 
 ```console
 kubectl create -f https://raw.githubusercontent.com/kyverno/kyverno/v1.5.1/definitions/release/install.yaml
@@ -38,13 +38,13 @@ kubectl wait --for=condition=available --timeout=300s deployment kyverno -n kyve
 
 Até o momento talvez não tenha ficado muito claro a função do Kyverno, por isso vamos definir uma regra simples, aplicar ao cluster e verificar como ele atua nos recursos do cluster.
 
-Imagine que na empresa em que trabalhamos sempre devemos garantir que os recursos de nosso time tenha uma determinada label, ou seja, todos os recursos do nosso namespace devem possuir determinada label. Vamos defini-la por ```team: my-team-name``` e todos os nossos pods, services, configmaps e secrets devem ter esta label.
+Imagine que na empresa em que trabalhamos sempre devemos garantir que os recursos de nosso time tenha uma determinada label, ou seja, todos os recursos do nosso namespace devem possuir determinada label. Vamos defini-la por `team: my-team-name` e todos os nossos pods, services, configmaps e secrets devem ter esta label.
 
 Na página oficial podemos encontrar um [conjunto de políticas de exemplo](https://release-1-5-0.kyverno.io/policies/) e na maioria das vezes já existe uma que é muito semelhante a sua necessidade. Por isso sempre vale a pena dar uma conferida antes de criar uma política do zero.
 
 A primeira coisa que devemos saber sobre o Kyverno é que ele permite a definição de dois tipos de políticas. Uma é de escopo amplo, que permite a aplicação de determinada regra a todo o cluster, que se chama **ClusterPolicy**. A outra fica limitada ao namespace que ela está aplicada, ou seja, as regras só serão aplicadas aos recursos daquele namespace em questão, ela é chamada de **Policy**.
 
-Vamos modificar a política já existente, [add label](https://release-1-5-0.kyverno.io/policies/other/add_labels/add_labels/), para que ela adicione a label ```team``` nos nossos recursos que estão limitados ao namespace *default*.
+Vamos modificar a política já existente, [add label](https://release-1-5-0.kyverno.io/policies/other/add_labels/add_labels/), para que ela adicione a label `team` nos nossos recursos que estão limitados ao namespace _default_.
 
 ```yaml
 apiVersion: kyverno.io/v1
@@ -54,19 +54,19 @@ metadata:
   namespace: default
 spec:
   rules:
-  - name: add-labels
-    match:
-      resources:
-        kinds:
-        - Pod
-    mutate:
-      patchStrategicMerge:
-        metadata:
-          labels:
-            team: my-team-name
+    - name: add-labels
+      match:
+        resources:
+          kinds:
+            - Pod
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              team: my-team-name
 ```
 
-Vamos salvar o conteúdo acima em um arquivo chamado ```add-team-label.yaml``` e em seguida aplicar em nosso cluster recém criado.
+Vamos salvar o conteúdo acima em um arquivo chamado `add-team-label.yaml` e em seguida aplicar em nosso cluster recém criado.
 
 ```console
 kubectl apply -f add-team-label.yaml
@@ -90,7 +90,7 @@ spec:
 kubectl apply -f my-pod.yaml
 ```
 
-Agora vamos checar se a label ```team``` com o valor ```my-team-name``` foi aplicada com sucesso em nosso pod. A flag ```--show-labels``` mostra as labels dos pods na listagem.
+Agora vamos checar se a label `team` com o valor `my-team-name` foi aplicada com sucesso em nosso pod. A flag `--show-labels` mostra as labels dos pods na listagem.
 
 ```console
 kubectl get pods --show-labels -n default
@@ -100,11 +100,11 @@ kubectl get pods --show-labels -n default
 
 Vemos que a label obrigatória foi aplicada com sucesso em nosso recurso.
 
-Acabamos de experimentar um caso de uso do Kyverno e podemos imaginar *n* outros casos de uso.
+Acabamos de experimentar um caso de uso do Kyverno e podemos imaginar _n_ outros casos de uso.
 
-- Posso forçar que todos os meus deployments sempre tenham a chave *imagePullPolicy* definida com *Always*?
+- Posso forçar que todos os meus deployments sempre tenham a chave _imagePullPolicy_ definida com _Always_?
 - Posso impedir que um recurso seja excluído?
-- Posso garantir que as imagens utilizadas em pods nunca usem a tag *latest*?
+- Posso garantir que as imagens utilizadas em pods nunca usem a tag _latest_?
 - Posso tornar obrigatória a definição de limites de cpu e memória nos pods?
 
 Todas essas perguntas acima tem a resposta afirmativa quando estamos utilizando o Kyverno.
@@ -135,7 +135,7 @@ A saída esperada desse comando é uma mensagem indicando que nossa política é
 
 ![Política validada pelo Kyverno](images/kyverno-cli-validate-my-pod-add-team-label.png)
 
-Por curiosidade vamos executar um comando para testar uma política inválida. Vamos alterar o campo *metadata.labels* para *metadata.tags*, como sabemos não existe o campo *metadata.tags* nas especificações do kubernetes, portanto nossa política deve ser apontada como inválida.
+Por curiosidade vamos executar um comando para testar uma política inválida. Vamos alterar o campo _metadata.labels_ para _metadata.tags_, como sabemos não existe o campo _metadata.tags_ nas especificações do kubernetes, portanto nossa política deve ser apontada como inválida.
 
 ```console
 cat << EOF | kyverno validate -
@@ -164,7 +164,7 @@ EOF
 
 ![Política inválida pelo Kyverno](images/kyverno-cli-validate-my-pod-add-team-label-invalid.png)
 
-Como observado na imagem acima, nossa política foi diagnosticada como inválida. O que está correto, já que não existe o campo *metadata.tags*.
+Como observado na imagem acima, nossa política foi diagnosticada como inválida. O que está correto, já que não existe o campo _metadata.tags_.
 
 ### Kyverno CLI Apply
 
@@ -178,7 +178,7 @@ kyverno apply add-team-label.yaml --resource my-pod.yaml
 
 ### Kyverno CLI Test
 
-Podemos executar testes em nossas políticas. Esses testes se assemelham a testes unitários, vamos defini-los em um arquivo chamado *test.yaml* e colocá-lo no mesmo diretório dos outros arquivos. O conteúdo deste arquivo será:
+Podemos executar testes em nossas políticas. Esses testes se assemelham a testes unitários, vamos defini-los em um arquivo chamado _test.yaml_ e colocá-lo no mesmo diretório dos outros arquivos. O conteúdo deste arquivo será:
 
 ```yaml
 name: add-always-pull-policy
@@ -187,15 +187,15 @@ policies:
 resources:
   - my-pod.yaml
 results:
-- policy: always-pull-images
-  rule: always-pull-images
-  resource: my-pod
-  kind: Pod
-  patchedResource: my-pod-patched.yaml
-  result: pass
+  - policy: always-pull-images
+    rule: always-pull-images
+    resource: my-pod
+    kind: Pod
+    patchedResource: my-pod-patched.yaml
+    result: pass
 ```
 
-A regra que iremos executar neste teste é a [Always Pull Image](https://release-1-5-0.kyverno.io/policies/other/always-pull-images/always-pull-images/) e a colocaremos no arquivo *always-pull-images.yaml*.
+A regra que iremos executar neste teste é a [Always Pull Image](https://release-1-5-0.kyverno.io/policies/other/always-pull-images/always-pull-images/) e a colocaremos no arquivo _always-pull-images.yaml_.
 
 ```yaml
 apiVersion: kyverno.io/v1
@@ -204,20 +204,20 @@ metadata:
   name: always-pull-images
 spec:
   rules:
-  - name: always-pull-images
-    match:
-      resources:
-        kinds:
-        - Pod
-    mutate:
-      patchStrategicMerge:
-        spec:
-          containers:
-          - (name): "?*"
-            imagePullPolicy: Always
+    - name: always-pull-images
+      match:
+        resources:
+          kinds:
+            - Pod
+      mutate:
+        patchStrategicMerge:
+          spec:
+            containers:
+              - (name): '?*'
+                imagePullPolicy: Always
 ```
 
-Outro arquivo que deve estar em nosso diretório é o que conterá a definição sem a política aplicada *my-pod.yaml*
+Outro arquivo que deve estar em nosso diretório é o que conterá a definição sem a política aplicada _my-pod.yaml_
 
 ```yaml
 apiVersion: v1
@@ -231,7 +231,7 @@ spec:
       image: k8s.gcr.io/pause:3.2
 ```
 
-Como queremos executar um teste que verifica a aplicação correta de uma política, precisamos ter um arquivo de definição com a política já aplicada ao recurso. Então, vamos criar um arquivo chamado *my-pod-patched.yaml* onde terá o estado final da definição.
+Como queremos executar um teste que verifica a aplicação correta de uma política, precisamos ter um arquivo de definição com a política já aplicada ao recurso. Então, vamos criar um arquivo chamado _my-pod-patched.yaml_ onde terá o estado final da definição.
 
 ```yaml
 apiVersion: v1

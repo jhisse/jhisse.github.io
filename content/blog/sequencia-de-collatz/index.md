@@ -7,17 +7,11 @@ mathjax: true
 
 ## Problema
 
-A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.projecteuler.net/problem=14 "Problema 14 do Project Euler").
+A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.projecteuler.net/problem=14 'Problema 14 do Project Euler').
 
 A sequência de Collatz é gerada pela seguinte regra:
 
-\\[
-n =
-\begin{cases}
-  & n/2 \text{, se } n \text{ é par } \\\\
-  & 3n+1 \text{, se } n \text{ é ímpar }
-\end{cases}
-\\]
+\\[ n = \begin{cases} & n/2 \text{, se } n \text{ é par } \\\\ & 3n+1 \text{, se } n \text{ é ímpar } \end{cases} \\]
 
 Conforme a regra acima e começando pelo número 13, temos a seguinte sequência:
 

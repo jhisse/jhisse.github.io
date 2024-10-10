@@ -19,47 +19,66 @@ Nossa página HTML de teste será o mais simples possível (index.html):
 ```html
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Index</title>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <title>Index</title>
-</head>
+  <body>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in nibh
+      mi. Vivamus convallis lacinia dolor in pulvinar. Nulla mollis ultricies
+      justo, ut fermentum dolor auctor a. Nullam consectetur nulla eget eros
+      scelerisque tincidunt. Etiam in metus nisi. Donec vehicula nec erat eu
+      aliquet. Fusce fermentum arcu sit amet purus suscipit tristique.
+    </p>
 
-<body>
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in nibh mi. Vivamus convallis lacinia dolor in
-    pulvinar. Nulla mollis ultricies justo, ut fermentum dolor auctor a. Nullam consectetur nulla eget eros scelerisque
-    tincidunt. Etiam in metus nisi. Donec vehicula nec erat eu aliquet. Fusce fermentum arcu sit amet purus suscipit
-    tristique.</p>
+    <p>
+      Duis quis libero quis sapien tempor auctor. Morbi ut eros eu eros finibus
+      blandit a vel ante. Praesent porta rutrum lorem, interdum tincidunt sem
+      porttitor in. Morbi nunc nibh, aliquet hendrerit auctor sed, ultricies non
+      ipsum. Nam a ante in dolor pharetra euismod. Donec aliquam turpis nec
+      tortor ultricies molestie. Nunc dignissim, orci vitae tristique porta,
+      magna erat dignissim dui, sit amet commodo tortor justo interdum nulla.
+      Mauris dictum ex libero, at aliquet mauris sagittis sit amet. Etiam
+      hendrerit elementum arcu at pulvinar. Nunc pellentesque tincidunt tortor,
+      sit amet consequat felis blandit hendrerit. Nulla nibh sapien, sagittis
+      quis cursus ac, luctus in neque. Nullam pellentesque maximus mollis. Fusce
+      quam nisi, accumsan tincidunt nibh cursus, feugiat cursus urna.
+      Pellentesque imperdiet aliquet quam, in gravida dolor vehicula eleifend.
+    </p>
 
-  <p>Duis quis libero quis sapien tempor auctor. Morbi ut eros eu eros finibus blandit a vel ante. Praesent porta rutrum
-    lorem, interdum tincidunt sem porttitor in. Morbi nunc nibh, aliquet hendrerit auctor sed, ultricies non ipsum. Nam
-    a ante in dolor pharetra euismod. Donec aliquam turpis nec tortor ultricies molestie. Nunc dignissim, orci vitae
-    tristique porta, magna erat dignissim dui, sit amet commodo tortor justo interdum nulla. Mauris dictum ex libero, at
-    aliquet mauris sagittis sit amet. Etiam hendrerit elementum arcu at pulvinar. Nunc pellentesque tincidunt tortor,
-    sit amet consequat felis blandit hendrerit. Nulla nibh sapien, sagittis quis cursus ac, luctus in neque. Nullam
-    pellentesque maximus mollis. Fusce quam nisi, accumsan tincidunt nibh cursus, feugiat cursus urna. Pellentesque
-    imperdiet aliquet quam, in gravida dolor vehicula eleifend.</p>
+    <p>
+      Proin sed sapien sit amet nisl faucibus dapibus. Cras sed cursus tellus.
+      Nullam nunc metus, hendrerit et maximus in, tincidunt non sem. Etiam
+      vehicula arcu nec erat posuere, nec tincidunt lorem rhoncus. Phasellus
+      tincidunt fringilla enim. Vivamus porta ultricies enim vitae facilisis.
+      Duis sit amet pulvinar dolor, maximus aliquam odio.
+    </p>
 
-  <p>Proin sed sapien sit amet nisl faucibus dapibus. Cras sed cursus tellus. Nullam nunc metus, hendrerit et maximus
-    in, tincidunt non sem. Etiam vehicula arcu nec erat posuere, nec tincidunt lorem rhoncus. Phasellus tincidunt
-    fringilla enim. Vivamus porta ultricies enim vitae facilisis. Duis sit amet pulvinar dolor, maximus aliquam odio.
-  </p>
+    <p>
+      Quisque eget volutpat nulla. Orci varius natoque penatibus et magnis dis
+      parturient montes, nascetur ridiculus mus. Vivamus sagittis, magna non
+      ullamcorper blandit, turpis nisi lacinia risus, eget tempus libero lorem
+      vitae risus. Curabitur quis ligula eu dolor volutpat placerat. Integer
+      iaculis, arcu non luctus ultricies, dolor est fermentum enim, quis
+      ullamcorper magna sapien a est. Nulla facilisi. Nulla lectus leo,
+      pellentesque quis iaculis non, mollis in neque. Cras porttitor lacinia
+      dolor quis hendrerit.
+    </p>
 
-  <p>Quisque eget volutpat nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-    Vivamus sagittis, magna non ullamcorper blandit, turpis nisi lacinia risus, eget tempus libero lorem vitae risus.
-    Curabitur quis ligula eu dolor volutpat placerat. Integer iaculis, arcu non luctus ultricies, dolor est fermentum
-    enim, quis ullamcorper magna sapien a est. Nulla facilisi. Nulla lectus leo, pellentesque quis iaculis non, mollis
-    in neque. Cras porttitor lacinia dolor quis hendrerit.</p>
-
-  <p>Etiam dictum rutrum ligula, sed eleifend nibh consectetur ut. Etiam pellentesque urna eget tempus hendrerit. Nullam
-    faucibus convallis mauris, id hendrerit diam eleifend a. Curabitur ultrices ex diam, vitae accumsan lectus vulputate
-    eu. Aliquam ultricies eu arcu quis dignissim. Sed pharetra leo non erat dapibus, vitae porta augue aliquet. Morbi
-    porttitor pellentesque dui, sed vulputate nulla pulvinar sit amet. Aenean consequat luctus nisi. Maecenas imperdiet
-    diam sit amet iaculis porttitor. Donec fermentum est sapien, maximus tempus nunc posuere sit amet. Nulla vestibulum
-    elementum lacus quis placerat.</p>
-
-</body>
-
+    <p>
+      Etiam dictum rutrum ligula, sed eleifend nibh consectetur ut. Etiam
+      pellentesque urna eget tempus hendrerit. Nullam faucibus convallis mauris,
+      id hendrerit diam eleifend a. Curabitur ultrices ex diam, vitae accumsan
+      lectus vulputate eu. Aliquam ultricies eu arcu quis dignissim. Sed
+      pharetra leo non erat dapibus, vitae porta augue aliquet. Morbi porttitor
+      pellentesque dui, sed vulputate nulla pulvinar sit amet. Aenean consequat
+      luctus nisi. Maecenas imperdiet diam sit amet iaculis porttitor. Donec
+      fermentum est sapien, maximus tempus nunc posuere sit amet. Nulla
+      vestibulum elementum lacus quis placerat.
+    </p>
+  </body>
 </html>
 ```
 
@@ -73,10 +92,12 @@ ADD index.html /usr/share/nginx/html
 
 A estrutura do diretório irá ficar da seguinte forma:
 
-\- raiz/
-\-\- nginx/
-\-\-\- Dockerfile
-\-\-\- index.html
+```plaintext
+./
+└── nginx/
+    ├── Dockerfile
+    └── index.html
+```
 
 Temos que buildar nossa imagem do nginx e executa-lá em seguida:
 
@@ -104,7 +125,7 @@ Os endpoints disponíveis do oauth2_proxy podem ser consultados na [documentaç�
 
 ![Campos OAuth App Github](images/fields_oauth_app_github.png)
 
-Agora temos um *client_id* e um *client_secret* que serão utilizados pelo oauth2_proxy.
+Agora temos um _client_id_ e um _client_secret_ que serão utilizados pelo oauth2_proxy.
 
 ![Client ID and Client Secret](images/application_created.png)
 
@@ -157,7 +178,7 @@ services:
 
 Observando o compose acima, estamos configurando o container do oauth2_proxy com as variáveis de ambiente, como descrito [aqui](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#environment-variables). Vamos chamar atenção para algumas configurações mais relevantes:
 
-- "OAUTH2_PROXY_EMAIL_DOMAINS=*": Domínios de e-mails permitidos. Aqui estamos permitindo todos os domínios.
+- "OAUTH2_PROXY_EMAIL_DOMAINS=\*": Domínios de e-mails permitidos. Aqui estamos permitindo todos os domínios.
 - "OAUTH2_PROXY_REDIRECT_URL=`http://localhost/oauth2/callback`": Quando usamos o Github como provedor precisamos setar a url de redirecionamento igual a url de callback configurada no momento da criação do App.
 - "OAUTH2_PROXY_PROVIDER=github": Provedor de autenticação.
 - "OAUTH2_PROXY_CLIENT_ID=": Após o sinal de igual iremos colocar o Client ID que recebemos no momento da criação do App.
@@ -165,7 +186,7 @@ Observando o compose acima, estamos configurando o container do oauth2_proxy com
 
 O restante das configurações podem ser consultadas na [documentação](https://oauth2-proxy.github.io/oauth2-proxy/configuration/overview#command-line-options).
 
-Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo *default.conf* na pasta do nginx.
+Agora precisamos substituir as configurações padrões do nginx para que toda requisição passe pelo backend de autenticação. Para isso vamos criar o arquivo _default.conf_ na pasta do nginx.
 
 ```nginx
 server {
@@ -226,7 +247,7 @@ server {
 Neste ponto algumas linhas merecem destaque:
 
 - "auth_request /oauth2/auth;": Aqui indicamos que o endpoint /oauth2/auth será usado para autenticar nossos usuários.
-- "proxy_pass       `http://oauth2_proxy:4180`;": Presente nos dois endpoints, /oauth2 e /oauth2/auth. Indica que todas as requisições a esses endpoints serão passadas para o backend, disponível no endereço `http://oauth2_proxy:4180`.
+- "proxy_pass `http://oauth2_proxy:4180`;": Presente nos dois endpoints, /oauth2 e /oauth2/auth. Indica que todas as requisições a esses endpoints serão passadas para o backend, disponível no endereço `http://oauth2_proxy:4180`.
 
 Nosso novo Dockerfile para o nginx ficará seguinte forma:
 
@@ -239,13 +260,15 @@ ADD default.conf /etc/nginx/conf.d
 
 A estrutura do diretório deve estar da seguinte forma:
 
-\- raiz/
-\-\- docker-compose.yml
-\-\- nginx/
-\-\-\- Dockerfile
-\-\-\- index.html
+```plaintext
+./
+├── docker-compose.yml
+└── nginx/
+    ├── Dockerfile
+    └── index.html
+```
 
-Após a inserção do *Client ID* e do *Client Secret* no docker-compose.yml iremos executar nossas aplicações. Vá para a raiz do nosso projeto e execute o seguinte comando:
+Após a inserção do _Client ID_ e do _Client Secret_ no docker-compose.yml iremos executar nossas aplicações. Vá para a raiz do nosso projeto e execute o seguinte comando:
 
 ```bash
 docker-compose up
@@ -272,36 +295,38 @@ Agora queremos restringir o acesso apenas a determinados endereços de e-mails, 
 Temos uma configuração do oauth2_proxy interessante em nosso compose:
 
 ```yaml
-      - OAUTH2_PROXY_EMAIL_DOMAINS=*
+- OAUTH2_PROXY_EMAIL_DOMAINS=*
 ```
 
 Com essa configuração estavamos permitindo que qualquer endereço de e-mail pudesse acessar nosso website. Caso quisessemos poderiamos restringir o acesso a somente endereços de e-mails de um ou mais domínios.
 
 ```yaml
-      - OAUTH2_PROXY_EMAIL_DOMAINS=hotmail.com,gmail.com
+- OAUTH2_PROXY_EMAIL_DOMAINS=hotmail.com,gmail.com
 ```
 
 Porém queremos restringir ainda mais o acesso. Para isso vamos trabalhar mais uma vez com o Dockerfile.
 
-Criaremos uma nova pasta na raiz do nosso projeto chamada *oauth2_proxy*. E dentro criaremos um arquivo chamado *emails.txt* e outro chamado *Dockerfile*.
+Criaremos uma nova pasta na raiz do nosso projeto chamada _oauth2_proxy_. E dentro criaremos um arquivo chamado _emails.txt_ e outro chamado _Dockerfile_.
 
-\- raiz/
-\-\- docker-compose.yml
-\-\- nginx/
-\-\-\- Dockerfile
-\-\-\- index.html
-\-\- oauth2_proxy/
-\-\-\- Dockerfile
-\-\-\- emails.txt
+```plaintext
+./
+├── docker-compose.yml
+├── nginx/
+│   ├── Dockerfile
+│   └── index.html
+└── oauth2_proxy/
+    ├── Dockerfile
+    └── emails.txt
+```
 
-*emails.txt*:
+_emails.txt_:
 
 ```text
 email_01@permitido.com
 email_02@permitido.com
 ```
 
-*Dockerfile*:
+_Dockerfile_:
 
 ```dockerfile
 FROM quay.io/pusher/oauth2_proxy:v4.0.0-amd64
@@ -309,7 +334,7 @@ FROM quay.io/pusher/oauth2_proxy:v4.0.0-amd64
 ADD emails.txt /home
 ```
 
-Modificaremos nosso *docker-compose.yml*
+Modificaremos nosso _docker-compose.yml_
 
 ```yaml
 version: '3'
@@ -356,12 +381,12 @@ services:
 
 Aqui vale a observação que não podemos utilizar as duas configurações de restrições ao mesmo tempo. Ou usamos **OAUTH2_PROXY_AUTHENTICATED_EMAILS_FILE** ou usamos **OAUTH2_PROXY_EMAIL_DOMAINS**.
 
-Executando nossa aplicação novamente, podemos perceber que após a tentativa de acesso recebemos o erro *403 Permission Denied*.
+Executando nossa aplicação novamente, podemos perceber que após a tentativa de acesso recebemos o erro _403 Permission Denied_.
 
-E no stdout do terminal vemos algo do tipo "*\[AuthFailure\] Invalid authentication via OAuth2: unauthorized*".
+E no stdout do terminal vemos algo do tipo "_\[AuthFailure\] Invalid authentication via OAuth2: unauthorized_".
 
 ![403 Permission Denied](images/permission_denied.png)
 
-Isso quer dizer que nosso acesso não foi autorizado. Para ter acesso neste caso, basta colocarmos nosso endereço de e-mail no arquivo *emails.txt*.
+Isso quer dizer que nosso acesso não foi autorizado. Para ter acesso neste caso, basta colocarmos nosso endereço de e-mail no arquivo _emails.txt_.
 
 Nesse artigo mostramos um método de autenticação que nos possibilitou uma maneira simples de restringirmos o acesso somente a e-mails autorizados a alguns endpoints.

@@ -11,7 +11,7 @@ Neste artigo vamos criar uma API na linguagem golang, armazenar o código-fonte 
 
 ![Diagrama](images/visao_geral.png)
 
-O primeiro passo é construir uma simples API REST que na rota ```/ping``` irá responder com uma simples mensagem. Escolhemos a [linguagem de programação Go](https://golang.org/), pois é compilada, com isso podemos explorar com mais clareza dois estágios, o de compilação e o estágio de execução. Essa característica irá permitir que possamos utilizar diferentes técnicas na criação de nossas imagens docker e analisar os ganhos que temos ao adotar determinada abordagem, em relação a tamanho e segurança.
+O primeiro passo é construir uma simples API REST que na rota `/ping` irá responder com uma simples mensagem. Escolhemos a [linguagem de programação Go](https://golang.org/), pois é compilada, com isso podemos explorar com mais clareza dois estágios, o de compilação e o estágio de execução. Essa característica irá permitir que possamos utilizar diferentes técnicas na criação de nossas imagens docker e analisar os ganhos que temos ao adotar determinada abordagem, em relação a tamanho e segurança.
 
 No processo de desenvolvimento da API é de boa prática realizarmos commits no repositório git conforme avançamos em nosso código, ou seja, um local onde é possível versionar de forma eficiente nosso código, para isso vamos utilizar o GitLab.
 
@@ -23,9 +23,9 @@ Vamos manter em mente que o objetivo do artigo é utilizarmos a ferramenta [Triv
 
 A API que será executada dentro de nosso container, para isso, vamos utilizar o framework [Gin](https://github.com/gin-gonic/gin). Ele irá auxiliar com a construção de uma simples API Rest.
 
-Não iremos descrever com detalhes o código, mas precisamos saber alguns detalhes. O arquivo ```go.mod``` corresponde ao gerenciador de dependências do go, ou seja, os módulos necessários para build de nossa aplicação estão descritos nele e que o arquivo ```main.go``` corresponde à nossa aplicação principal.
+Não iremos descrever com detalhes o código, mas precisamos saber alguns detalhes. O arquivo `go.mod` corresponde ao gerenciador de dependências do go, ou seja, os módulos necessários para build de nossa aplicação estão descritos nele e que o arquivo `main.go` corresponde à nossa aplicação principal.
 
-No ```main.go``` temos:
+No `main.go` temos:
 
 ```golang
 package main
@@ -51,7 +51,7 @@ func ping(c *gin.Context) {
 }
 ```
 
-As dependências necessárias em ```go.mod```:
+As dependências necessárias em `go.mod`:
 
 ```golang
 module SimpleApi
@@ -98,7 +98,7 @@ Podemos observar acima que o processo de build e execução da nossa API estão 
 
 ## GitLab CI/CD
 
-Para usarmos a feature de CI/CD do GitLab precisamos criar na raiz de nosso repositório o arquivo ```.gitlab-ci.yml```. O arquivo é descrito na linguagem yaml e contêm instruções para a execução do nosso pipeline.
+Para usarmos a feature de CI/CD do GitLab precisamos criar na raiz de nosso repositório o arquivo `.gitlab-ci.yml`. O arquivo é descrito na linguagem yaml e contêm instruções para a execução do nosso pipeline.
 
 ```yaml
 image: docker:stable
@@ -119,11 +119,11 @@ variables:
   IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
   # Variáveis para acessar o serviço do dind
   DOCKER_HOST: tcp://docker:2375/
-  DOCKER_TLS_CERTDIR: ""
+  DOCKER_TLS_CERTDIR: ''
 
 # Permite que possamos usar um arquivo ou diretório em múltiplos jobs
 cache:
-  key: "$CI_COMMIT_REF_NAME"
+  key: '$CI_COMMIT_REF_NAME'
   paths:
     - image.tar
 
@@ -140,10 +140,10 @@ scan:
   image:
     name: aquasec/trivy:latest
     # Sobrescreve entrypoint da imagem
-    entrypoint: [""]
+    entrypoint: ['']
   variables:
     GIT_STRATEGY: none
-    TRIVY_NO_PROGRESS: "true"
+    TRIVY_NO_PROGRESS: 'true'
   # Vamos scannear o container por vulnerabilidades de vários graus de severidade,
   # porém se for encontrada alguma critica o pipeline irá falhar
   script:
@@ -159,22 +159,23 @@ push:
   # Se tudo ocorreu bem por aqui, será feito o push da imagem docker
   script:
     - docker push $IMAGE
-
 ```
 
 As variáveis contidas no código acima pertencem ao GitLab e podem ser consultadas [nesse link](https://docs.gitlab.com/ee/ci/variables/#list-all-environment-variables).
 
-Após o commit do ```.gitlab-ci.yml``` o processo de continuous integration iniciará no GitLab, onde pode ser verificado no link lateral, em "CI/CD".
+Após o commit do `.gitlab-ci.yml` o processo de continuous integration iniciará no GitLab, onde pode ser verificado no link lateral, em "CI/CD".
 
 ![menu Lateral](images/menu_lateral.png)
 
 Até o momento temos a seguinte estrutura de diretórios:
 
-\- SimpleApi/
-\-\- Dockerfile
-\-\- go.mod
-\-\- main.go
-\-\- .gitlab-ci.yml
+```plaintext
+SimpleApi/
+├── Dockerfile
+├── go.mod
+├── main.go
+├── .gitlab-ci.yml
+```
 
 O pipeline consiste na execução de três jobs. O primeiro é responsável pelo build da imagem. Vale um ponto de atenção aqui, para podermos utilizar um diretório ou um arquivo entre um job e outro, é necessário termos um local para cache pré-definido (linha 22).
 
@@ -204,7 +205,7 @@ Será que podemos melhorar nossos números? Atingir um nível de zero ou próxim
 
 Uma técnica muito interessante é separarmos nosso Dockerfile em duas partes. A primeira será usada para build e a segunda será onde nossa aplicação será executada. Isso diminui as dependências que o container carrega consigo, já que a imagem final conterá apenas o básico, sem todas as ferramentas necessárias para a compilação.
 
-No Dockerfile abaixo podemos ver essa divisão pela tag `FROM`. A primeira imagem temos todas as ferramentas necessárias para compilar a nossa aplicação em Go, ou seja, aqui vamos executar o build e gerar um único arquivo executável. Usamos como alias o nome ```builder``` que fazemos referência no segundo estágio, o estágio de execução.
+No Dockerfile abaixo podemos ver essa divisão pela tag `FROM`. A primeira imagem temos todas as ferramentas necessárias para compilar a nossa aplicação em Go, ou seja, aqui vamos executar o build e gerar um único arquivo executável. Usamos como alias o nome `builder` que fazemos referência no segundo estágio, o estágio de execução.
 
 No estágio da execução usamos como imagem base uma imagem mínima do alpine linux. Em seguida copiamos o executável já compilado, para dentro do container contendo o alpine, ou seja, nossa imagem final já não terá todas as bibliotecas necessárias para a compilação, apenas as necessárias para a execução.
 
@@ -252,6 +253,6 @@ Notamos melhorias significativas em todas as métricas, com isso temos ganhos de
 
 Chegamos ao final e podemos observar uma grande variedade de conteúdo que tivemos contato. Apesar de descrevermos um pipeline de CI, ele só contêm uma parte específica de jobs que um processo de CI costuma englobar, como teste automatizados, por exemplo.
 
-O entendimento dos vários componentes que compõem uma aplicação nos permite melhorar nossas métricas de segurança do container. Observamos que uma simples refatoração do nosso ```Dockerfile``` permitiu que eliminássemos dependências desnecessárias ao runtime, como mostrou os resultados do Trivy.
+O entendimento dos vários componentes que compõem uma aplicação nos permite melhorar nossas métricas de segurança do container. Observamos que uma simples refatoração do nosso `Dockerfile` permitiu que eliminássemos dependências desnecessárias ao runtime, como mostrou os resultados do Trivy.
 
 O repositório contendo todo código-fonte e os pipelines se encontra [neste link](https://gitlab.com/josehisse/trivy-in-ci).

@@ -56,12 +56,12 @@ Vamos entender o comando acima:
 3. **-d**: modo daemon, o terminal será liberado após o start do container;
 4. **-p 8080:8888**: mapeamento de portas, o padrão é \<porta na sua máquina\>:\<porta do container\>, isso nos diz que acessaremos porta 8080 em localhost, porém dentro do container o jupyter está sendo executado na porta 8888;
 5. **--user root**: O container será executado com o usuário root;
-6. **-e JUPYTER_ENABLE_LAB=yes**: está opção define a variável de ambiente *JUPYTER_ENABLE_LAB* com o valor *yes*, ativando assim o jupyter lab;
+6. **-e JUPYTER_ENABLE_LAB=yes**: está opção define a variável de ambiente _JUPYTER_ENABLE_LAB_ com o valor _yes_, ativando assim o jupyter lab;
 7. **-e GRANT_SUDO=yes**: vamos permitir que comandos executados com sudo não necessitem de senha;
 8. **jupyter/scipy-notebook:414b5d749704**: esta é a imagem do jupyter que iremos instanciar, o id que está após os dois pontos é a tag da imagem, isso garante que sempre iremos utilizar a mesma versão;
-9. **start-notebook.sh --NotebookApp.token=''**: aqui indicamos que o script *start-notebook.sh* será usado para executar o notebook dentro do container, poderíamos ter omitido essa parte, porém não iriamos conseguir retirar a senha do notebook com o parâmetro *--NotebookApp.token=''*.
+9. **start-notebook.sh --NotebookApp.token=''**: aqui indicamos que o script _start-notebook.sh_ será usado para executar o notebook dentro do container, poderíamos ter omitido essa parte, porém não iriamos conseguir retirar a senha do notebook com o parâmetro _--NotebookApp.token=''_.
 
-Vamos abrir o navegador no endereço ```http://localhost:8080``` para acessarmos o jupyter.
+Vamos abrir o navegador no endereço `http://localhost:8080` para acessarmos o jupyter.
 
 ![Jupyter Home](images/jupyter_home.png)
 
@@ -112,7 +112,7 @@ Vamos entender o que cada variável significa:
 - **BloodPressure**: Pressão arterial diastólica (mmHg);
 - **SkinThickness**: Espessura da dobra de pele do tríceps (mm);
 - **Insulin**: Quantidade de insulina após 2 horas do teste de intolerância à glicose;
-- **BMI**: Índice de massa corporal (IMC = peso(kg)/(altura(m)*altura(m)));
+- **BMI**: Índice de massa corporal (IMC = peso(kg)/(altura(m)\*altura(m)));
 - **DiabetesPedigreeFunction**: Função que retorna um score com base no histórico familiar;
 - **Age**: Idade (anos);
 - **Outcome**: Indicativo se a pessoa é diabética (1/0).
@@ -255,9 +255,11 @@ Vamos construir nosso primeiro endpoint para entendermos um pouco mais de como t
 
 Para isso teremos a seguinte estrutura de diretório:
 
-\- predict-api/
-\-\- ping_handler.py
-\-\- serverless.yml
+```plaintext
+predict-api/
+├── ping_handler.py
+└── serverless.yml
+```
 
 ping_handler.py
 
@@ -456,10 +458,10 @@ provider:
   stage: dev
   region: us-east-1
   iamRoleStatements:
-    - Effect: "Allow"
+    - Effect: 'Allow'
       Action:
-        - "s3:*"
-      Resource: "arn:aws:s3:::models-56304424-ff6e-4422-ad9c-2a1731683e44/*"
+        - 's3:*'
+      Resource: 'arn:aws:s3:::models-56304424-ff6e-4422-ad9c-2a1731683e44/*'
 
 functions:
   ping:
@@ -498,13 +500,15 @@ pip freeze > requirements.txt
 
 A estrutura final do diretório será a seguinte:
 
-\- predict-api/
-\-\- ping_handler.py
-\-\- predict_handler.py
-\-\- serverless.yml
-\-\- requirements.txt
-\-\- package.json
-\-\- package-lock.json
+```plaintext
+predict-api/
+├── ping_handler.py
+├── predict_handler.py
+├── serverless.yml
+├── requirements.txt
+├── package.json
+└── package-lock.json
+```
 
 Não esqueça de fazer o deploy novamente.
 

@@ -152,7 +152,7 @@ config:
     [INPUT]
         name  kubernetes_events
         tag   k-events
-  filters: "" # No filters
+  filters: '' # No filters
   # https://docs.fluentbit.io/manual/pipeline/outputs/standard-output
   outputs: | # STDOUT output
     [OUTPUT]
@@ -172,38 +172,38 @@ Vamos explicar com mais detalhes o que cada parte do arquivo de configuração q
 
 - `rbac.eventsAccess`: Permite que a role associada ao pod do FluentBit tenha acesso aos eventos do Kubernetes. Sem essa configuração, o FluentBit não conseguirá coletar os eventos, pois não terá permissão para isso. Lembrando que a permissão pode ser verificada da seguinte forma:
 
-   ```bash
-   $ kubectl auth can-i get events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
-   yes
-   $ kubectl auth can-i watch events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
-   yes
-   $ kubectl auth can-i list events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
-   yes
-   ```
+  ```bash
+  $ kubectl auth can-i get events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
+  yes
+  $ kubectl auth can-i watch events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
+  yes
+  $ kubectl auth can-i list events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
+  yes
+  ```
 
-   Caso você não defina essa configuração, você terá a seguinte saída:
+  Caso você não defina essa configuração, você terá a seguinte saída:
 
-   ```bash
-   $ kubectl auth can-i watch events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
-   no
-   ```
+  ```bash
+  $ kubectl auth can-i watch events --as system:serviceaccount:k8s-events-exporter:fluent-bit-k8s-events
+  no
+  ```
 
 - `config.inputs`: Configuração dos inputs, ou seja, as fontes de dados.
 
 - `config.filters`: Configuração dos filtros. No nosso caso não utilizaremos filtros, mas mantemos a chave vazia para sobrescrever a configuração padrão do `values.yaml` do chart. Lembrando que podemos verificar a configuração padrão do chart com o comando:
 
-   ```bash
-   $ helm show values fluent-bit \
-     --repo https://fluent.github.io/helm-charts \
-     --version 0.47.5 --jsonpath '{.config.filters}'
-   [FILTER]
-       Name kubernetes
-       Match kube.*
-       Merge_Log On
-       Keep_Log Off
-       K8S-Logging.Parser On
-       K8S-Logging.Exclude On
-   ```
+  ```bash
+  $ helm show values fluent-bit \
+    --repo https://fluent.github.io/helm-charts \
+    --version 0.47.5 --jsonpath '{.config.filters}'
+  [FILTER]
+      Name kubernetes
+      Match kube.*
+      Merge_Log On
+      Keep_Log Off
+      K8S-Logging.Parser On
+      K8S-Logging.Exclude On
+  ```
 
 - `config.outputs`: Configuração dos outputs, ou seja, para onde os dados coletados serão enviados. No nosso primeiro exemplo vamos enviar para o stdout, pois assim poderemos ver os eventos sendo coletados. Mais adiante veremos como enviar para outros tipos de destino.
 
@@ -446,15 +446,15 @@ rbac:
   eventsAccess: true
 env:
   - name: AWS_ACCESS_KEY_ID
-    value: "minioadmin"
+    value: 'minioadmin'
   - name: AWS_SECRET_ACCESS_KEY
-    value: "minioadmin"
+    value: 'minioadmin'
 config:
   inputs: |
     [INPUT]
         name  kubernetes_events
         tag   k-events
-  filters: ""
+  filters: ''
   outputs: |
     [OUTPUT]
         name           s3
@@ -474,7 +474,7 @@ Observe que definimos cinco configurações no output para o S3: o `bucket`, o `
 - `s3_key_format` é o formato do nome do arquivo que será salvo no MinIO. Nesse caso, estamos salvando o arquivo com o formato `/%Y-%m-%d/%H:%M:%S-$UUID.json`, onde `%Y-%m-%d` é a data no formato ano-mês-dia, `%H:%M:%S` é a hora-minuto-segundo e `$UUID` é um identificador único gerado pelo Fluent Bit. O formato padrão que o Fluent Bit oferece tem demasiadas pastas, dificultando a visualização dos arquivos. Por isso, optamos por um formato mais simples.
 - `content_type` é o tipo do conteúdo que será salvo no bucket, nesse caso, estamos salvando arquivos no formato JSON, então seu mime type é `application/json`.
 
-Além da configuração do output, também definimos as variáveis de ambiente contendo as credenciais de acesso ao MinIO. Essas credenciais são as padrões do MinIO e devemos colocá-las como se  estivéssemos configurando a aplicação para acessar o S3 da AWS. Para isso colocamos o `AWS_ACCESS_KEY_ID` e o `AWS_SECRET_ACCESS_KEY` com os valores `minioadmin`, para que o SDK da AWS consiga se autenticar no MinIO.
+Além da configuração do output, também definimos as variáveis de ambiente contendo as credenciais de acesso ao MinIO. Essas credenciais são as padrões do MinIO e devemos colocá-las como se estivéssemos configurando a aplicação para acessar o S3 da AWS. Para isso colocamos o `AWS_ACCESS_KEY_ID` e o `AWS_SECRET_ACCESS_KEY` com os valores `minioadmin`, para que o SDK da AWS consiga se autenticar no MinIO.
 
 Aplicando as novas configurações:
 

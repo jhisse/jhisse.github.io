@@ -52,7 +52,7 @@ Vamos iniciar preparando uma estrutura de diretórios, como representado abaixo.
 
 O passo seguinte é criarmos o Dockerfile do Trino para realizar o download do jar do JMX Exporter e realizar as configurações necessárias.
 
-De acordo com a documentação, precisamos colocar o seguinte trecho na instrução java que executa nosso programa principal, ```-javaagent:<jmx exporter jar>=<port>:<config file>```. Esse trecho será adicionado ao final do arquivo ```/etc/trino/jvm.config```.
+De acordo com a documentação, precisamos colocar o seguinte trecho na instrução java que executa nosso programa principal, `-javaagent:<jmx exporter jar>=<port>:<config file>`. Esse trecho será adicionado ao final do arquivo `/etc/trino/jvm.config`.
 
 ```console
 .
@@ -87,7 +87,7 @@ RUN touch /etc/trino/jmx_config.yml
 RUN echo "-javaagent:/usr/lib/trino/lib/jmx_prometheus_javaagent-0.16.1.jar=9483:/etc/trino/jmx_config.yml" >> /etc/trino/jvm.config
 ```
 
-O Prometheus funciona realizando o scraping das métricas nos serviços que ele está monitorando. Isso significa que precisamos configurar os endpoints que ele precisará monitorar. Para isso vamos criar um arquivo yaml chamado ```prometheus/prometheus.yml```.
+O Prometheus funciona realizando o scraping das métricas nos serviços que ele está monitorando. Isso significa que precisamos configurar os endpoints que ele precisará monitorar. Para isso vamos criar um arquivo yaml chamado `prometheus/prometheus.yml`.
 
 ```console
 .
@@ -99,22 +99,22 @@ O Prometheus funciona realizando o scraping das métricas nos serviços que ele 
 
 ```yaml
 global:
-  scrape_interval: "10s"
-  scrape_timeout: "10s"
+  scrape_interval: '10s'
+  scrape_timeout: '10s'
 
 scrape_configs:
-  - job_name: "trino"
-    metrics_path: "/metrics"
+  - job_name: 'trino'
+    metrics_path: '/metrics'
     static_configs:
       - targets:
-          - "trino:9483"
+          - 'trino:9483'
 ```
 
-As 3 primeiras linhas se refere a configurações globais do Prometheus. A segunda linha, ```scrape_interval```, é sobre o intervalo de scraping, ou seja, ele irá realizar a coleta de métricas de 10 em 10 segundos. Já a terceira linha é o tempo limite de resposta da requisição http que o Prometheus irá aguardar para obter uma resposta.
+As 3 primeiras linhas se refere a configurações globais do Prometheus. A segunda linha, `scrape_interval`, é sobre o intervalo de scraping, ou seja, ele irá realizar a coleta de métricas de 10 em 10 segundos. Já a terceira linha é o tempo limite de resposta da requisição http que o Prometheus irá aguardar para obter uma resposta.
 
-A partir da quinta linha começa as configurações relacionadas aos serviços que queremos monitorar. O ```job_name``` é o nome que daremos a esse job em especifico e ```metrics_path``` é o path que as métricas estão expostas no endpoint. Em ```static_configs``` iremos colocar em ```targets``` os endpoints que serão monitorados.
+A partir da quinta linha começa as configurações relacionadas aos serviços que queremos monitorar. O `job_name` é o nome que daremos a esse job em especifico e `metrics_path` é o path que as métricas estão expostas no endpoint. Em `static_configs` iremos colocar em `targets` os endpoints que serão monitorados.
 
-Por fim devemos criar um arquivo ```docker-compose.yml``` contendo as definições de nossos containers.
+Por fim devemos criar um arquivo `docker-compose.yml` contendo as definições de nossos containers.
 
 ```console
 .
@@ -126,29 +126,29 @@ Por fim devemos criar um arquivo ```docker-compose.yml``` contendo as definiçõ
 ```
 
 ```yaml
-version: "3"
+version: '3'
 
 services:
   trino:
     # Realizar o build do Dockerfile presente na pasta trino
-    build: "trino"
+    build: 'trino'
     # Expor as portas 8080 do Trino e 9483 das métricas
     ports:
-      - "8080:8080"
-      - "9483:9483"
+      - '8080:8080'
+      - '9483:9483'
 
   prometheus:
     # Imagem do prometheus
-    image: "prom/prometheus:v2.30.2"
+    image: 'prom/prometheus:v2.30.2'
     # Arquivo de configuração
     volumes:
-      - "./prometheus/:/etc/prometheus/"
+      - './prometheus/:/etc/prometheus/'
     # Flag indicando local do arquivo de configuração
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+      - '--config.file=/etc/prometheus/prometheus.yml'
     # Expor a porta do prometheus
     ports:
-      - "9090:9090"
+      - '9090:9090'
 ```
 
 ### Executando a stack de monitoramento
@@ -159,19 +159,19 @@ Agora basta executarmos nossa stack com o Docker Compose e visualizar as métric
 docker-compose up -d
 ```
 
-Podemos acessar o endereço ```localhost:9090``` e visualizar as métricas do Trino na interface do Prometheus.
+Podemos acessar o endereço `localhost:9090` e visualizar as métricas do Trino na interface do Prometheus.
 
 ![Visualizando métrica no Prometheus](images/metrica-prometheus.png)
 
-Para explorar mais métrica, podemos clicar no *Metrics Explorer* como mostrado na imagem abaixo.
+Para explorar mais métrica, podemos clicar no _Metrics Explorer_ como mostrado na imagem abaixo.
 
 ![Explorador de métricas do Prometheus](images/explorador-de-metricas.png)
 
-As métricas relacionadas com ao Trino iniciam com o prefixo *trino_*.
+As métricas relacionadas com ao Trino iniciam com o prefixo \_trino\_\_.
 
 ![Métricas do Trino no Prometheus](images/metricas-no-trino-no-prometheus.png)
 
-Vou realizar algumas queries no catálogo *TPCDS* utilizando o [trino-cli](https://trino.io/docs/363/installation/cli.html). O catálogo *TPCDS* tem diversos schemas, *sf1*, *sf10*, *sf100* e mais, o número inteiro após o prefixo *sf* indica a quantidade de gigabytes de dados que o schema terá. Nos nossos testes a seguir vamos utilizar o *sf10*.
+Vou realizar algumas queries no catálogo _TPCDS_ utilizando o [trino-cli](https://trino.io/docs/363/installation/cli.html). O catálogo _TPCDS_ tem diversos schemas, _sf1_, _sf10_, _sf100_ e mais, o número inteiro após o prefixo _sf_ indica a quantidade de gigabytes de dados que o schema terá. Nos nossos testes a seguir vamos utilizar o _sf10_.
 
 Para conectar ao trino através da linha de comando, você precisa instalar o trino-cli em sua máquina, ter a stack que construirmos sendo executada na máquina e digitar no terminal:
 
@@ -194,7 +194,7 @@ trino_execution_QueryManager_CompletedQueries_TotalCount
 
 ![Total de métricas finalizadas do Trino na interface do Prometheus](images/total_queries_finalizadas_prometheus.png)
 
-Verificamos um total de 3 queries finalizadas. Mas será que isso está correto, já que só executamos 1 query? Podemos verificar na interface do Trino, ```localhost:8080```, o user padrão será **admin**.
+Verificamos um total de 3 queries finalizadas. Mas será que isso está correto, já que só executamos 1 query? Podemos verificar na interface do Trino, `localhost:8080`, o user padrão será **admin**.
 
 ![Interface do Trino](images/interface-trino.png)
 
@@ -237,13 +237,13 @@ A estrutura de pasta agora será a seguinte:
 └── docker-compose.yml
 ```
 
-Observamos que foi criada uma pasta chamada ```jmx-exporter``` onde conterá o arquivo de configuração ```jmx_config.yml```.
+Observamos que foi criada uma pasta chamada `jmx-exporter` onde conterá o arquivo de configuração `jmx_config.yml`.
 
 ```yaml
 hostPort: trino:9080
 ```
 
-O ```Dockerfile``` não irá mais carregar o jar do JMX Exporter, somente será necessário setar algumas configurações da JVM e do Trino, como verificaremos a seguir.
+O `Dockerfile` não irá mais carregar o jar do JMX Exporter, somente será necessário setar algumas configurações da JVM e do Trino, como verificaremos a seguir.
 
 ```Dockerfile
 # Imagem base do Trino
@@ -262,61 +262,61 @@ RUN echo "jmx.rmiregistry.port=9080" >> /etc/trino/config.properties && \
     echo "jmx.rmiserver.port=9081" >> /etc/trino/config.properties
 ```
 
-Agora devemos configurar o Prometheus para obter as métricas do container do JMX Exporter e não mais do Trino. Então, teremos que modificar nosso arquivo ```prometheus/prometheus.yml```.
+Agora devemos configurar o Prometheus para obter as métricas do container do JMX Exporter e não mais do Trino. Então, teremos que modificar nosso arquivo `prometheus/prometheus.yml`.
 
 ```yaml
 global:
-  scrape_interval: "10s"
-  scrape_timeout: "10s"
+  scrape_interval: '10s'
+  scrape_timeout: '10s'
 
 scrape_configs:
-  - job_name: "jmx-exporter"
-    metrics_path: "/metrics"
+  - job_name: 'jmx-exporter'
+    metrics_path: '/metrics'
     static_configs:
       - targets:
-          - "jmx-exporter:9483"
+          - 'jmx-exporter:9483'
 ```
 
-E, por fim, nosso ```docker-compose.yml``` conterá mais um serviço.
+E, por fim, nosso `docker-compose.yml` conterá mais um serviço.
 
 ```yaml
-version: "3"
+version: '3'
 
 services:
   trino:
     # Realizar o build do Dockerfile presente na pasta trino
-    build: "trino"
+    build: 'trino'
     # Expor as portas 8080 do Trino e 9080 do jmx server
     ports:
-      - "8080:8080"
-      - "9080:9080"
+      - '8080:8080'
+      - '9080:9080'
 
   jmx-exporter:
     # Imagem do jmx exporter
-    image: "bitnami/jmx-exporter:0.16.1"
+    image: 'bitnami/jmx-exporter:0.16.1'
     # Arquivo de configuração
     volumes:
-      - "./jmx-exporter/:/etc/jmx-exporter/"
+      - './jmx-exporter/:/etc/jmx-exporter/'
     # Porta que as métricas serão expostas e path do arquivo de configuração
     command:
-      - "9483"
-      - "/etc/jmx-exporter/jmx_config.yml"
+      - '9483'
+      - '/etc/jmx-exporter/jmx_config.yml'
     # Expor a porta de métricas
     ports:
-      - "9483:9483"
+      - '9483:9483'
 
   prometheus:
     # Imagem do prometheus
-    image: "prom/prometheus:v2.30.2"
+    image: 'prom/prometheus:v2.30.2'
     # Arquivo de configuração
     volumes:
-      - "./prometheus/:/etc/prometheus/"
+      - './prometheus/:/etc/prometheus/'
     # Flag indicando local do arquivo de configuração
     command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+      - '--config.file=/etc/prometheus/prometheus.yml'
     # Expor a porta do prometheus
     ports:
-      - "9090:9090"
+      - '9090:9090'
 ```
 
 ### Avaliando o método alternativo
