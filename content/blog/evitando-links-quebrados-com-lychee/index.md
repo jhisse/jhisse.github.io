@@ -48,7 +48,7 @@ Caso um link esteja quebrado, o lychee irá retornar um erro com a URL que está
 
 Um link pode estar indisponível por diversos motivos, como a página ter sido removida, o domínio ter expirado, o servidor estar fora do ar ou até falta de permissão devido ao user-agent utilizado. Para esses casos o lychee tem a solução.
 
-O parâmetro `--suggest` permite que o lychee sugira uma URL alternativa para a que está quebrada. O parâmetro `--suggest` irá verificar se a URL quebrada possui uma versão armazenada no [Wayback Machine](https://archive.org/web/), um serviço que armazena versões antigas de páginas web. Caso encontre, o lychee irá sugerir a URL alternativa.
+O parâmetro `--suggest` permite que o lychee sugira uma URL alternativa para a que está quebrada. O parâmetro `--suggest` irá verificar se a URL quebrada possui uma versão armazenada no [Wayback Machine](https://web.archive.org), um serviço que armazena versões antigas de páginas web. Caso encontre, o lychee irá sugerir a URL alternativa.
 
 Isso é muito útil, abaixo um exemplo de um link quebrado e a sugestão do lychee:
 
