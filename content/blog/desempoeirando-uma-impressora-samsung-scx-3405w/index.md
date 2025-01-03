@@ -64,7 +64,7 @@ AUTO_SETUP_INSTALL_SOFTWARE_ID=187
 CONFIG_CHECK_APT_UPDATES=2
 ```
 
-Agora vamos adicionar um arquivo chamado _Automation_Custom_Script.sh_. Ele será executado no primeiro boot do sistema operacional, logo após a conexão com a rede Wifi e a atualização do sistema. Neste arquivo vamos instalar o [pacote _printer-driver-splix_](https://www.openprinting.org/driver/splix/) que contém um conjunto de drivers para impressoras Samsung. Também vamos configurar o arquivo _cupsd.conf_ para que o _CUPS_ aceite conexões de qualquer dispositivo na rede sem a necessidade de senha.
+Agora vamos adicionar um arquivo chamado _Automation_Custom_Script.sh_. Ele será executado no primeiro boot do sistema operacional, logo após a conexão com a rede Wifi e a atualização do sistema. Neste arquivo vamos instalar o [pacote _printer-driver-splix_](https://github.com/OpenPrinting/splix) que contém um conjunto de drivers para impressoras Samsung. Também vamos configurar o arquivo _cupsd.conf_ para que o _CUPS_ aceite conexões de qualquer dispositivo na rede sem a necessidade de senha.
 
 ```shell
 # Automation_Custom_Script.sh
