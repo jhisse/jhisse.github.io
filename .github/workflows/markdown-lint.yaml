@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
   lintMarkdown:
@@ -13,7 +14,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
       - name: Run markdownlint
         uses: DavidAnson/markdownlint-cli2-action@v17
         with:
