@@ -10,7 +10,7 @@ Você já precisou procurar em um texto sequências de caracteres que correspond
 
 Tudo começou em 1943, quando Warren McCulloch e Walter Pitts publicaram um artigo intitulado ["A logical calculus of the ideas immanent in nervous activity"](https://link.springer.com/article/10.1007/BF02478259) onde eles associaram a atividade neuronal com a lógica proposicional: eles modelaram através da lógica a forma que os neurônios interagiam entre si.
 
-Mais tarde, em 1951, com o paper [“Representation of Events in Nerve Nets and Finite Automata”](https://www.rand.org/content/dam/rand/pubs/research_memoranda/2008/RM704.pdf), Stephen Kleene formalizou algebricamente os modelos neurológicos descritos por McCulloch e Pitts.
+Mais tarde, em 1951, com o paper ["Representation of Events in Nerve Nets and Finite Automata"](https://www.rand.org/content/dam/rand/pubs/research_memoranda/2008/RM704.pdf), Stephen Kleene formalizou algebricamente os modelos neurológicos descritos por McCulloch e Pitts.
 
 Ken Thompson, hoje colaborador da linguagem de programação Go, em 1968, enquanto trabalhava na Bell Labs, publicou ["Programming techniques: Regular expression search algorithm."](https://dl.acm.org/doi/abs/10.1145/363347.363387). Ele descreveu um método de busca em texto que recebe como input uma determinada expressão regular, também mostrou uma implementação de um compilador para transformar uma expressão regular em um código compilado.
 
