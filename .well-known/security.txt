@@ -1,4 +1,0 @@
-Contact: mailto:me@josehisse.dev
-Expires: 2026-01-01T03:00:00.000Z
-Preferred-Languages: pt-BR, en
-Canonical: https://www.josehisse.dev/.well-know/security.txt
