@@ -121,11 +121,11 @@ Vamos mostrar três exemplos de como representamos um link em Markdown e como el
 
 ## Atributos `target` e `rel`
 
-Podemos observar nos exemplos anteriores que todos os links renderizam de forma semelhante, apenas mudando o destino do link. Porém vamos introduzir dois novos atributos ta tag `a`: `target` e `rel`.
+Podemos observar nos exemplos anteriores que todos os links renderizam de forma semelhante, apenas mudando o destino do link. Porém, vamos introduzir dois novos atributos ta tag `a`: `target` e `rel`.
 
 O atributo `target="_blank"` abre o link em uma nova aba/página. Essa configuração permite que o usuário permaneça em seu site enquanto acessa o link externo. Isso melhora também a experiência do usuário, pois o visitante não precisa navegar para trás se quiser retornar ao seu site, ele fica aberto em uma aba/página. Outra vantagem é manter o usuário na página atual, evitando que ele saia do site.
 
-Já `rel="noreferrer noopener"` é usado por questões de segurança. Esses atributos evitam que a página aberta acesse a página de origem via a propriedade `window.opener`, mitigando riscos de ataques como o "[reverse tabnabbing](https://securityintelligence.com/posts/what-is-reverse-tabnabbing-and-what-can-you-do-to-stop-it/)", além de impedir que o browser envie informações de referência para o site externo.
+O atributo `rel="noreferrer noopener"` é utilizado por questões de segurança. Esses atributos evitam que a página aberta acesse a página de origem via a propriedade `window.opener`, mitigando riscos de ataques como o "[reverse tabnabbing](https://securityintelligence.com/posts/what-is-reverse-tabnabbing-and-what-can-you-do-to-stop-it/)", além de impedir que o browser envie informações de referência para o site externo.
 
 ## Render Hook personalizado
 
@@ -174,7 +174,7 @@ O conteúdo completo do render hook personalizado é o seguinte:
 
 ### Exemplos com hook personalizado
 
-Vamos verificar com os mesmos links do exemplo anterior:
+Vamos testar os mesmos links do exemplo anterior para ver o resultado:
 
 1. Âncora para mesma página
 
