@@ -12,7 +12,7 @@ O Hugo utiliza o que ele chama de [render hooks](https://gohugo.io/render-hooks/
 
 ## Render Hook default para links
 
-Como estamos utilizando a versão 0.143.1 do Hugo, o render hook padrão pode ser encontrado no arquivo *[tpl/tplimpl/embedded/templates/_default/_markup/render-link.html](https://github.com/gohugoio/hugo/blob/v0.143.1/tpl/tplimpl/embedded/templates/_default/_markup/render-link.html)* no repo oficial do Hugo no Github. Seu conteúdo é o seguinte:
+Como estamos utilizando a versão 0.143.1 do Hugo, o render hook padrão pode ser encontrado no arquivo _[tpl/tplimpl/embedded/templates/_default/_markup/render-link.html](https://github.com/gohugoio/hugo/blob/v0.143.1/tpl/tplimpl/embedded/templates/_default/_markup/render-link.html)_ no repo oficial do Hugo no Github. Seu conteúdo é o seguinte:
 
 ```html
 {{- $u := urls.Parse .Destination -}}
