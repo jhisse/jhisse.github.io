@@ -109,15 +109,21 @@ Vamos mostrar três exemplos de como representamos um link em Markdown e como el
 
 1. Âncora para mesma página
 
-    `[Exemplos](#Exemplos)`: `<a href="/blog/abrindo-links-externos-em-nova-aba-com-hugo/#Exemplos">Exemplos</a>`
+    `[Exemplos](#Exemplos)`
+
+    `<a href="/blog/abrindo-links-externos-em-nova-aba-com-hugo/#Exemplos">Exemplos</a>`
 
 2. Link interno com caminho relativo e âncora
 
-    `[Render Hook para Imagem](./gerando-imagens-webp-com-hugo/#render-hook-para-imagem)`: `<a href="/blog/gerando-imagens-webp-com-hugo/#render-hook-para-imagem">Render Hook para Imagem</a>`
+    `[Render Hook para Imagem](./gerando-imagens-webp-com-hugo/#render-hook-para-imagem)`
+
+    `<a href="/blog/gerando-imagens-webp-com-hugo/#render-hook-para-imagem">Render Hook para Imagem</a>`
 
 3. Link externo
 
-    `[Git deste site](https://github.com/jhisse/jhisse.github.io)`: `<a href="https://github.com/jhisse/jhisse.github.io">Git deste site</a>`
+    `[Git deste site](https://github.com/jhisse/jhisse.github.io)`
+
+    `<a href="https://github.com/jhisse/jhisse.github.io">Git deste site</a>`
 
 ## Atributos `target` e `rel`
 
@@ -178,15 +184,21 @@ Vamos testar os mesmos links do exemplo anterior para ver o resultado:
 
 1. Âncora para mesma página
 
-    `[Exemplos](#Exemplos)` -> `<a href="/blog/abrindo-links-externos-em-nova-aba-com-hugo/#Exemplos">Exemplos</a>`
+    `[Exemplos](#Exemplos)`
+
+    `<a href="/blog/abrindo-links-externos-em-nova-aba-com-hugo/#Exemplos">Exemplos</a>`
 
 2. Link interno com caminho relativo e âncora
 
-    `[Render Hook para Imagem](./gerando-imagens-webp-com-hugo/#render-hook-para-imagem)` -> `<a href="/blog/gerando-imagens-webp-com-hugo/#render-hook-para-imagem">Render Hook para Imagem</a>`
+    `[Render Hook para Imagem](./gerando-imagens-webp-com-hugo/#render-hook-para-imagem)`
+
+    `<a href="/blog/gerando-imagens-webp-com-hugo/#render-hook-para-imagem">Render Hook para Imagem</a>`
 
 3. Link externo
 
-    `[Git deste site](https://github.com/jhisse/jhisse.github.io)` -> `<a href="https://github.com/jhisse/jhisse.github.io" target="_blank" rel="noreferrer noopener">Git deste site</a>`
+    `[Git deste site](https://github.com/jhisse/jhisse.github.io)`
+
+    `<a href="https://github.com/jhisse/jhisse.github.io" target="_blank" rel="noreferrer noopener">Git deste site</a>`
 
 ### Considerações Finais
 
