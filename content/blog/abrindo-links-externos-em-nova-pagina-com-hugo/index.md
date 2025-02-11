@@ -14,7 +14,7 @@ O Hugo utiliza o que ele chama de [render hooks](https://gohugo.io/render-hooks/
 
 Como estamos utilizando a versão 0.143.1 do Hugo, o render hook padrão pode ser encontrado no arquivo _[tpl/tplimpl/embedded/templates/_default/_markup/render-link.html](https://github.com/gohugoio/hugo/blob/v0.143.1/tpl/tplimpl/embedded/templates/_default/_markup/render-link.html)_ no repo oficial do Hugo no Github. Seu conteúdo é o seguinte:
 
-```html
+```go-html-template
 {{- $u := urls.Parse .Destination -}}
 {{- $href := $u.String -}}
 {{- if strings.HasPrefix $u.String "#" -}}
@@ -133,7 +133,7 @@ O Render Hook do Hugo permite personalizar a forma como os links são renderizad
 
 Basta substituir `<a href="{{ $href }}" {{- with .Title }} title="{{ . }}" {{- end }}>{{ .Text }}</a>` pelo seguinte conteúdo:
 
-```html
+```go-html-template
 <a href="{{ $href }}"
   {{- with .Title }} title="{{ . }}"{{- end }}
   {{- if $u.IsAbs }} target="_blank" rel="noreferrer noopener"{{- end -}}
@@ -144,7 +144,7 @@ A única mudança feita no template default é adicionar `{{- if $u.IsAbs }} tar
 
 O conteúdo completo do render hook personalizado é o seguinte:
 
-```html
+```go-html-template
 {{- $u := urls.Parse .Destination -}}
 {{- $href := $u.String -}}
 {{- if strings.HasPrefix $u.String "#" -}}
