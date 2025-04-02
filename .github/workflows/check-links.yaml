@@ -16,6 +16,7 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v2.4.0
         with:
+          fail: false
           args: "--verbose --no-progress --require-https './content/blog/**/*.md' --retry-wait-time 30 --max-retries 5"
 
       - name: Create Issue From File
