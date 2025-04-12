@@ -14,13 +14,13 @@ O trecho que acabamos de ler foi extraído do manual de um dispositivo de mediç
 
 Em ambientes de tecnologia, falhas e incidentes são inevitáveis. À medida que sistemas crescem em escala e complexidade, a probabilidade de problemas também aumenta proporcionalmente. O desafio não está em evitar completamente as falhas – algo praticamente impossível – mas em aprender com elas e evitar recorrências do mesmo problema. É neste contexto que postmortems surgem como ferramentas essenciais.
 
-Um postmortem é, em sua essência, um registro detalhado de um incidente, documentando seu impacto, as ações tomadas para mitigá-lo, as causas-raiz identificadas e, crucialmente, as lições aprendidas e ações preventivas planejadas. Entretanto, um dilema frequente nas organizações é determinar exatamente quando um postmortem é necessário. Fazer postmortems em excesso pode consumir recursos valiosos e potencialmente diluir sua importância; por outro lado, realizá-los com escassez significa perder oportunidades valiosas de aprendizado e melhoria.
+Um postmortem é, em sua essência, um registro detalhado de um incidente, documentando seu impacto, as ações tomadas para mitigá-lo, as causas-raiz identificadas e, principalmente, as lições aprendidas. Entretanto, um dilema frequente nas empresas é determinar exatamente quando um postmortem é necessário. Fazer postmortems em excesso pode consumir recursos valiosos e potencialmente diluir sua importância; por outro lado, realizá-los com escassez significa perder oportunidades de aprendizado e melhoria.
 
 Reuni alguns artigos de grandes empresas, que estão na vanguarda da cultura de DevOps: Google, Hosted Graphite, PagerDuty, Eficode, Datadog e Atlassian. Iremos analisar os critérios utilizados por elas para determinar quando fazer um postmortem, os benefícios desta prática quando aplicada corretamente e as estratégias para implementar um processo de postmortem eficiente que maximize o aprendizado por todos os colaboradores.
 
 ## Postmortems não são apenas documentos
 
-Antes de discutir quando realizar um postmortem, devemos compreender que postmortems eficazes não são apenas documentos isolados. Eles representam o aprendizado contínuo e a melhoria constante. Uma cultura de postmortem saudável para uma empresa e seus colaboradores está fundamentada em princípios bem definidos.
+Antes de discutir quando realizar um postmortem, devemos compreender que postmortems eficazes não são apenas documentos isolados. Eles representam o aprendizado contínuo e a melhoria constante. Uma cultura saudável de postmortem para uma empresa e seus colaboradores está fundamentada em princípios bem definidos.
 
 > Blameless postmortems are a tenet of SRE culture.
 >
