@@ -10,6 +10,7 @@
   --focus: #0096bfab;
   --border: #dbdbdb;
   --code: #000;
+  --code-bg: #efefef;
   --animation-duration: 0.1s;
   --button-hover: #ddd;
   --scrollbar-thumb: rgb(44, 63, 79);
@@ -122,7 +123,7 @@ pre {
 }
 
 p > code {
-  background: #efefef;
+  background: var(--code-bg);
   border-radius: 2px;
   padding: 3px;
 }
