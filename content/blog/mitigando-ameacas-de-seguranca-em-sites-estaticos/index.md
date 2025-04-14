@@ -50,22 +50,22 @@ Podemos observar pela imagem que houve diversas tentativas de acesso utilizando 
 ### Regra 2: Protegendo contra exposição de arquivos sensíveis
 
 ```prolog
-(ends_with(lower(http.request.uri), ".config")) or
-(ends_with(lower(http.request.uri), ".db")) or
-(ends_with(lower(http.request.uri), ".env")) or
-(ends_with(lower(http.request.uri), ".key")) or
-(ends_with(lower(http.request.uri), ".pwd")) or
-(ends_with(lower(http.request.uri), ".sql")) or
-(ends_with(lower(http.request.uri), "/.kube/config")) or
-(ends_with(lower(http.request.uri), "/config.json")) or
-(ends_with(lower(http.request.uri), "/config.xml")) or
-(ends_with(lower(http.request.uri), "/config.yaml")) or
-(ends_with(lower(http.request.uri), "/config.yml")) or
-(ends_with(lower(http.request.uri), "/etc/shadow")) or
-(ends_with(lower(http.request.uri), "/secrets.json")) or
-(lower(http.request.uri) contains "/.git") or
-(lower(http.request.uri) contains "/.ssh") or
-(lower(http.request.uri) contains "/.svn")
+(ends_with(lower(http.request.uri.path), ".config")) or
+(ends_with(lower(http.request.uri.path), ".db")) or
+(ends_with(lower(http.request.uri.path), ".env")) or
+(ends_with(lower(http.request.uri.path), ".key")) or
+(ends_with(lower(http.request.uri.path), ".pwd")) or
+(ends_with(lower(http.request.uri.path), ".sql")) or
+(ends_with(lower(http.request.uri.path), "/.kube/config")) or
+(ends_with(lower(http.request.uri.path), "/config.json")) or
+(ends_with(lower(http.request.uri.path), "/config.xml")) or
+(ends_with(lower(http.request.uri.path), "/config.yaml")) or
+(ends_with(lower(http.request.uri.path), "/config.yml")) or
+(ends_with(lower(http.request.uri.path), "/etc/shadow")) or
+(ends_with(lower(http.request.uri.path), "/secrets.json")) or
+(lower(http.request.uri.path) contains "/.git") or
+(lower(http.request.uri.path) contains "/.ssh") or
+(lower(http.request.uri.path) contains "/.svn")
 ```
 
 Esta regra utiliza as funções `ends_with()` para verificar se URI termina com determinada string, `lower()` para garantir que a comparação seja case-insensitive, e `contains` para identificar padrões em qualquer parte do URI. Ela tem como objetivo bloquear tentativas de acessar arquivos de configuração, credenciais, bancos de dados e scripts que poderiam estar expostos erroneamente. Atacantes frequentemente tentam acessar esses arquivos, que podem conter informações como chaves de API, senhas ou detalhes da infraestrutura, para obter informações relevantes que possibilitariam outros tipos de ataques.
