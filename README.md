@@ -10,7 +10,7 @@ Este repositório contém o código fonte do meu blog pessoal, que é gerado uti
 - **Qualidade de Código:**
   - [Pre-commit](https://pre-commit.com/)
   - [Markdownlint](https://github.com/DavidAnson/markdownlint)
-  - [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) (executado via `markdownlint-cli2 --config .markdownlint.json "**/*.md"`)
+  - [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) (executado via `markdownlint-cli2 --config .markdownlint.json "**/*.md" "#public" "#resources"`)
   - [Prettier](https://prettier.io/)
 
 ## Estrutura do Repositório
