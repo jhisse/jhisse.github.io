@@ -54,7 +54,7 @@ O [Karpenter](https://github.com/aws/karpenter) surge como uma solução inovado
 
 ### External Secrets
 
-A gestão de segredos no desenvolvimento e operação de aplicações é uma preocupação fundamental, sobretudo porque a prática de armazenar segredos diretamente no git — salvo quando criptografados usando ferramentas como [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) ou [SOPS](https://github.com/mozilla/sops) — é amplamente desaconselhada. Uma alternativa eficaz para esse gerenciamento é o uso do [External Secrets](https://github.com/external-secrets/external-secrets).
+A gestão de segredos no desenvolvimento e operação de aplicações é uma preocupação fundamental, sobretudo porque a prática de armazenar segredos diretamente no git, salvo quando criptografados usando ferramentas como [Sealed Secrets](https://github.com/bitnami-labs/sealed-secrets) ou [SOPS](https://github.com/mozilla/sops), é amplamente desaconselhada. Uma alternativa eficaz para esse gerenciamento é o uso do [External Secrets](https://github.com/external-secrets/external-secrets).
 
 O External Secrets habilita o armazenamento de informações sensíveis fora do cluster, em sistemas dedicados como o AWS Secrets Manager, e a sincronização desses segredos para dentro do cluster conforme necessário. Isso é feito através da criação de um recurso no Kubernetes que especifica quais segredos devem ser sincronizados do sistema externo, garantindo que as aplicações tenham acesso aos segredos atualizados sem a necessidade de armazená-los em locais potencialmente inseguros ou menos controlados.
 

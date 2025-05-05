@@ -6,7 +6,7 @@ layout: post
 
 ## Introdução
 
-Parece engraçado e até absurdo, mas sites estáticos também precisam de atenção à segurança. Sem uma linguagem de backend, consultas ao banco de dados ou processamento no servidor, muitos desenvolvedores subestimam as vulnerabilidades que podem ser exploradas, deixando seus sites e infraestrutura expostos a diversos tipos de ataques. Mesmo um site puramente estático - HTML, CSS, JS - servido via plataformas como Cloudflare Pages - como é o caso deste blog - necessita de camadas de proteção adequadas.
+Parece engraçado e até absurdo, mas sites estáticos também precisam de atenção à segurança. Sem uma linguagem de backend, consultas ao banco de dados ou processamento no servidor, muitos desenvolvedores subestimam as vulnerabilidades que podem ser exploradas, deixando seus sites e infraestrutura expostos a diversos tipos de ataques. Mesmo um site puramente estático (HTML, CSS, JS) servido via plataformas como Cloudflare Pages, como é o caso deste blog, necessita de camadas de proteção adequadas.
 
 Neste artigo, compartilho minha experiência em relação a este blog e explico os principais vetores que atacantes podem explorar, desde tentativas de acesso a arquivos de configuração até ataques direcionados a frameworks populares. Analisarei exemplos reais de tráfego malicioso detectado, demonstrando como, mesmo não comprometendo diretamente o conteúdo estático, essas tentativas representam riscos ao servidor de origem. Por fim, apresentarei estratégias para mitigar essas ameaças através de regras de firewall específicas na Cloudflare, criando camadas de proteção eficazes que reduzem significativamente a superfície de ataque.
 

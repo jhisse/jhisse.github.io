@@ -8,11 +8,11 @@ layout: post
 
 > Este dispositivo falhará. A questão não é se falhará, mas quando falhará. [...] Sempre tenha um plano para lidar com as falhas.
 >
-> — Trecho do manual do Shearwater Swift Air Transmitter
+> -- Trecho do manual do Shearwater Swift Air Transmitter
 
 O trecho que acabamos de ler foi extraído do manual de um dispositivo de medição de ar em cilindros de mergulho. Quando o li pela primeira vez achei um tanto preocupante; um dispositivo que mede a quantidade de ar que resta em um mergulho não deveria ser à prova de falhas? No entanto, é óbvio que o dispositivo falhará em algum momento, isso é inevitável. Nenhum dispositivo ou sistema é imune a falhas. O que importa é o quanto você estará preparado para lidar com essa falha e o que você aprenderá caso o incidente aconteça. O princípio que ele transmite é universal: falhas e incidentes são inevitáveis, mas o que importa é como respondemos a elas e como nos preparamos para lidar com elas antes que aconteçam.
 
-Em ambientes de tecnologia, falhas e incidentes são inevitáveis. À medida que sistemas crescem em escala e complexidade, a probabilidade de problemas também aumenta proporcionalmente. O desafio não está em evitar completamente as falhas – algo praticamente impossível – mas em aprender com elas e evitar recorrências do mesmo problema. É neste contexto que postmortems surgem como ferramentas essenciais.
+Em ambientes de tecnologia, falhas e incidentes são inevitáveis. À medida que sistemas crescem em escala e complexidade, a probabilidade de problemas também aumenta proporcionalmente. O desafio não está em evitar completamente as falhas, algo praticamente impossível, mas em aprender com elas e evitar recorrências do mesmo problema. É neste contexto que postmortems surgem como ferramentas essenciais.
 
 Um postmortem é, em sua essência, um registro detalhado de um incidente, documentando seu impacto, as ações tomadas para mitigá-lo, as causas-raiz identificadas e, principalmente, as lições aprendidas. Entretanto, um dilema frequente nas empresas é determinar exatamente quando um postmortem é necessário. Fazer postmortems em excesso pode consumir recursos valiosos e potencialmente diluir sua importância; por outro lado, realizá-los com escassez significa perder oportunidades de aprendizado e melhoria.
 
