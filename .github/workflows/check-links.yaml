@@ -24,6 +24,7 @@ jobs:
             --retry-wait-time 30
             --max-concurrency 10
             --max-retries 5
+            --accept 100..=103,200..=299,403
             './content/blog/**/*.md'
 
       - name: Create Issue From File
