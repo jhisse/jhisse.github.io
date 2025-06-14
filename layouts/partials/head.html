@@ -17,13 +17,19 @@
 {{ partial "jsonld.html" . }}
 
 {{ with ( resources.Get "css/light.min.css" | minify ) }}
-<style>{{ .Content | safeCSS }}</style>
+<style type="text/css">
+{{ .Content | safeCSS }}
+</style>
 {{ end }}
 {{ with ( resources.Get "css/main.css" | minify ) }}
-<style>{{ .Content | safeCSS }}</style>
+<style type="text/css">
+{{ .Content | safeCSS }}
+</style>
 {{ end }}
 {{ with ( resources.Get "css/monokai.css" | minify ) }}
-<style>{{ .Content | safeCSS }}</style>
+<style type="text/css">
+{{ .Content | safeCSS }}
+</style>
 {{ end }}
 
 {{ if .Params.mathjax }}
