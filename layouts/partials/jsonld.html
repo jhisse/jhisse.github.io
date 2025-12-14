@@ -1,9 +1,26 @@
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "José Hisse",
-  "url": {{ .Site.BaseURL }},
-  "sameAs": [{{ .Site.Params.linkedin }}, {{ .Site.Params.github }}]
-}
+{{- if .IsPage -}}
+  {{- $author := dict "@type" "Person" "name" "José Hisse" "url" .Site.BaseURL -}}
+  {{- $publisher := dict "@type" "Organization" "name" "José Hisse" -}}
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "BlogPosting"
+    "headline" .Title
+    "datePublished" (.Date.Format "2006-01-02")
+    "description" (.Summary | plainify)
+    "author" $author
+    "publisher" $publisher
+  -}}
+  {{- $schema | jsonify | safeJS -}}
+{{- else -}}
+  {{- $sameAs := slice .Site.Params.linkedin .Site.Params.github -}}
+  {{- $schema := dict
+    "@context" "https://schema.org"
+    "@type" "Person"
+    "name" "José Hisse"
+    "url" .Site.BaseURL
+    "sameAs" $sameAs
+  -}}
+  {{- $schema | jsonify | safeJS -}}
+{{- end -}}
 </script>
