@@ -99,3 +99,5 @@ jobs:
 Ferramentas como a lychee ajudam bastante no dia a dia de quem mantém um blog ou site. A validação de URLs é uma tarefa que pode ser automatizada e com isso, podemos manter o blog sempre atualizado e sem links quebrados.
 
 Manter os links saudáveis não só demonstra seu comprometimento com seus leitores, mas também mantém os buscadores com uma boa impressão do seu site. Por fim, não podemos deixar de comentar que o SEO do seu site também é beneficiado com links saudáveis, evitando que buscadores penalizem seu site por links quebrados.
+
+**Atualização (2026):** um exemplo real desse tipo de alerta em ação está no post [O link-checker do blog pegou a doc da MinIO CE saindo do ar](/blog/documentacao-do-minio-community-edition-saiu-do-ar/), sobre um link da documentação da MinIO que passou a redirecionar silenciosamente para outro conteúdo.

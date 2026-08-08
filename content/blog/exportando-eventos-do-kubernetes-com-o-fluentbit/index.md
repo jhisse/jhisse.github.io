@@ -348,6 +348,8 @@ O MinIO é um storage compatível com o protocolo S3 e pode ser executado em con
 
 Vamos seguir a [documentação oficial do MinIO](https://min.io/docs/minio/kubernetes/upstream/index.html) para instalá-lo no nosso cluster. Primeiro vamos aplicar o seguinte yaml que define um novo namespace chamado minio-dev e um deployment do MinIO. O que vamos aplicar em seguida é uma variação do [yaml indicado](https://github.com/minio/docs/blob/main/source/extra/examples/minio-dev.yaml) na documentação. Observe que iremos criar um serviço para o MinIO, para que possamos acessá-lo através de um dns interno no cluster.
 
+**Atualização (2026):** a documentação oficial da MinIO Community Edition referenciada acima saiu do ar em outubro de 2025, e `docs.min.io` hoje atende à documentação do produto enterprise (AIStor). O link original passou a redirecionar para outro conteúdo. A comunidade mantém uma cópia da documentação removida em [github.com/pgsty/minio-docs](https://github.com/pgsty/minio-docs).
+
 ```bash
 kubectl apply -f - << EOF
 apiVersion: v1
