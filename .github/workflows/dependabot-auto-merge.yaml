@@ -1,0 +1,34 @@
+name: Dependabot Auto-merge
+
+on:
+  pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Fetch Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@25dd0e34f4fe68f24cc83900b1fe3fe149efef98 # v3.1.0
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      # Every dependency managed by dependabot.yml in this repo is the
+      # github-actions ecosystem, i.e. CI/build tooling rather than
+      # anything shipped to the published site — so a patch-level bump is
+      # enough to satisfy the "dev/build dependency only" auto-merge rule.
+      # Revisit this condition if a runtime/content dependency ecosystem
+      # is ever added to dependabot.yml.
+      - name: Wait for CI and merge patch-level updates
+        if: steps.metadata.outputs.update-type == 'version-update:semver-patch'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr checks "$PR_URL" --watch --interval 15 --fail-fast
+          gh pr merge --squash "$PR_URL"
