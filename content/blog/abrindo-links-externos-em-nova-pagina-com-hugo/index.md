@@ -131,7 +131,7 @@ Podemos observar nos exemplos anteriores que todos os links renderizam de forma 
 
 O atributo `target="_blank"` abre o link em uma nova aba/página. Essa configuração permite que o usuário permaneça em seu site enquanto acessa o link externo. Isso melhora também a experiência do usuário, pois o visitante não precisa navegar para trás se quiser retornar ao seu site, ele fica aberto em uma aba/página. Outra vantagem é manter o usuário na página atual, evitando que ele saia do site.
 
-O atributo `rel="noreferrer noopener"` é utilizado por questões de segurança. Esses atributos evitam que a página aberta acesse a página de origem via a propriedade `window.opener`, mitigando riscos de ataques como o "[reverse tabnabbing](https://securityintelligence.com/posts/what-is-reverse-tabnabbing-and-what-can-you-do-to-stop-it/)", além de impedir que o browser envie informações de referência para o site externo.
+O atributo `rel="noreferrer noopener"` é utilizado por questões de segurança. Esses atributos evitam que a página aberta acesse a página de origem via a propriedade `window.opener`, mitigando riscos de ataques como o "[reverse tabnabbing](https://owasp.org/www-community/attacks/Reverse_Tabnabbing)", além de impedir que o browser envie informações de referência para o site externo.
 
 ## Render Hook personalizado
 

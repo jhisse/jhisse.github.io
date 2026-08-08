@@ -73,7 +73,7 @@ Agora vamos entrar na pasta work [1] e criar um novo notebook [2].
 
 Pima Indians Diabetes Database, é um dataset contendo informações de pacientes do sexo feminino acima de 21 anos.
 
-O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/uciml/pima-indians-diabetes-database) ou no [gist contendo o dataset completo](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
+O dataset pode ser encontrado no site do [Kaggle](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database) ou no [gist contendo o dataset completo](https://gist.github.com/jhisse/ee5d2bfbd2567caece32aaad9e867e5b).
 
 Esse conjunto de dados irá nos permitir construirmos um modelo de machine learning que tentará prever da maneira mais acurada se um paciente tem diabete ou não.
 
