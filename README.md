@@ -2,6 +2,8 @@
 
 Este repositório contém o código fonte do meu blog pessoal, que é gerado utilizando o Hugo, um gerador de sites estáticos. O blog está disponível em [josehisse.dev](https://www.josehisse.dev).
 
+> Contribuindo com ajuda de um agente de código (Claude Code ou similar)? Veja [AGENTS.md](AGENTS.md) para convenções de conteúdo, comandos de build/verificação e o fluxo de PR.
+
 ## Tecnologias Utilizadas
 
 - **Gerador de Site Estático:** [Hugo](https://gohugo.io/)
@@ -12,6 +14,7 @@ Este repositório contém o código fonte do meu blog pessoal, que é gerado uti
   - [Markdownlint](https://github.com/DavidAnson/markdownlint)
   - [markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) (executado via `markdownlint-cli2 --config .markdownlint.json "**/*.md" "#public" "#resources"`)
   - [Prettier](https://prettier.io/)
+  - [lychee](https://github.com/lycheeverse/lychee) para checagem de links quebrados em `content/blog/**/*.md` (workflow semanal, abre issue automaticamente quando encontra um link quebrado)
 
 ## Estrutura do Repositório
 
@@ -53,6 +56,7 @@ hugo server --buildDrafts --noHTTPCache --disableFastRender --buildFuture
 - Título principal deve está no frontmatter. Demais títulos, h2, h3, devem ser colocados no conteúdo do post.
 - As imagens devem ser colocadas em uma subpasta `images` dentro da pasta de cada post.
 - Links para imagens dentro do Markdown devem usar o caminho relativo começando com `images/`. Exemplo: `![Descrição da Imagem](images/nome-da-imagem.png)`.
+- Não é necessário converter imagens para WebP manualmente: o render hook `layouts/_default/_markup/render-image.html` gera WebP + fallback JPEG automaticamente no build (veja o post [Gerando imagens WebP com Hugo](content/blog/gerando-imagens-webp-com-hugo/index.md)).
 
 ## Contribuição
 
