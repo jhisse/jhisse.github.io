@@ -4,6 +4,8 @@ date: 2024-05-09
 layout: post
 ---
 
+![Capa: uma casa com uma placa de aviso pendurada, uma chave ao lado e a porta da casa aberta, representando o acesso concedido](images/capa.png)
+
 Nem sempre é trivial entender os conceitos de _Taint_ e _Toleration_ do Kubernetes. Neste guia, vamos explicar de forma didática e ilustrada o que são e como funcionam.
 
 Com eles podemos garantir que determinados pods sejam executados em determinados nodes, isso é essencial para realizar tarefas específicas em determinados nodes, como por exemplo, garantir que um pod que consome muita CPU seja executado em um node com muita CPU disponível, ou que um treinamento de modelo de machine learning seja executado em um node com uma GPU disponível.
