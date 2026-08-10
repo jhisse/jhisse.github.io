@@ -4,6 +4,8 @@ date: 2019-10-06
 layout: post
 ---
 
+![Capa: uma pilha de blocos de dados de tamanhos e formatos variados, com um bloco se destacando em alta velocidade com linhas de movimento, representando volume, variedade e velocidade dos dados](images/capa.png)
+
 No ano de 2001 Doug Laney propôs os primeiros 3 V's em seu artigo "3D Data Management: Controlling Data Volume, Velocity, and Variety". O autor define o primeiro V como Volume. O volume se caracteriza pela grande quantidade de dados, lembrando que o que é considerado de grande volume hoje, por exemplo, petabytes, pode ser normal daqui a uns anos, e o que foi gigantesco no passado, por exemplo, terabytes, hoje é considerado algo mais comum.
 
 O segundo V se refere a velocidade de acesso aos dados. A tomada de decisão em determinados cenários pode ser influenciada diretamente por esta característica. Imagine um e-commerce de grande porte ficando cerca de 5 minutos off-line ou até uma rede social ficando alguns minutos sem respostas do servidor.
