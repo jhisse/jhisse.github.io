@@ -5,6 +5,8 @@ date: 2020-06-13
 layout: post
 ---
 
+![Capa: pilha de imagens de container inspecionada por uma lupa, que encontra vulnerabilidades e as resolve com um check](images/capa.png)
+
 Neste artigo vamos criar uma API na linguagem golang, armazenar o código-fonte em um repositório do GitLab e construir um pipeline de continuous integration para build, teste de vulnerabilidade e push para o docker registry. Ao final teremos o fluxo de continuous integration de uma aplicação, desde o código-fonte até a disponibilização da imagem docker em um container registry.
 
 ## Entendendo o plano
