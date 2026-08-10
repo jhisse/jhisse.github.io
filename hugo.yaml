@@ -19,6 +19,33 @@ disableKinds:
   - term
   - section
 
+mediaTypes:
+  text/markdown:
+    suffixes: ["md"]
+
+outputFormats:
+  Markdown:
+    mediaType: "text/markdown"
+    baseName: "index"
+    isPlainText: true
+    isHTML: false
+    notAlternative: true
+  LLMText:
+    mediaType: "text/plain"
+    baseName: "llms"
+    isPlainText: true
+    isHTML: false
+    notAlternative: true
+
+outputs:
+  page:
+    - HTML
+    - Markdown
+  home:
+    - HTML
+    - RSS
+    - LLMText
+
 params:
   description: >-
     Engenheiro de dados (Big Data). Spark, Nifi, ElasticSearch,

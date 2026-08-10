@@ -1,0 +1,9 @@
+# {{ .Site.Title }}
+
+> {{ .Site.Params.description }}
+
+## Posts
+
+{{ range where .Site.RegularPages "Section" "blog" }}
+- [{{ .Title }}]({{ .Permalink }}index.md): {{ .Summary | plainify | htmlUnescape }}
+{{ end }}
