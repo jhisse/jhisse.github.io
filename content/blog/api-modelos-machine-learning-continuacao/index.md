@@ -4,6 +4,8 @@ date: 2020-02-28
 layout: post
 ---
 
+![Capa: uma caixa deslizando e encaixando perfeitamente no recorte de um painel, representando a portabilidade de uma API empacotada em container](images/capa.png)
+
 Este post é [complementar ao anterior]({{< ref api-modelos-machine-learning >}}). No primeiro vimos como construir modelos de machine learning e salvá-los como pickle, em seguida vimos como construir uma API serverless nativa na AWS. O objetivo deste é utilizamos o mesmo modelo salvo anteriormente e criamos uma API agnóstica com container, o que isso significa é que poderemos executar nossa API em qualquer ambiente em que o Docker esteja disponível.
 
 ## Falcon API
