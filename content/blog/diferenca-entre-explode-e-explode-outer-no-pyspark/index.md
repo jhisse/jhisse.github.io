@@ -4,6 +4,8 @@ date: 2020-03-22
 layout: post
 ---
 
+![Capa: uma pilha de blocos com um espaço vazio se separando em células individuais, uma delas ficando vazia, representando a diferença entre explode e explode_outer com arrays vazios no PySpark](images/capa.png)
+
 É comum em transformações de dados nos depararmos com estruturas de arrays de strings, inteiros ou algum outro tipo de arrays de objetos. Em alguns casos podemos querer transformar esses arrays em colunas. Usando o PySpark podemos usar as funções [explode](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode.html) ou [explode_outer](https://archive.apache.org/dist/spark/docs/3.3.0/api/python/reference/pyspark.sql/api/pyspark.sql.functions.explode_outer.html) para isso. Vamos entender a diferença entre essas duas funções.
 
 ## Preparação do ambiente
