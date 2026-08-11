@@ -5,6 +5,8 @@ layout: post
 mathjax: true
 ---
 
+![Capa: uma cadeia de blocos de tamanhos variados subindo e descendo em ziguezague irregular, com um bloco menor separado pousando à direita, representando a sequência de Collatz convergindo para 1](images/capa.png)
+
 ## Problema
 
 A seguinte questão foi proposta no [problema 14 do Project Euler](https://www.projecteuler.net/problem=14 'Problema 14 do Project Euler').
