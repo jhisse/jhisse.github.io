@@ -4,6 +4,8 @@ date: 2020-03-14
 layout: post
 ---
 
+![Capa: uma peça sendo extraída de uma pilha desordenada de peças, representando a busca e extração de padrões de texto com expressões regulares](images/capa.png)
+
 Você já precisou procurar em um texto sequências de caracteres que correspondiam a um padrão? Validar um número de telefone? Analisar logs de um servidor? São inúmeros os casos de uso das expressões regulares, porém seu uso pode parecer um pouco complicado à primeira vista. Ao longo deste texto, vamos entender o contexto em que elas surgiram e aprender suas principais funções.
 
 ## História
