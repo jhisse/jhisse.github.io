@@ -4,6 +4,8 @@ date: 2020-02-16
 layout: post
 ---
 
+![Capa: uma seta explodindo pra fora de um bloco de modelo, representando a disponibilização de um modelo de machine learning como API](images/capa.png)
+
 O objetivo deste post é mostrar com detalhes um dos métodos que pode ser utilizado para disponibilizarmos uma interface de consumo de modelos de machine learning. A ideia geral deste método é a criação de um modelo que após o treinamento com uma parcela dos dados, poderemos utilizar uma API REST como uma interface padrão de comunicação entre outras aplicações.
 
 ![Diagrama da ideia geral de criação da solução](images/diagrama_geral.png)
