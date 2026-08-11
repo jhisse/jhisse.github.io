@@ -4,6 +4,8 @@ date: 2019-10-19
 layout: post
 ---
 
+![Capa: um cadeado destravando ao passar por uma porta, representando a autenticação de acesso via oauth2_proxy](images/capa.png)
+
 O objetivo deste artigo é implementarmos um método de autenticação de um website estático por oauth2 utilizando [nginx](https://www.nginx.org/) como servidor de arquivos estáticos e proxy reverso, [oauth2_proxy](https://oauth2-proxy.github.io/oauth2-proxy/) como backend para validação das requisições e o [Github](https://github.com/) como provedor de autorização.
 
 Todo o projeto está disponível [neste repositório](https://github.com/jhisse/nginx-oauth2_proxy-github).
