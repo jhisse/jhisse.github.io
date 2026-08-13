@@ -14,11 +14,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@2752ce1d29631191ea3f27c23495fa06139a5b78 # v3.2.1
-        with:
-          hugo-version: '0.165.0'
-          extended: true
+      - name: Install Hugo (extended)
+        env:
+          HUGO_VERSION: 0.165.0
+        run: |
+          asset="hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          curl -sSL -O "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/${asset}"
+          curl -sSL -o checksums.txt "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_checksums.txt"
+          grep " ${asset}\$" checksums.txt | sha256sum -c -
+          tar -xzf "${asset}" hugo
+          sudo mv hugo /usr/local/bin/hugo
 
       - name: Build
         run: hugo build --buildFuture
