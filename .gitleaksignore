@@ -1,0 +1,11 @@
+# Confirmed false positives reviewed 2026-08-09 (full-history scheduled scan,
+# run 31295914991): protobuf-generated code and a defunct Cloudflare Web
+# Analytics beacon token, plus an oauth2-proxy tutorial example value
+# confirmed illustrative, not a real deployed secret.
+5335b601be8acce57d43f36fc2eba7be5cecbd6d:content/blog/gerando-amostras-de-teste-para-o-prometheus-via-remote-write/index.md:generic-api-key:139
+00592b4837d27688608a4c875a412abba0dd3f95:content/blog/autenticando-com-oauth2-proxy-nginx-e-github/index.md:generic-api-key:136
+00592b4837d27688608a4c875a412abba0dd3f95:content/blog/autenticando-com-oauth2-proxy-nginx-e-github/index.md:generic-api-key:335
+255a82fadb9411a99deb19f80b66dfaa1c4e2d2b:layouts/partials/footer.html:generic-api-key:29
+ed135397b156308eb01db938fcf3d699a8a2a70c:_includes/footer.html:generic-api-key:25
+db9661fd860d83cca35d9cb61d4aa9cf5e20d62e:_posts/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github.md:generic-api-key:136
+db9661fd860d83cca35d9cb61d4aa9cf5e20d62e:_posts/2019-10-19-autenticando-com-oauth2-proxy-nginx-e-github.md:generic-api-key:335
