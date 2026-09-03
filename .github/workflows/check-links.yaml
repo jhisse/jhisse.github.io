@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "00 12 * * 6"
 
+permissions:
+  issues: write
+
 jobs:
   linkChecker:
     runs-on: ubuntu-24.04
@@ -28,10 +31,25 @@ jobs:
             --base-url https://www.josehisse.dev
             './content/blog/**/*.md'
 
-      - name: Create Issue From File
+      - name: Find open report issue
+        id: find-issue
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          number=$(gh issue list --repo "$GITHUB_REPOSITORY" --search "Link Checker Report in:title" --state open --json number --jq '.[0].number // empty')
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update issue from file
         if: steps.lychee.outputs.exit_code != 0
         uses: peter-evans/create-issue-from-file@fca9117c27cdc29c6c4db3b86c48e4115a786710 # v6.0.0
         with:
+          issue-number: ${{ steps.find-issue.outputs.number }}
           title: Link Checker Report
           content-filepath: ./lychee/out.md
           labels: report, automated issue
+
+      - name: Close resolved report issue
+        if: steps.lychee.outputs.exit_code == 0 && steps.find-issue.outputs.number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh issue close "${{ steps.find-issue.outputs.number }}" --repo "$GITHUB_REPOSITORY" --comment "All links passing again as of this run."
