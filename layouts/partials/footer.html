@@ -9,4 +9,6 @@
   <a href="{{ .Site.Params.github }}" target="_blank" rel="noreferrer noopener">Github</a>
   <br />
   <a href="/sitemap.xml">Sitemap</a>
+  <br />
+  {{ with .Site.GetPage "/" }}{{ with .OutputFormats.Get "rss" }}<a href="{{ .Permalink }}">RSS</a>{{ end }}{{ end }}
 </p>

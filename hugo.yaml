@@ -1,6 +1,6 @@
 baseURL: "https://www.josehisse.dev/"
 defaultContentLanguage: "pt-br"
-languageCode: "pt-br"
+locale: "pt-br"
 languageName: "Português"
 title: "José Hisse"
 cleanDestinationDir: true

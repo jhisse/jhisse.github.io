@@ -78,7 +78,7 @@ Before opening a PR that touches content or templates, run a local
 
 ## CI
 
-Three workflows in `.github/workflows/`:
+Seven workflows in `.github/workflows/`:
 
 - **`markdown-lint.yaml`** — `markdownlint-cli2` over `content/**/*.md` on
   every push to `main`/`master` and every PR. Fix locally with
@@ -87,14 +87,29 @@ Three workflows in `.github/workflows/`:
   (trailing whitespace, end-of-file fixer, YAML validation, large-file
   check) on every PR. Install locally with `pre-commit install` /
   `pre-commit run --all`.
+- **`frontmatter-lint.yaml`** — validates required post frontmatter
+  (`title`, `date`, `layout`) on every PR; see
+  `.github/scripts/validate_frontmatter.py`.
+- **`hugo-build.yaml`** — runs `hugo build --buildFuture` with the pinned
+  `HUGO_VERSION` on every PR, to catch template/build errors before merge.
+  Cloudflare Pages controls its own build-time Hugo version separately
+  (dashboard config, not a file in this repo) — keep the two in sync
+  manually when bumping one.
 - **`check-links.yaml`** — [lychee](https://github.com/lycheeverse/lychee)
   link checker over `content/blog/**/*.md`, on a weekly cron (Saturdays)
-  and on manual dispatch. On failure it opens a GitHub issue with the
-  report instead of failing the run (`fail: false`); treat that issue as
-  the source of truth for broken links rather than re-running lychee
-  locally unless you're actively debugging one.
-- Secret scanning (GitHub native, `security_and_analysis`) and Dependabot
-  run outside of these workflow files, via repo settings / `.github/dependabot.yml`.
+  and on manual dispatch. On failure it opens (or updates) a GitHub issue
+  with the report instead of failing the run (`fail: false`); treat that
+  issue as the source of truth for broken links rather than re-running
+  lychee locally unless you're actively debugging one.
+- **`gitleaks.yaml`** — secret scanning via
+  [gitleaks](https://github.com/gitleaks/gitleaks), on every PR and a
+  weekly cron.
+- **`dependabot-auto-merge.yaml`** — auto-approves and merges Dependabot
+  PRs, limited to patch-level, dev/build-only dependency bumps, only after
+  CI passes. See `.github/dependabot.yml` for the update policy itself.
+- GitHub-native secret scanning (`security_and_analysis` repo setting) runs
+  independently of these workflow files, as a second layer alongside
+  `gitleaks.yaml`.
 
 ## PR & merge flow
 
