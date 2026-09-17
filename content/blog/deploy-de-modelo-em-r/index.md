@@ -219,7 +219,7 @@ Na interface principal do Swagger podemos inserir valores de testes e verificarm
 
 Neste ponto vamos ter como objetivo empacotar nossa API preditiva em container, ou seja, vamos criar uma receita para que nossa API seja facilmente replicada.
 
-Em nossa abordagem vamos inserir o modelo treinado no container junto com código da API, diferente da abordagem adotada no [artigo em que utilizamos o framework serverless e o S3]({{< ref api-modelos-machine-learning >}}.
+Em nossa abordagem vamos inserir o modelo treinado no container junto com código da API, diferente da abordagem adotada no [artigo em que utilizamos o framework serverless e o S3]({{< ref api-modelos-machine-learning >}}).
 
 Vamos a nossa estrutura de diretórios:
 

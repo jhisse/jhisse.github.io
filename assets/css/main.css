@@ -27,7 +27,7 @@ nav {
 }
 
 nav a {
-  color: var(--muted);
+  color: var(--text-muted);
   font-weight: 600;
 }
 
