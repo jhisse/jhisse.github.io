@@ -12,7 +12,7 @@ Como este artigo busca explorar de forma prática o funcionamento do Kyverno, pr
 
 - [kind _versão: 0.11.1_](https://kind.sigs.k8s.io/) - O kind nos permite ter um cluster k8s local de forma rápida e fácil. Cada node do nosso clusters será executado como um container, por este motivo é necessário ter o docker ou o podman instalado na máquina.
 - [kubectl _versão: 1.22.2_](https://kubernetes.io/docs/tasks/tools/#kubectl) - Este cli nos permite executar e controlar nosso cluster k8s.
-- [kyverno cli _versão: 1.5.1_](https://kyverno.io/docs/kyverno-cli) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
+- [kyverno cli _versão: 1.5.1_](https://github.com/kyverno/website/blob/release-1-5-0/content/en/docs/Kyverno%20CLI/_index.md) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
 
 ## Aplicando uma política simples
 
@@ -40,11 +40,11 @@ Até o momento talvez não tenha ficado muito claro a função do Kyverno, por i
 
 Imagine que na empresa em que trabalhamos sempre devemos garantir que os recursos de nosso time tenha uma determinada label, ou seja, todos os recursos do nosso namespace devem possuir determinada label. Vamos defini-la por `team: my-team-name` e todos os nossos pods, services, configmaps e secrets devem ter esta label.
 
-Na página oficial podemos encontrar um [conjunto de políticas de exemplo](https://release-1-5-0.kyverno.io/policies/) e na maioria das vezes já existe uma que é muito semelhante a sua necessidade. Por isso sempre vale a pena dar uma conferida antes de criar uma política do zero.
+Na documentação oficial podemos encontrar um [conjunto de políticas de exemplo](https://github.com/kyverno/website/tree/release-1-5-0/content/en/policies) e na maioria das vezes já existe uma que é muito semelhante a sua necessidade. Por isso sempre vale a pena dar uma conferida antes de criar uma política do zero.
 
 A primeira coisa que devemos saber sobre o Kyverno é que ele permite a definição de dois tipos de políticas. Uma é de escopo amplo, que permite a aplicação de determinada regra a todo o cluster, que se chama **ClusterPolicy**. A outra fica limitada ao namespace que ela está aplicada, ou seja, as regras só serão aplicadas aos recursos daquele namespace em questão, ela é chamada de **Policy**.
 
-Vamos modificar a política já existente, [add label](https://release-1-5-0.kyverno.io/policies/other/add_labels/add_labels/), para que ela adicione a label `team` nos nossos recursos que estão limitados ao namespace _default_.
+Vamos modificar a política já existente, [add label](https://github.com/kyverno/website/blob/release-1-5-0/content/en/policies/other/add_labels/add_labels.md), para que ela adicione a label `team` nos nossos recursos que estão limitados ao namespace _default_.
 
 ```yaml
 apiVersion: kyverno.io/v1
@@ -195,7 +195,7 @@ results:
     result: pass
 ```
 
-A regra que iremos executar neste teste é a [Always Pull Image](https://release-1-5-0.kyverno.io/policies/other/always-pull-images/always-pull-images/) e a colocaremos no arquivo _always-pull-images.yaml_.
+A regra que iremos executar neste teste é a [Always Pull Image](https://github.com/kyverno/website/blob/release-1-5-0/content/en/policies/other/always-pull-images/always-pull-images.md) e a colocaremos no arquivo _always-pull-images.yaml_.
 
 ```yaml
 apiVersion: kyverno.io/v1
