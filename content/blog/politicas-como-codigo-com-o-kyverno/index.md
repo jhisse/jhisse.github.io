@@ -12,7 +12,7 @@ Como este artigo busca explorar de forma prática o funcionamento do Kyverno, pr
 
 - [kind _versão: 0.11.1_](https://kind.sigs.k8s.io/) - O kind nos permite ter um cluster k8s local de forma rápida e fácil. Cada node do nosso clusters será executado como um container, por este motivo é necessário ter o docker ou o podman instalado na máquina.
 - [kubectl _versão: 1.22.2_](https://kubernetes.io/docs/tasks/tools/#kubectl) - Este cli nos permite executar e controlar nosso cluster k8s.
-- [kyverno cli _versão: 1.5.1_](https://kyverno.io/docs/kyverno-cli) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
+- [kyverno cli _versão: 1.5.1_](https://github.com/kyverno/website/blob/release-1-5-0/content/en/docs/Kyverno%20CLI/_index.md) - O command line do Kyverno nos permite testar as regras que definimos antes que elas sejam aplicadas ao cluster k8s.
 
 ## Aplicando uma política simples
 
