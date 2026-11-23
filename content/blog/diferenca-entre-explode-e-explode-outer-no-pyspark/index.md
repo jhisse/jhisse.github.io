@@ -1,5 +1,6 @@
 ---
 title: Diferença entre explode e explode_outer no PySpark
+description: "Em explode vs explode_outer, a principal diferença está no array vazio. No PySpark, explode exclui o registro e explode_outer o mantém com null."
 date: 2020-03-22
 layout: post
 ---

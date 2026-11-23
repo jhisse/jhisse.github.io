@@ -1,5 +1,6 @@
 ---
 title: Gerando amostras de teste para o Prometheus via Remote Write
+description: "Gere amostras de teste para o Prometheus via Remote Write com timestamps exatos, usando um script Python que serializa, comprime e envia os dados."
 date: 2024-04-12
 layout: post
 ---

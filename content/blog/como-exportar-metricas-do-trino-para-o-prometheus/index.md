@@ -1,5 +1,6 @@
 ---
 title: Como exportar métricas do Trino para o Prometheus
+description: "Exporte métricas do Trino para o Prometheus executando o JMX Exporter como java agent, que expõe as métricas da JVM em um endpoint HTTP para o scraping."
 date: 2021-10-11
 layout: post
 ---

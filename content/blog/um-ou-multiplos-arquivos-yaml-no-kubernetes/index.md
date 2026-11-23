@@ -1,5 +1,6 @@
 ---
 title: Um ou múltiplos arquivos yaml no Kubernetes
+description: "Usar um ou múltiplos arquivos yaml no Kubernetes traz vantagens e desvantagens, e o Kustomize ordena os objetos para minimizar erros de dependência."
 date: 2021-06-20
 layout: post
 ---

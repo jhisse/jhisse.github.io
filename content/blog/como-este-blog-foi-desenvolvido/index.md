@@ -1,5 +1,6 @@
 ---
 title: Como este blog foi desenvolvido
+description: "Montei este blog com Jekyll, que converte Markdown em páginas estáticas, e explico por que optei pela hospedagem gratuita no Github Pages."
 date: 2022-05-15
 layout: post
 ---

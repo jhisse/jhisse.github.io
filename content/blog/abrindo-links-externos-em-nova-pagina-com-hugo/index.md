@@ -1,5 +1,6 @@
 ---
 title: Abrindo links externos em nova página com Hugo
+description: "Abra links externos em nova página no Hugo com um render hook que, só em URLs absolutas, inclui um atributo para mitigar o reverse tabnabbing."
 date: 2025-02-11
 layout: post
 ---

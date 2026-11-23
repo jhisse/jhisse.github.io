@@ -1,5 +1,6 @@
 ---
 title: Introdução aos princípios FAIR
+description: "Os princípios FAIR propõem publicar dados científicos de forma achável, acessível, interoperável e reutilizável, com governança que preserve seu valor."
 date: 2021-03-16
 layout: post
 ---

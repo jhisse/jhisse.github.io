@@ -1,5 +1,6 @@
 ---
 title: Construindo uma API de machine learning
+description: "Construa uma API de machine learning com scikit-learn e AWS Lambda, do treino de um modelo de diabetes com acurácia perto de 78% ao deploy com Serverless."
 date: 2020-02-16
 layout: post
 ---

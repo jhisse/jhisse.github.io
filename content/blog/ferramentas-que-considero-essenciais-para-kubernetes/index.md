@@ -1,5 +1,6 @@
 ---
 title: Ferramentas que considero essenciais para Kubernetes
+description: "Compartilho as ferramentas para Kubernetes que uso no dia a dia, com o stern para logs de vários pods e o kube-score para avaliar as melhores práticas."
 date: 2024-03-24
 layout: post
 ---

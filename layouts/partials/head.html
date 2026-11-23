@@ -8,7 +8,7 @@
 <meta name="author" content="José Hisse" />
 <meta
   name="description"
-  content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Summary | safeHTML }}{{ end }}"
+  content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description | default (.Summary | plainify | htmlUnescape) }}{{ end }}"
 />
 <link rel="canonical" href="{{ .Permalink }}" />
 

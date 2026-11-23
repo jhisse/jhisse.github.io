@@ -1,5 +1,6 @@
 ---
 title: Autenticando com oauth2_proxy, nginx e Github
+description: "Configure a autenticação nginx oauth2_proxy em um site estático, com login pelo Github e acesso restrito a e-mails autorizados."
 date: 2019-10-19
 layout: post
 ---

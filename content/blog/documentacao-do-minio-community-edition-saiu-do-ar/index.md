@@ -1,5 +1,6 @@
 ---
 title: "[TIL] O link-checker do blog pegou a doc da MinIO CE saindo do ar"
+description: "Percebi que a doc da MinIO CE saiu do ar quando o lychee alertou sobre um link que responde 200, mas redireciona para a doc do AIStor, produto pago."
 date: 2026-08-08
 layout: post
 ---

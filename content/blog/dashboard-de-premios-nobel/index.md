@@ -1,5 +1,6 @@
 ---
 title: Um dashboard de prêmios Nobel no Metabase a partir de um endpoint SPARQL
+description: "Consulte um endpoint SPARQL no Metabase com um driver que lê o esquema em SHACL e monte um dashboard de prêmios Nobel por categoria e universidade."
 date: 2026-11-14
 layout: post
 ---

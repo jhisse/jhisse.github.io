@@ -1,5 +1,6 @@
 ---
 title: Transformando modelo preditivo em produto com R
+description: "Transforme um modelo preditivo em R em uma API REST com Plumber que retorna a probabilidade de diabetes e empacote a aplicação em um container Docker."
 date: 2020-08-13
 layout: post
 ---

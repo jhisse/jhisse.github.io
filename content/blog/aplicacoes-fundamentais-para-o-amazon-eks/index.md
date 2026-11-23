@@ -1,5 +1,6 @@
 ---
 title: Aplicações fundamentais para o Amazon EKS
+description: "Reúno as aplicações fundamentais para o Amazon EKS na minha experiência, como Karpenter para provisionar nós e External Secrets para sincronizar segredos."
 date: 2024-04-07
 layout: post
 ---

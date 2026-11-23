@@ -1,5 +1,6 @@
 ---
 title: Os V's do Big Data (Volume - Velocity - Variety)
+description: "Os V's do Big Data começaram com volume, velocidade e variedade, propostos por Doug Laney em 2001, e ganharam mais dois em 2012."
 date: 2019-10-06
 layout: post
 ---

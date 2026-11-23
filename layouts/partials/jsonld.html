@@ -7,7 +7,7 @@
     "@type" "BlogPosting"
     "headline" .Title
     "datePublished" (.Date.Format "2006-01-02")
-    "description" (.Summary | plainify)
+    "description" (.Description | default (.Summary | plainify | htmlUnescape))
     "author" $author
     "publisher" $publisher
   -}}

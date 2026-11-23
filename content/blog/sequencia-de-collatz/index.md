@@ -1,5 +1,6 @@
 ---
 title: Sequência de Collatz
+description: "Encontre a maior sequência de Collatz iniciada abaixo de 1 milhão em Python, reduzindo o tempo de 39,8 s para 2,9 s com memoização e operações de bits."
 date: 2019-10-12
 layout: post
 mathjax: true

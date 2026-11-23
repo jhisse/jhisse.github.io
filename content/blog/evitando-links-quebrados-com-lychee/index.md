@@ -1,5 +1,6 @@
 ---
 title: Evitando links quebrados com lychee
+description: "Use o lychee CLI para achar links quebrados em Markdown e rode a lychee GitHub Action em um workflow agendado que abre uma issue ao encontrá-los."
 date: 2024-05-16
 layout: post
 ---
