@@ -1,5 +1,6 @@
 ---
 title: Exportando eventos do Kubernetes com o FluentBit
+description: "Exporte eventos do Kubernetes com o FluentBit e encaminhe os dados para um datalake em um bucket do MinIO, onde ficam armazenados para análise posterior."
 date: 2024-08-02
 layout: post
 ---

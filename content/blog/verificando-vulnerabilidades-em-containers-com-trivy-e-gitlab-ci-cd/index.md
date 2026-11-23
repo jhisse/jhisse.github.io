@@ -1,5 +1,6 @@
 ---
 title: Vulnerabilidades em containers com Trivy e GitLab CI/CD
+description: "Automatize a verificação de vulnerabilidade de contêiner com Trivy no GitLab CI/CD e barre o push de imagens com vulnerabilidades críticas."
 slug: Vulnerabilidades em containers com Trivy e GitLab CI CD
 date: 2020-06-13
 layout: post

@@ -1,5 +1,6 @@
 ---
 title: Construindo uma API de machine learning (Continuação)
+description: "Construa uma API de machine learning com Falcon que serve previsões de um modelo em pickle e roda em qualquer ambiente com Docker disponível."
 date: 2020-02-28
 layout: post
 ---

@@ -1,5 +1,6 @@
 ---
 title: Aumentando a disponibilidade no k8s com inter-pod anti-affinity
+description: "Configure inter-pod anti-affinity no Kubernetes e compare no Kind os modos hard, que pode deixar pods em Pending, e soft, que prioriza a distribuição."
 date: 2021-04-03
 layout: post
 ---

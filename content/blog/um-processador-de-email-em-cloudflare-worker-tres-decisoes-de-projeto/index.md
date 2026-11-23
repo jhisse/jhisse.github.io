@@ -1,5 +1,6 @@
 ---
 title: "Um processador de e-mail em Cloudflare Worker: três decisões de projeto"
+description: "Um processador de e-mail em Cloudflare Worker valida o remetente, evita duplicatas com create-only no R2 e preserva mensagens com falha em dead letter."
 date: 2026-08-11
 layout: post
 ---

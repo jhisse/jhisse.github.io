@@ -1,5 +1,6 @@
 ---
 title: Mitigando possíveis ameaças de segurança em sites estáticos
+description: "Para reforçar a segurança em sites estáticos, criei cinco regras na Cloudflare que bloqueiam varreduras e reduziram a poluição nos logs do meu blog."
 date: 2025-04-13
 layout: post
 ---

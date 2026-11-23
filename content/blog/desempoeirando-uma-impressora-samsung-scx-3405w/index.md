@@ -1,5 +1,6 @@
 ---
 title: Desempoeirando uma Impressora Samsung SCX-3405W
+description: "Fiz minha impressora Samsung SCX-3405W, sem driver oficial para o macOS 14, funcionar de forma correta via Wifi com CUPS em um Raspberry Pi Zero W."
 date: 2024-06-15
 layout: post
 ---

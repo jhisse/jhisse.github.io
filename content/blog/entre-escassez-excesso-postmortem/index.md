@@ -1,5 +1,6 @@
 ---
 title: Entre a escassez e o excesso de postmortems
+description: "Quando fazer postmortems não tem resposta única, mas critérios como impacto ao usuário, recorrência e severidade ajudam a evitar escassez e excesso."
 date: 2025-04-11
 layout: post
 ---

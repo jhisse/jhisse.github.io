@@ -1,5 +1,6 @@
 ---
 title: Saindo do zero com expressões regulares
+description: "Use expressões regulares no grep para buscar padrões em texto e validar o formato de CPF e datas, partindo do zero com os principais metacaracteres."
 date: 2020-03-14
 layout: post
 ---

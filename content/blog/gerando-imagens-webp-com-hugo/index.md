@@ -1,5 +1,6 @@
 ---
 title: Gerando imagens WebP com Hugo
+description: "Gere imagens WebP com Hugo usando um render hook que limita a largura a 1400 pixels e cria um fallback para navegadores sem suporte ao formato."
 date: 2024-05-31
 layout: post
 ---

@@ -1,5 +1,6 @@
 ---
 title: Guia ilustrado sobre Taint e Toleration no Kubernetes
+description: "Taint e Toleration no Kubernetes definem quais pods um node aceita. Uma analogia com mosquitos mostra como o taint restringe e a toleration libera."
 date: 2024-05-09
 layout: post
 ---

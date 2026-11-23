@@ -1,5 +1,6 @@
 ---
 title: Políticas como código com o Kyverno
+description: "Defina políticas como código com o Kyverno para adicionar labels a pods no Kubernetes e teste as regras com o Kyverno CLI antes de aplicá-las ao cluster."
 date: 2021-11-22
 layout: post
 ---
